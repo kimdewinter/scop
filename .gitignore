@@ -1,7 +1,13 @@
+scop
+.vscode/
+.DS_Store
+*~
+
 # Prerequisites
 *.d
 
 # Object files
+.obj
 *.o
 *.ko
 *.obj
