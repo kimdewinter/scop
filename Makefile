@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/06 17:59:18 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/06 21:37:46 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,11 @@ NAME:=	scop
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	main
-INC_FILES:=	main
+SRC_FILES:=	main\
+			glad
+INC_FILES:=	main\
+			glad\
+			khrplatform
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -30,12 +33,15 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 
 # LIBRARIES
 
+LIBS_DIR:=		libs
+
 LIBFT_NAME:=	libft
-LIBFT_DIR:=		libft
+LIBFT_DIR:=		$(LIBS_DIR)/libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
-SDL2_INC?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/include/SDL2
-SDL2_LIB?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/lib
+SDL2_DIR?=		$(LIBS_DIR)/sdl2
+SDL2_INC?=		$(SDL2_DIR)/include/SDL2
+SDL2_LIB?=		$(SDL2_DIR)/lib
 
 # COMPILATION
 
