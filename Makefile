@@ -6,13 +6,14 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/06 12:09:31 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/06 16:28:10 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME:=	scop
+#don't forget to change "SDL2_INC" and "SDL2_LIB" to
+#your local locations of SDL2's .h and .a files respectively
 
-CFLAGS?=	-Wall -Wextra -Werror
+NAME:=	scop
 
 # FILES AND FOLDERS
 
@@ -32,15 +33,25 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 LIBFT_NAME:=	libft
 LIBFT_DIR:=		libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
-LIBFT_FLAGS:=	-L$(LIBFT_DIR) -lft
+
+SDL2_INC?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/include/SDL2
+SDL2_LIB?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/lib -lSDL2
 
 # COMPILATION
+
+CFLAGS?=	-Wall -Wextra -Werror\
+			-I$(INC_DIR)\
+			-I$(LIBFT_DIR)/includes\
+			-I$(SDL2_INC)
+LDFLAGS?=	-L$(LIBFT_DIR) -lft\
+			-L$(SDL2_LIB) -lSDL2\
+			-framework OpenGL
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "Compiling $@ executable"
-	@$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FLAGS)
+	@$(CC) $(LDFLAGS) -o $@ $<
 
 $(LIBFT):
 	@echo "Compiling libft library"
@@ -48,7 +59,7 @@ $(LIBFT):
 
 $(OBJS): $(SRCS) $(INCS)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $< -I$(INC_DIR)
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
 	@echo "Cleaning $(NAME) object files"
@@ -64,8 +75,8 @@ fclean: clean
 
 re: fclean all
 
-debug: $(LIBFT)
+debug: $(LIBFT) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
-	@$(CC) $(CFLAGS) -g -o $(NAME) $(SRCS) -I$(INC_DIR) $(LIBFT_FLAGS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) -g -o $(NAME) $(SRCS)
 
 .PHONY: all clean fclean re debug
