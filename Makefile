@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/04 20:03:23 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/06 11:28:56 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,16 +58,20 @@ $(OBJS): $(SRCS) $(INCS)
 
 clean:
 	@echo "Cleaning $(NAME) object files"
-	@if [ -d $(OBJ_DIR) ]; then rm -rf $(OBJ_DIR); fi
+	@rm -rf $(OBJ_DIR)
 	@echo "Cleaning $(LIBFT_NAME) object files"
 	@make clean -s -C $(LIBFT_DIR)
 
 fclean: clean
 	@echo "Removing $(NAME)"
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) $(NAME).dSYM
 	@echo "Removing $(LIBFT_NAME)"
 	@make fclean -s -C $(LIBFT_DIR)
 
 re: fclean all
+
+debug: $(LIBFT)
+	@echo "Compiling debuggable $(NAME) executable"
+	@$(CC) $(CFLAGS) -g -o $(NAME) $(SRCS) $(INCLUDES) $(LIBFT)
 
 .PHONY: all clean fclean re
