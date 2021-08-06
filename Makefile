@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/06 16:28:10 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/06 17:59:18 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LIBFT_DIR:=		libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
 SDL2_INC?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/include/SDL2
-SDL2_LIB?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/lib -lSDL2
+SDL2_LIB?=		/Users/kde-wint/.brew/Cellar/sdl2/2.0.14_1/lib
 
 # COMPILATION
 
@@ -44,7 +44,7 @@ CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(LIBFT_DIR)/includes\
 			-I$(SDL2_INC)
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
-			-L$(SDL2_LIB) -lSDL2\
+			-L$(SDL2_LIB) -lSDL2 -lSDL2main\
 			-framework OpenGL
 
 all: $(NAME)
