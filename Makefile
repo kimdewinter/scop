@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/06 11:28:56 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/06 12:09:31 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,30 +23,24 @@ SRC_DIR:=	src
 OBJ_DIR:=	.obj
 INC_DIR:=	inc
 
-SRCS=	$(patsubst %,$(SRC_DIR)/%.c,$(SRC_FILES))
-OBJS=	$(patsubst %,$(OBJ_DIR)/%.o,$(SRC_FILES))
-INCS=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
+SRCS:=	$(patsubst %,$(SRC_DIR)/%.c,$(SRC_FILES))
+OBJS:=	$(patsubst %,$(OBJ_DIR)/%.o,$(SRC_FILES))
+INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 
 # LIBRARIES
 
 LIBFT_NAME:=	libft
 LIBFT_DIR:=		libft
-LIBFT=			$(LIBFT_DIR)/$(LIBFT_NAME).a
-LIBFT_INC=		$(LIBFT_DIR)/includes
-LIBFT_FLAGS=	-L$(LIBFT_DIR) -lft
-
-# INCLUDES
-
-INCLUDES=	-I$(INC_DIR)\
-			-I$(LIBFT_INC)
+LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
+LIBFT_FLAGS:=	-L$(LIBFT_DIR) -lft
 
 # COMPILATION
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	@echo "Compiling $@ executable"
-	@$(CC) $(CFLAGS) -o $@ $^
+	@$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FLAGS)
 
 $(LIBFT):
 	@echo "Compiling libft library"
@@ -54,7 +48,7 @@ $(LIBFT):
 
 $(OBJS): $(SRCS) $(INCS)
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) -o $@ $< $(INCLUDES)
+	@$(CC) -c $(CFLAGS) -o $@ $< -I$(INC_DIR)
 
 clean:
 	@echo "Cleaning $(NAME) object files"
@@ -72,6 +66,6 @@ re: fclean all
 
 debug: $(LIBFT)
 	@echo "Compiling debuggable $(NAME) executable"
-	@$(CC) $(CFLAGS) -g -o $(NAME) $(SRCS) $(INCLUDES) $(LIBFT)
+	@$(CC) $(CFLAGS) -g -o $(NAME) $(SRCS) -I$(INC_DIR) $(LIBFT_FLAGS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug
