@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/06 21:37:46 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/31 17:08:04 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,8 @@ NAME:=	scop
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	main\
-			glad
+SRC_FILES:=	main
 INC_FILES:=	main\
-			glad\
 			khrplatform
 
 SRC_DIR:=	src
@@ -48,10 +46,12 @@ SDL2_LIB?=		$(SDL2_DIR)/lib
 CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
-			-I$(SDL2_INC)
+			-I$(SDL2_INC)\
+			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(SDL2_LIB) -lSDL2 -lSDL2main\
 			-framework OpenGL
+DEBUGFLAGS?=-g
 
 all: $(NAME)
 
@@ -83,6 +83,6 @@ re: fclean all
 
 debug: $(LIBFT) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
-	@$(CC) $(CFLAGS) $(LDFLAGS) -g -o $(NAME) $(SRCS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS)
 
 .PHONY: all clean fclean re debug
