@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/31 18:30:05 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/08/31 18:46:08 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void sdldie(const char *msg)
 {
-    printf("%s: %s\n", msg, SDL_GetError());
+    ft_printf("%s: %s\n", msg, SDL_GetError());
     SDL_Quit();
     exit(1);
 }
@@ -30,9 +30,9 @@ void checkSDLError(int line)
 	const char *error = SDL_GetError();
 	if (*error != '\0')
 	{
-		printf("SDL Error: %s\n", error);
+		ft_printf("SDL Error: %s\n", error);
     	if (line != -1)
-			printf(" + line: %i\n", line);
+			ft_printf(" + line: %i\n", line);
 		SDL_ClearError();
 	}
 #endif
@@ -42,12 +42,12 @@ int main(int argc, char *argv[])
 {
     SDL_Window		*mainwindow;
     SDL_GLContext	maincontext;
+    SDL_Event       e;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)//Initialize SDL's Video subsystem
         sdldie("Unable to initialize SDL");
 
-    // Request opengl 3.2 context
-    // 4.6 is the newest, Macs only support up to 4.1, 3.2 is for older Macs
+    // Request opengl 4.1 context with a Core profile
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -77,15 +77,17 @@ int main(int argc, char *argv[])
     // This makes our buffer swap syncronized with the monitor vertical refresh
     SDL_GL_SetSwapInterval(1);
 
-    SDL_Event e;
+    // Initiate event loop
     SDL_PollEvent(&e);
+
 /*
+    //internet example of (stuck) event loop
     int quit = 0;
     while(quit < 1)
     {
-        while( SDL_PollEvent( &e ) != 0 )
+        while(SDL_PollEvent(&e) != 0)
         {
-            if( e.type == SDL_QUIT )
+            if(e.type == SDL_QUIT)
             {
                 quit = 1;
             }
@@ -94,27 +96,27 @@ int main(int argc, char *argv[])
 */
 
     // Clear our buffer with a red background
-    glClearColor ( 1.0, 0.0, 0.0, 1.0 );
-    glClear ( GL_COLOR_BUFFER_BIT );
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     // Swap our back buffer to the front
     SDL_GL_SwapWindow(mainwindow);
-    // Wait 2 seconds
-    SDL_Delay(2000);
+    // Wait x seconds
+    SDL_Delay(1000);
 
     // Same as above, but green
-    glClearColor ( 0.0, 1.0, 0.0, 1.0 );
-    glClear ( GL_COLOR_BUFFER_BIT );
+    glClearColor(0.0, 1.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(mainwindow);
-    SDL_Delay(2000);
+    SDL_Delay(1000);
 
     // Same as above, but blue
-    glClearColor ( 0.0, 0.0, 1.0, 1.0 );
-    glClear ( GL_COLOR_BUFFER_BIT );
+    glClearColor(0.0, 0.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     SDL_GL_SwapWindow(mainwindow);
-    SDL_Delay(2000);
+    SDL_Delay(1000);
 
     // Delete our opengl context, destroy our window, and shutdown SDL
-    SDL_Delay(2000);
+    SDL_Delay(1000);
     SDL_GL_DeleteContext(maincontext);
     SDL_DestroyWindow(mainwindow);
     SDL_Quit();

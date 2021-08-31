@@ -6,20 +6,16 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/31 17:08:04 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/08/31 18:48:24 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
-
-#don't forget to change "SDL2_INC" and "SDL2_LIB" to
-#your local locations of SDL2's .h and .a files respectively
 
 NAME:=	scop
 
 # FILES AND FOLDERS
 
 SRC_FILES:=	main
-INC_FILES:=	main\
-			khrplatform
+INC_FILES:=	main
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
