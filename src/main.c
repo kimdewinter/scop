@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/31 18:04:38 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/08/31 18:30:05 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,22 @@ int main(int argc, char *argv[])
 
     // This makes our buffer swap syncronized with the monitor vertical refresh
     SDL_GL_SetSwapInterval(1);
+
+    SDL_Event e;
+    SDL_PollEvent(&e);
+/*
+    int quit = 0;
+    while(quit < 1)
+    {
+        while( SDL_PollEvent( &e ) != 0 )
+        {
+            if( e.type == SDL_QUIT )
+            {
+                quit = 1;
+            }
+        }
+    }
+*/
 
     // Clear our buffer with a red background
     glClearColor ( 1.0, 0.0, 0.0, 1.0 );
