@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/09/06 16:22:30 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/09/06 21:52:10 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME:=	scop
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	main
+SRC_FILES:=	main\
+			display
 INC_FILES:=	main
 
 SRC_DIR:=	src
@@ -53,13 +54,13 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "Compiling $@ executable"
-	@$(CC) $(LDFLAGS) -o $@ $<
+	@$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
 $(LIBFT):
 	@echo "Compiling libft library"
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
-$(OBJS): $(SRCS) $(INCS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 

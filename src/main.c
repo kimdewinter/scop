@@ -1,21 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/09/06 17:13:15 by kde-wint      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "main.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <OpenGL/gl.h>
-#define PROGRAM_NAME "scop"
+#include "../inc/main.h"
 
 void sdldie(const char *msg)
 {
@@ -44,7 +27,6 @@ int main(int argc, char *argv[])
     SDL_GLContext	maincontext;
     SDL_Event       e;
     int             quit;
-    enum e_colour   colour;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)//Initialize SDL's Video subsystem
         sdldie("Unable to initialize SDL");
@@ -80,14 +62,14 @@ int main(int argc, char *argv[])
     SDL_GL_SetSwapInterval(1);
 
     quit = 0;
-    colour = e_colour_red;
     //While application is running
     while (!quit)
     {
-
+		display(mainwindow);
         //Handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
+			
             //User requests quit
             if (e.type == SDL_QUIT ||
 				(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))

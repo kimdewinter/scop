@@ -1,14 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/08/04 16:28:23 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/09/06 12:21:52 by kde-wint      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef MAIN_H
+
+# define MAIN_H
+# define PROGRAM_NAME "scop"
+
+# include "libft.h"
+# include <stdlib.h>
+# include <SDL2/SDL.h>
+# include <OpenGL/gl.h>
 
 enum e_colour
 {
@@ -16,3 +14,7 @@ enum e_colour
 	e_colour_green,
 	e_colour_blue
 };
+
+void display(SDL_Window *mainwindow);
+
+#endif
