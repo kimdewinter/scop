@@ -6,7 +6,13 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:23 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/06 16:37:53 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/09/06 12:21:52 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+enum e_colour
+{
+	e_colour_red,
+	e_colour_green,
+	e_colour_blue
+};

@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/31 18:46:08 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/09/06 12:22:50 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
     SDL_Window		*mainwindow;
     SDL_GLContext	maincontext;
     SDL_Event       e;
+    int             quit;
+    enum e_colour   colour;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)//Initialize SDL's Video subsystem
         sdldie("Unable to initialize SDL");
@@ -77,46 +79,72 @@ int main(int argc, char *argv[])
     // This makes our buffer swap syncronized with the monitor vertical refresh
     SDL_GL_SetSwapInterval(1);
 
-    // Initiate event loop
-    SDL_PollEvent(&e);
-
-/*
-    //internet example of (stuck) event loop
-    int quit = 0;
-    while(quit < 1)
+    quit = 0;
+    colour = e_colour_red;
+    //While application is running
+    while (!quit)
     {
-        while(SDL_PollEvent(&e) != 0)
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
         {
-            if(e.type == SDL_QUIT)
+            //User requests quit
+            if (e.type == SDL_QUIT ||
+				(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
             {
                 quit = 1;
             }
+            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+            {
+                if (colour == e_colour_blue)
+                {
+					colour = e_colour_red;
+                    // Clear our buffer with a red background
+                    glClearColor(1.0, 0.0, 0.0, 1.0);
+                    glClear(GL_COLOR_BUFFER_BIT);
+                    // Swap our back buffer to the front
+                    SDL_GL_SwapWindow(mainwindow);
+                }
+                else if (colour == e_colour_red)
+                {
+					colour = e_colour_green;
+                    // Same as above, but green
+                    glClearColor(0.0, 1.0, 0.0, 1.0);
+                    glClear(GL_COLOR_BUFFER_BIT);
+                    SDL_GL_SwapWindow(mainwindow);
+                }
+                else if (colour == e_colour_green)
+                {
+					colour = e_colour_blue;
+                    // Same as above, but blue
+                    glClearColor(0.0, 0.0, 1.0, 1.0);
+                    glClear(GL_COLOR_BUFFER_BIT);
+                	SDL_GL_SwapWindow(mainwindow);
+                }
+            }
         }
     }
-*/
 
-    // Clear our buffer with a red background
-    glClearColor(1.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    // Swap our back buffer to the front
-    SDL_GL_SwapWindow(mainwindow);
-    // Wait x seconds
-    SDL_Delay(1000);
+    // // Clear our buffer with a red background
+    // glClearColor(1.0, 0.0, 0.0, 1.0);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // // Swap our back buffer to the front
+    // SDL_GL_SwapWindow(mainwindow);
+    // // Wait x seconds
+    // SDL_Delay(1000);
 
-    // Same as above, but green
-    glClearColor(0.0, 1.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(mainwindow);
-    SDL_Delay(1000);
+    // // Same as above, but green
+    // glClearColor(0.0, 1.0, 0.0, 1.0);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // SDL_GL_SwapWindow(mainwindow);
+    // SDL_Delay(1000);
 
-    // Same as above, but blue
-    glClearColor(0.0, 0.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(mainwindow);
-    SDL_Delay(1000);
+    // // Same as above, but blue
+    // glClearColor(0.0, 0.0, 1.0, 1.0);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // SDL_GL_SwapWindow(mainwindow);
+    // SDL_Delay(1000);
 
     // Delete our opengl context, destroy our window, and shutdown SDL
-    SDL_Delay(1000);
     SDL_GL_DeleteContext(maincontext);
     SDL_DestroyWindow(mainwindow);
     SDL_Quit();
