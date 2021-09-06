@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/09/06 16:09:57 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/09/06 17:13:15 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     //While application is running
     while (!quit)
     {
+
         //Handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
@@ -92,34 +93,6 @@ int main(int argc, char *argv[])
 				(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
             {
                 quit = 1;
-            }
-            else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
-            {
-                if (colour == e_colour_blue)
-                {
-					colour = e_colour_red;
-                    // Clear our buffer with a red background
-                    glClearColor(1.0, 0.0, 0.0, 1.0);
-                    glClear(GL_COLOR_BUFFER_BIT);
-                    // Swap our back buffer to the front
-                    SDL_GL_SwapWindow(mainwindow);
-                }
-                else if (colour == e_colour_red)
-                {
-					colour = e_colour_green;
-                    // Same as above, but green
-                    glClearColor(0.0, 1.0, 0.0, 1.0);
-                    glClear(GL_COLOR_BUFFER_BIT);
-                    SDL_GL_SwapWindow(mainwindow);
-                }
-                else if (colour == e_colour_green)
-                {
-					colour = e_colour_blue;
-                    // Same as above, but blue
-                    glClearColor(0.0, 0.0, 1.0, 1.0);
-                    glClear(GL_COLOR_BUFFER_BIT);
-                	SDL_GL_SwapWindow(mainwindow);
-                }
             }
         }
     }
