@@ -6,14 +6,14 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/04 16:28:28 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/09/06 12:22:50 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/09/06 16:09:57 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "libft.h"
 #include <stdlib.h>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <OpenGL/gl.h>
 #define PROGRAM_NAME "scop"
 
@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
 		PROGRAM_NAME,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-        512,
-		512,
+        1280,
+		720,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (!mainwindow)
         sdldie("Unable to create window");
@@ -123,26 +123,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-
-    // // Clear our buffer with a red background
-    // glClearColor(1.0, 0.0, 0.0, 1.0);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // // Swap our back buffer to the front
-    // SDL_GL_SwapWindow(mainwindow);
-    // // Wait x seconds
-    // SDL_Delay(1000);
-
-    // // Same as above, but green
-    // glClearColor(0.0, 1.0, 0.0, 1.0);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // SDL_GL_SwapWindow(mainwindow);
-    // SDL_Delay(1000);
-
-    // // Same as above, but blue
-    // glClearColor(0.0, 0.0, 1.0, 1.0);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // SDL_GL_SwapWindow(mainwindow);
-    // SDL_Delay(1000);
 
     // Delete our opengl context, destroy our window, and shutdown SDL
     SDL_GL_DeleteContext(maincontext);

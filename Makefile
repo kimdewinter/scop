@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/31 18:48:24 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/09/06 16:22:30 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ LIBFT_NAME:=	libft
 LIBFT_DIR:=		$(LIBS_DIR)/libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
-SDL2_DIR?=		$(LIBS_DIR)/sdl2
-SDL2_INC?=		$(SDL2_DIR)/include/SDL2
+SDL2_DIR?=		~/.brew
+SDL2_INC?=		$(SDL2_DIR)/include
 SDL2_LIB?=		$(SDL2_DIR)/lib
 
 # COMPILATION
@@ -45,7 +45,7 @@ CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
-			-L$(SDL2_LIB) -lSDL2 -lSDL2main\
+			-lSDL2 -lSDL2main\
 			-framework OpenGL
 DEBUGFLAGS?=-g
 
