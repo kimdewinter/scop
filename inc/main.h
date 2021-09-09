@@ -7,6 +7,7 @@
 # include <stdlib.h>
 # include <SDL2/SDL.h>
 # include <OpenGL/gl.h>
+# include <OpenGL/glu.h>
 
 enum e_colour
 {

@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
     //While application is running
     while (!quit)
     {
-		display(mainwindow);
         //Handle events on queue
         while (SDL_PollEvent(&e) != 0)
         {
@@ -76,6 +75,10 @@ int main(int argc, char *argv[])
             {
                 quit = 1;
             }
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+			{
+				display(mainwindow);
+			}
         }
     }
 
