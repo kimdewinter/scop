@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/04 11:44:17 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/09/06 21:52:10 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/09/20 19:15:59 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@ NAME:=	scop
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	main\
-			display
+SRC_FILES:=	main
 INC_FILES:=	main
 
 SRC_DIR:=	src
