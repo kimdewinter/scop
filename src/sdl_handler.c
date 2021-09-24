@@ -16,8 +16,8 @@ static bool create_window(t_app *app)
 		PROGRAM_NAME,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		app->screen_width,
-		app->screen_height,
+		DEFAULT_SCREEN_WIDTH,
+		DEFAULT_SCREEN_HEIGHT,
 		SDL_WINDOW_OPENGL);
 	if (app->sdl.window == NULL)
 	{

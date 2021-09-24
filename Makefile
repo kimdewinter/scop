@@ -5,6 +5,7 @@ NAME:=	scop
 SRC_FILES:=	constructors\
 			sdl_handler\
 			main\
+			opengl_handler\
 			printers\
 			shader_compiler
 INC_FILES:=	main

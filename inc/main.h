@@ -4,6 +4,10 @@
 # define PROGRAM_NAME "scop"
 # define DEFAULT_SCREEN_WIDTH 1280
 # define DEFAULT_SCREEN_HEIGHT 720
+# define DEFAULT_CLEARCOLOR_RED 0.0f
+# define DEFAULT_CLEARCOLOR_GREEN 0.0f
+# define DEFAULT_CLEARCOLOR_BLUE 0.0f
+# define DEFAULT_CLEARCOLOR_ALPHA 1.0f
 
 # include "libft.h"
 # include <stdlib.h>
@@ -21,8 +25,6 @@ typedef struct s_sdl
 typedef struct s_app
 {
 	struct s_sdl sdl;
-	int screen_width;
-	int screen_height;
 } t_app;
 
 unsigned int compile_shader_program(
@@ -30,6 +32,7 @@ unsigned int compile_shader_program(
 	const char* fragment_shader_filename);
 void construct_t_app(t_app *app);
 bool get_context_and_window(t_app *app);
+bool init_opengl(void);
 void shutdown_sdl(t_app *app);
 
 # ifdef DEBUG

@@ -15,5 +15,7 @@ int main(int argc, char *argv[])
 	construct_t_app(&app);
 	if (!get_context_and_window(&app))
 		return shutdown(&app, EXIT_FAILURE);
+	if (!init_opengl())
+		return shutdown(&app, EXIT_FAILURE);
     return shutdown(&app, EXIT_SUCCESS);
 }
