@@ -10,7 +10,7 @@ static void print_opengl_version()
 
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
 	glGetIntegerv(GL_MINOR_VERSION, &minor);
-	printf("Running OpenGL version %d.%d\n", major, minor);
+	printf("OpenGL version %d.%d\n", major, minor);
 }
 
 static void print_opengl_extensions()
@@ -18,7 +18,7 @@ static void print_opengl_extensions()
 	int l;
 
 	glGetIntegerv(GL_NUM_EXTENSIONS, &l);
-	printf("Using OpenGL extensions:\n");
+	printf("OpenGL extensions:\n");
 	for (int i = 0; i < l; i++)
 		printf("%s\n", glGetStringi(GL_EXTENSIONS, i));
 }
@@ -34,12 +34,12 @@ static void print_context_profile_mask(void)
 void print_opengl_info(void)
 {
 	print_opengl_version();
-	printf("Using OpenGL implementation by %s\n", glGetString(GL_VENDOR));
+	printf("Implementation by %s\n", glGetString(GL_VENDOR));
 	printf("Using renderer %s\n", glGetString(GL_RENDERER));
-	print_context_profile_mask();
 	printf(
-		"Primary version of GLSL supported is %s",
+		"Primary GLSL supported is %s\n",
 		glGetString(GL_SHADING_LANGUAGE_VERSION));
+	print_context_profile_mask();
 	print_opengl_extensions();
 }
 
