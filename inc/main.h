@@ -25,6 +25,8 @@ typedef struct s_sdl
 typedef struct s_app
 {
 	struct s_sdl sdl;
+	GLuint shader_program;
+	bool close_window;
 } t_app;
 
 unsigned int compile_shader_program(
