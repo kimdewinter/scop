@@ -3,6 +3,7 @@ NAME:=	scop
 # FILES AND FOLDERS
 
 SRC_FILES:=	constructors\
+			file_handler\
 			sdl_handler\
 			main\
 			opengl_handler\

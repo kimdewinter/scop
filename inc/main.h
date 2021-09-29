@@ -31,6 +31,7 @@ unsigned int compile_shader_program(
 	const char* vertex_shader_filename,
 	const char* fragment_shader_filename);
 void construct_t_app(t_app *app);
+char *file_to_string(const char *file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);
 void shutdown_sdl(t_app *app);
