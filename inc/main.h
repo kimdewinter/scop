@@ -26,12 +26,18 @@ typedef struct s_app
 {
 	struct s_sdl sdl;
 	GLuint shader_program;
+	float **vertices;
+	unsigned int **indices;
+	GLuint VBO;//Vertex Buffer Object
+	GLuint VAO;//Vertex Buffer Array
+	GLuint EBO;//Element Buffer Object
 	bool close_window;
 } t_app;
 
-unsigned int compile_shader_program(
-	const char* vertex_shader_filename,
-	const char* fragment_shader_filename);
+bool compile_shader_program(
+	GLuint *shader_program,
+	const char *vertex_shader_filename,
+	const char *fragment_shader_filename);
 void construct_t_app(t_app *app);
 char *file_to_string(const char *file_name);
 bool get_context_and_window(t_app *app);

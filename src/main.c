@@ -3,6 +3,8 @@
 static int shutdown(t_app *app, int success)
 {
 	shutdown_sdl(app);
+	if (app->shader_program)
+		glDeleteProgram(app->shader_program);
 	return success;
 }
 
@@ -11,16 +13,17 @@ int main(int argc, char *argv[])
 	t_app app;
 
     (void)argc;//Remove this line before submission
-    (void)argv;//Remove this line before submission
+    (void)argv;//Remove this line before submission	
 	construct_t_app(&app);
 	if (!get_context_and_window(&app))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!init_opengl())
 		return shutdown(&app, EXIT_FAILURE);
-
-	app.shader_program = compile_shader_program(
+	if (!compile_shader_program(
+		&app.shader_program,
 		"vertex_shader",
-		"fragment_shader");
+		"fragment_shader"))
+		return shutdown(&app, EXIT_FAILURE);
 
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,

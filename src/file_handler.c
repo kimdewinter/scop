@@ -48,14 +48,16 @@ char *file_to_string(const char *file_name)
 		file_pointer) != (size_t)file_length)
 	{
 		printf("Error calling fread on file \"%s\"\n", file_name);
-		free(file_contents);
+		if (file_contents)
+			free(file_contents);
 		return NULL;
 	}
 
 	if (fclose(file_pointer) != 0)
 	{
 		printf("Error calling fclose on file \"%s\"\n", file_name);
-		free(file_contents);
+		if (file_contents)
+			free(file_contents);
 		return NULL;
 	}
 

@@ -94,7 +94,7 @@ bool get_context_and_window(t_app *app)
 
 void shutdown_sdl(t_app *app)
 {
+	SDL_DestroyWindow(app->sdl.window);
 	SDL_GL_DeleteContext(app->sdl.context);
-    SDL_DestroyWindow(app->sdl.window);
     SDL_Quit();
 }
