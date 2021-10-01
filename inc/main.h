@@ -26,8 +26,10 @@ typedef struct s_app
 {
 	struct s_sdl sdl;
 	GLuint shader_program;
-	float **vertices;
-	unsigned int **indices;
+	float *vertices;
+	unsigned int vertices_length;
+	unsigned int *indices;
+	unsigned int indices_length;
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
@@ -42,6 +44,9 @@ void construct_t_app(t_app *app);
 char *file_to_string(const char *file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);
+bool load_vertices(t_app *app);
+bool load_indices(t_app *app);
+bool load_buffers(t_app *app);
 void shutdown_sdl(t_app *app);
 
 # ifdef DEBUG

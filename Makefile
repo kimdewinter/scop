@@ -2,13 +2,16 @@ NAME:=	scop
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	constructors\
+SRC_FILES:=	buffer_handler\
+			constructors\
 			file_handler\
-			sdl_handler\
+			index_handler\
 			main\
 			opengl_handler\
 			printers\
-			shader_compiler
+			sdl_handler\
+			shader_compiler\
+			vertex_handler
 INC_FILES:=	main
 
 SRC_DIR:=	src
