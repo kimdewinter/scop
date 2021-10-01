@@ -41,7 +41,7 @@ bool compile_shader_program(
 		if (vertex_source)
 			free(vertex_source);
 		if (fragment_source)
-			free(vertex_source);
+			free(fragment_source);
 		return false;
 	}
 
@@ -60,7 +60,7 @@ bool compile_shader_program(
 		if (vertex_source)
 			free(vertex_source);
 		if (fragment_source)
-			free(vertex_source);
+			free(fragment_source);
 		return false;
 	}
 
