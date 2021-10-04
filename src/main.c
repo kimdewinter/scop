@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	if (!compile_shader_program(
 		&app.shader_program,
-		"vertex_shader",
-		"fragment_shader"))
+		"vertex_shader.vert",
+		"fragment_shader.frag"))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_vertices(&app))
 		return shutdown(&app, EXIT_FAILURE);
