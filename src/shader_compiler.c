@@ -15,6 +15,8 @@ bool compile_shader_program(
 	// Compile vertex shader
 	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	vertex_source = file_to_string(vertex_shader_filename);
+	if (!vertex_source)
+		return false;
 	glShaderSource(vertex_shader, 1, (const GLchar *const *)&vertex_source, NULL);
 	glCompileShader(vertex_shader);
 	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
@@ -30,6 +32,8 @@ bool compile_shader_program(
 	// Compile fragment shader
 	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 	fragment_source = file_to_string(fragment_shader_filename);
+	if (!fragment_source)
+		return false;
 	glShaderSource(fragment_shader, 1, (const GLchar *const *)&fragment_source, NULL);
 	glCompileShader(fragment_shader);
 	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
