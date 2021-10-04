@@ -11,6 +11,7 @@ SRC_FILES:=	buffer_handler\
 			printers\
 			sdl_handler\
 			shader_compiler\
+			shader_utils\
 			vertex_handler
 INC_FILES:=	main
 

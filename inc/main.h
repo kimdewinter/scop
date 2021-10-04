@@ -47,6 +47,9 @@ bool init_opengl(void);
 bool load_vertices(t_app *app);
 bool load_indices(t_app *app);
 bool load_buffers(t_app *app);
+void set_bool(GLuint shader_program, const char *name, const bool value);
+void set_int(GLuint shader_program, const char *name, const int value);
+void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
 
 # ifdef DEBUG
