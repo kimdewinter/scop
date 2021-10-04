@@ -22,14 +22,26 @@ bool load_buffers(t_app *app)
 		app->indices,
 		GL_STATIC_DRAW);
 
+	// vertex attrib pointer for xyz
     glVertexAttribPointer(
 		0,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		3 * sizeof(float),
+		6 * sizeof(float),
 		(void *)0);
     glEnableVertexAttribArray(0);
+
+	// vertex attrib pointer for rgb
+	glVertexAttribPointer(
+		1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		6 * sizeof(float),
+		(void *)(3 * sizeof(float))
+	);
+	glEnableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered
 	// VBO as the vertex attribute's bound vertex buffer object so afterwards we
