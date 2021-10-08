@@ -49,7 +49,7 @@ bool load_buffers(t_app *app)
 		GL_FLOAT,
 		GL_FALSE,
 		8 * sizeof(float),
-		(void *)(5 * sizeof(float)));
+		(void *)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
     // note that this is allowed, the call to glVertexAttribPointer registered
