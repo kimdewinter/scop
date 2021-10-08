@@ -33,7 +33,8 @@ typedef struct s_app
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
-	GLuint texture;
+	GLuint *textures;
+	unsigned int textures_length;
 	bool close_window;
 } t_app;
 
@@ -42,6 +43,7 @@ bool compile_shader_program(
 	const char *vertex_shader_filename,
 	const char *fragment_shader_filename);
 void construct_t_app(t_app *app);
+bool handle_events(t_app *app);
 char *file_to_string(const char *file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);

@@ -4,6 +4,7 @@ NAME:=	scop
 
 SRC_FILES:=	buffer_handler\
 			constructors\
+			event_handler\
 			file_handler\
 			index_handler\
 			main\
