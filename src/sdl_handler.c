@@ -18,7 +18,8 @@ static bool create_window(t_app *app)
 		SDL_WINDOWPOS_CENTERED,
 		DEFAULT_SCREEN_WIDTH,
 		DEFAULT_SCREEN_HEIGHT,
-		SDL_WINDOW_OPENGL);
+		SDL_WINDOW_OPENGL |
+		SDL_WINDOW_RESIZABLE);
 	if (app->sdl.window == NULL)
 	{
 		ft_printf(

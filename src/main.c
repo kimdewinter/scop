@@ -46,6 +46,18 @@ int main(int argc, char *argv[])
 					app.close_window = true;
 				}
 				break;
+				case SDL_WINDOWEVENT:
+				{
+					switch(app.sdl.event.window.windowID)
+					{
+						case SDL_WINDOWEVENT_SIZE_CHANGED:
+						{
+							glViewport(0, 0, app.sdl.event.window.data1, app.sdl.event.window.data2);
+						}
+						break;
+					}
+				}
+				break;
 				case SDL_KEYDOWN:
 				{
 					switch(app.sdl.event.key.keysym.sym)
