@@ -7,11 +7,11 @@ scop
 *.d
 
 # Object files
-.obj
-*.o
-*.ko
-*.obj
-*.elf
+# .obj
+# *.o
+# *.ko
+# *.obj
+# *.elf
 
 # Linker output
 *.ilk

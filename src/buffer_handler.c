@@ -28,7 +28,7 @@ bool load_buffers(t_app *app)
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		6 * sizeof(float),
+		8 * sizeof(float),
 		(void *)0);
     glEnableVertexAttribArray(0);
 
@@ -38,10 +38,19 @@ bool load_buffers(t_app *app)
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		6 * sizeof(float),
-		(void *)(3 * sizeof(float))
-	);
+		8 * sizeof(float),
+		(void *)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	// vertex attrib pointer for texture coords
+	glVertexAttribPointer(
+		2,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		8 * sizeof(float),
+		(void *)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
     // note that this is allowed, the call to glVertexAttribPointer registered
 	// VBO as the vertex attribute's bound vertex buffer object so afterwards we

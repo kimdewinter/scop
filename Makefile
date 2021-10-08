@@ -12,8 +12,11 @@ SRC_FILES:=	buffer_handler\
 			sdl_handler\
 			shader_compiler\
 			shader_utils\
+			stb_image\
+			texture_handler\
 			vertex_handler
-INC_FILES:=	main
+INC_FILES:=	main\
+			stb_image
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj

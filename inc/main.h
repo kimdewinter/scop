@@ -33,6 +33,7 @@ typedef struct s_app
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
+	GLuint texture;
 	bool close_window;
 } t_app;
 
@@ -44,9 +45,10 @@ void construct_t_app(t_app *app);
 char *file_to_string(const char *file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);
-bool load_vertices(t_app *app);
-bool load_indices(t_app *app);
 bool load_buffers(t_app *app);
+bool load_indices(t_app *app);
+bool load_textures(t_app *app);
+bool load_vertices(t_app *app);
 void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
