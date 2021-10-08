@@ -39,12 +39,25 @@ int main(int argc, char *argv[])
 	{
 		while (SDL_PollEvent(&app.sdl.event))
 		{
-			if (app.sdl.event.type == SDL_QUIT)
-				app.close_window = true;
-			else if (app.sdl.event.type == SDL_KEYDOWN)
+			switch(app.sdl.event.type)
 			{
-				if (app.sdl.event.key.keysym.sym == SDLK_ESCAPE)
+				case SDL_QUIT:
+				{
 					app.close_window = true;
+				}
+				break;
+				case SDL_KEYDOWN:
+				{
+					switch(app.sdl.event.key.keysym.sym)
+					{
+						case SDLK_ESCAPE:
+						{
+							app.close_window = true;
+						}
+						break;
+					}
+				}
+				break;
 			}
 		}
 		// render
