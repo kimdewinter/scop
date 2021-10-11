@@ -33,8 +33,7 @@ typedef struct s_app
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
-	GLuint *textures;
-	unsigned int textures_length;
+	GLuint texture;
 	bool close_window;
 } t_app;
 

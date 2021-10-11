@@ -32,9 +32,6 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_textures(&app))
 		return shutdown(&app, EXIT_FAILURE);
-	glUseProgram(app.shader_program);// must use shader before setting uniforms
-	glUniform1i(glGetUniformLocation(app.shader_program, "texture1"), 0);
-	glUniform1i(glGetUniformLocation(app.shader_program, "texture2"), 1);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 	app.close_window = false;
@@ -47,10 +44,7 @@ int main(int argc, char *argv[])
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, app.textures[0]);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, app.textures[1]);
+		glBindTexture(GL_TEXTURE_2D, app.texture);
 
         // draw our first triangle
         glUseProgram(app.shader_program);
