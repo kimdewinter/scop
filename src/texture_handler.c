@@ -4,7 +4,7 @@
 bool load_textures(t_app *app)
 {
 	int width, height, nrChannels;
-	char filenames[] = {
+	char *filenames[] = {
 		"resources/textures/wall.jpg",
 		"resources/textures/awesomeface.png" };
 
@@ -53,7 +53,7 @@ bool load_textures(t_app *app)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
-	unsigned char *data = stbi_load(filenames[1], &width, &height, &nrChannels, 0);
+	data = stbi_load(filenames[1], &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
