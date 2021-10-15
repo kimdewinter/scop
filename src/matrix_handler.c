@@ -1,13 +1,6 @@
 #include "matrix_handler.h"
 #include <math.h>
 
-void translate_matrix(float matrix[16], const float translation_vector[3])
-{
-	matrix[3] = translation_vector[0];
-	matrix[7] = translation_vector[1];
-	matrix[11] = translation_vector[2];
-}
-
 void rotate_matrix(
 	float matrix[16],
 	const float rotation_degrees,
@@ -40,4 +33,58 @@ void rotate_matrix(
 		}
 		break;
 	}
+}
+
+void translate_matrix(float matrix[16], const float translation_vector[3])
+{
+	matrix[3] = translation_vector[0];
+	matrix[7] = translation_vector[1];
+	matrix[11] = translation_vector[2];
+}
+
+void scale_matrix(float matrix[16], const float scale_multipliers[3])
+{
+	matrix[0] = scale_multipliers[0];
+	matrix[5] = scale_multipliers[1];
+	matrix[10] = scale_multipliers[2];
+}
+
+void rotate(t_app *app)
+{
+	float mat4[16] = {
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+	// float test_rotate_vec[3] = { 0.0f, 0.0f, 1.0f };
+	float test_scale_vec[3] = { 0.5f, 0.5f, 0.5f };
+
+	rotate_matrix(mat4, 90.0f, AXIS_Z);
+	scale_matrix(mat4, test_scale_vec);
+	unsigned int transform_location =
+		glGetUniformLocation(app->shader_program, "transform");
+	glUniformMatrix4fv(transform_location, 1, GL_FALSE, mat4);
+}
+
+void transform(t_app *app)
+{
+	float mat4[16] = {
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+	float test_translate_vec[3] = { 0.5f, -0.5f, 0.0f };
+	// float test_rotate_vec[3] = { 0.0f, 0.0f, 1.0f };
+	// float test_scale_vec[3] = { 0.5f, 0.5f, 0.5f };
+
+	translate_matrix(mat4, test_translate_vec);
+	rotate_matrix(mat4, SDL_GetTicks(), AXIS_Z);
+
+	glUseProgram(app->shader_program);
+	unsigned int transform_location = glGetUniformLocation(
+		app->shader_program,
+		"transform");
+	glUniformMatrix4fv(transform_location, 1, GL_FALSE, mat4);
 }
