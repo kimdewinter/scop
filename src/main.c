@@ -64,3 +64,5 @@ int main(int argc, char *argv[])
 
     return shutdown(&app, EXIT_SUCCESS);
 }
+
+// suggestion from Noah: memcpy(vec4.vec, (float [4]){ 1.0f, 0.0f, 0.0f, 1.0f }, sizeof(vec4.vec));

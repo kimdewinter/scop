@@ -54,6 +54,7 @@ void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
+void translate_matrix(float matrix[16], const float translation_vector[3]);
 
 # ifdef DEBUG
 void print_opengl_info(void);

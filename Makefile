@@ -8,6 +8,7 @@ SRC_FILES:=	buffer_handler\
 			file_handler\
 			index_handler\
 			main\
+			matrix_handler\
 			opengl_handler\
 			printers\
 			sdl_handler\
