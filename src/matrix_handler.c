@@ -80,7 +80,7 @@ void transform(t_app *app)
 	// float test_scale_vec[3] = { 0.5f, 0.5f, 0.5f };
 
 	translate_matrix(mat4, test_translate_vec);
-	rotate_matrix(mat4, SDL_GetTicks(), AXIS_Z);
+	// rotate_matrix(mat4, SDL_GetTicks(), AXIS_Z);
 
 	glUseProgram(app->shader_program);
 	unsigned int transform_location = glGetUniformLocation(

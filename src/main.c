@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, app.texture);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, app.texture);
+		glBindTexture(GL_TEXTURE_2D, app.texture2);
 
 		transform(&app);
 
