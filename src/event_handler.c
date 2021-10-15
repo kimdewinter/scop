@@ -1,22 +1,23 @@
 #include "main.h"
+#include "matrix_handler.h"
 
-static void do_thing(t_app *app)
+static void do_thing(void)
 {
-	(void)app;
-	float oldvec[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	float oldvec[4] = { 0.25f, 0.30f, 0.35f, 1.0f };
 	float trans[16] = {
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
-	float translation_vec[4] = { 1.0f, 1.0f, 0.0f };
-	float newvec[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	// float translation_vec[4] = { 1.0f, 1.0f, 0.0f };
+	float newvec[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-	translate_matrix(trans, translation_vec);
+	// translate_matrix(trans, translation_vec);
+	rotate_matrix(trans, 42, AXIS_Z);
 	for (int i = 0; i < 16; i++)
 	{
-			if (i < 15)
+			if (i % 4 != 3)
 				newvec[i / 4] += trans[i] * oldvec[i % 4];
 	}
 	for (int i = 0; i < 4; i++)
@@ -59,7 +60,7 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_SPACE:
 					{
-						do_thing(app);
+						do_thing();
 					}
 					break;
 				}
