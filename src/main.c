@@ -1,4 +1,5 @@
 #include "main.h"
+#include "matrix_handler.h"
 
 static int shutdown(t_app *app, int exit_return)
 {
@@ -44,7 +45,12 @@ int main(int argc, char *argv[])
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, app.texture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, app.texture2);
+
+		transform(&app);
 
         // draw our first triangle
         glUseProgram(app.shader_program);
@@ -64,3 +70,5 @@ int main(int argc, char *argv[])
 
     return shutdown(&app, EXIT_SUCCESS);
 }
+
+// suggestion from Noah: memcpy(vec4.vec, (float [4]){ 1.0f, 0.0f, 0.0f, 1.0f }, sizeof(vec4.vec));

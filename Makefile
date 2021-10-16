@@ -8,6 +8,7 @@ SRC_FILES:=	buffer_handler\
 			file_handler\
 			index_handler\
 			main\
+			matrix_handler\
 			opengl_handler\
 			printers\
 			sdl_handler\
@@ -17,6 +18,7 @@ SRC_FILES:=	buffer_handler\
 			texture_handler\
 			vertex_handler
 INC_FILES:=	main\
+			matrix_handler\
 			stb_image
 
 SRC_DIR:=	src

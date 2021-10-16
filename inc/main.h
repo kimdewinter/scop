@@ -2,8 +2,8 @@
 
 # define MAIN_H
 # define PROGRAM_NAME "scop"
-# define DEFAULT_SCREEN_WIDTH 1280
-# define DEFAULT_SCREEN_HEIGHT 720
+# define DEFAULT_SCREEN_WIDTH 800
+# define DEFAULT_SCREEN_HEIGHT 600
 # define DEFAULT_CLEARCOLOR_RED 0.0f
 # define DEFAULT_CLEARCOLOR_GREEN 0.0f
 # define DEFAULT_CLEARCOLOR_BLUE 0.0f
@@ -34,6 +34,7 @@ typedef struct s_app
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
 	GLuint texture;
+	GLuint texture2;
 	bool close_window;
 } t_app;
 
@@ -54,6 +55,7 @@ void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
+void translate_matrix(float matrix[16], const float translation_vector[3]);
 
 # ifdef DEBUG
 void print_opengl_info(void);
