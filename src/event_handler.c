@@ -2,6 +2,7 @@
 
 bool handle_events(t_app *app)
 {
+	static float x_rot = 0;
 	while (SDL_PollEvent(&(app->sdl.event)))
 	{
 		switch(app->sdl.event.type)
@@ -34,32 +35,33 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_d:
 					{
-						rotate_matrix(app->transformation_matrix, 10, AXIS_X);
+						x_rot += 0.1f;
+						rotate_matrix(app->transformation_matrix, x_rot, AXIS_X);
 					}
 					break;
 					case SDLK_a:
 					{
-						rotate_matrix(app->transformation_matrix, -10, AXIS_X);
+						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_X);
 					}
 					break;
 					case SDLK_w:
 					{
-						rotate_matrix(app->transformation_matrix, 10, AXIS_Y);
+						rotate_matrix(app->transformation_matrix, 1.0f, AXIS_Y);
 					}
 					break;
 					case SDLK_s:
 					{
-						rotate_matrix(app->transformation_matrix, -10, AXIS_Y);
+						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_Y);
 					}
 					break;
 					case SDLK_r:
 					{
-						rotate_matrix(app->transformation_matrix, 10, AXIS_Z);
+						rotate_matrix(app->transformation_matrix, 1.0f, AXIS_Z);
 					}
 					break;
 					case SDLK_f:
 					{
-						rotate_matrix(app->transformation_matrix, -10, AXIS_Z);
+						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_Z);
 					}
 					break;
 					case SDLK_RIGHT:
