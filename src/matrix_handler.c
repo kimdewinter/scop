@@ -1,5 +1,4 @@
 #include "main.h"
-#include "matrix_handler.h"
 #include <math.h>
 
 void rotate_matrix(
@@ -50,24 +49,21 @@ void scale_matrix(float matrix[16], const float scale_multipliers[3])
 	matrix[10] = scale_multipliers[2];
 }
 
-void transform(t_app *app)
+void identity_matrix(float matrix[16])
 {
-	float mat4[16] = {
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	};
-	// float test_translate_vec[3] = { 0.5f, -0.5f, 0.0f };
+	ft_memset(matrix, 0, sizeof(matrix));
+	matrix[0] = 1.0f;
+	matrix[5] = 1.0f;
+	matrix[10] = 1.0f;
+	matrix[15] = 1.0f;
+}
 
-	// translate_matrix(mat4, test_translate_vec);
-	rotate_matrix(mat4, SDL_GetTicks() / 1000, AXIS_X);
-	rotate_matrix(mat4, SDL_GetTicks() / 500, AXIS_Y);
-	rotate_matrix(mat4, SDL_GetTicks() / 250, AXIS_Z);
-
+void execute_transformation(t_app *app)
+{
 	glUseProgram(app->shader_program);
-	unsigned int transform_location = glGetUniformLocation(
-		app->shader_program,
-		"transform");
-	glUniformMatrix4fv(transform_location, 1, GL_FALSE, mat4);
+	glUniformMatrix4fv(
+		glGetUniformLocation(app->shader_program, "transform"),
+		1,
+		GL_FALSE,
+		app->transformation_matrix);
 }

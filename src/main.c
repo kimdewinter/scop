@@ -1,5 +1,4 @@
 #include "main.h"
-#include "matrix_handler.h"
 
 static int shutdown(t_app *app, int exit_return)
 {
@@ -38,6 +37,7 @@ int main(int argc, char *argv[])
 	app.close_window = false;
 	while(!app.close_window)
 	{
+		identity_matrix(&app.transformation_matrix);
 		if (!handle_events(&app))
 			shutdown(&app, EXIT_FAILURE);
 		// render
@@ -49,8 +49,6 @@ int main(int argc, char *argv[])
 		glBindTexture(GL_TEXTURE_2D, app.texture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, app.texture2);
-
-		transform(&app);
 
         // draw our first triangle
         glUseProgram(app.shader_program);

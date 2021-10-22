@@ -35,8 +35,16 @@ typedef struct s_app
 	GLuint EBO;//Element Buffer Object
 	GLuint texture;
 	GLuint texture2;
+	float transformation_matrix[16];
 	bool close_window;
 } t_app;
+
+typedef enum e_axis
+{
+	AXIS_X,
+	AXIS_Y,
+	AXIS_Z
+} t_axis;
 
 bool compile_shader_program(
 	GLuint *shader_program,
@@ -55,7 +63,13 @@ void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
+void rotate_matrix(
+	float matrix[16],
+	const float rotation_degrees,
+	t_axis rotation_axis);
 void translate_matrix(float matrix[16], const float translation_vector[3]);
+void scale_matrix(float matrix[16], const float scale_multipliers[3]);
+void identity_matrix(float matrix[16]);
 
 # ifdef DEBUG
 void print_opengl_info(void);

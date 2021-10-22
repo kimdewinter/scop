@@ -18,7 +18,6 @@ SRC_FILES:=	buffer_handler\
 			texture_handler\
 			vertex_handler
 INC_FILES:=	main\
-			matrix_handler\
 			stb_image
 
 SRC_DIR:=	src
