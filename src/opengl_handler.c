@@ -10,6 +10,7 @@ bool init_opengl(void)
 		DEFAULT_CLEARCOLOR_BLUE,
 		DEFAULT_CLEARCOLOR_ALPHA
 	);
+	glEnable(GL_DEPTH_TEST);
 	error = glGetError();
 	if (error != GL_NO_ERROR)
 		return false;

@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_vertices(&app))
 		return shutdown(&app, EXIT_FAILURE);
-	if (!load_indices(&app))
-		return shutdown(&app, EXIT_FAILURE);
+	// if (!load_indices(&app))
+		// return shutdown(&app, EXIT_FAILURE);
 	if (!load_buffers(&app))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_textures(&app))
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 		// render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, app.texture);
@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
         // draw our first triangle
         glUseProgram(app.shader_program);
         glBindVertexArray(app.VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         // glBindVertexArray(0); // no need to unbind it every time
 		SDL_GL_SwapWindow(app.sdl.window);
 	}

@@ -58,10 +58,12 @@ void transform(t_app *app)
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
-	float test_translate_vec[3] = { 0.5f, -0.5f, 0.0f };
+	// float test_translate_vec[3] = { 0.5f, -0.5f, 0.0f };
 
-	translate_matrix(mat4, test_translate_vec);
-	rotate_matrix(mat4, SDL_GetTicks() / 100, AXIS_Z);
+	// translate_matrix(mat4, test_translate_vec);
+	rotate_matrix(mat4, SDL_GetTicks() / 1000, AXIS_X);
+	rotate_matrix(mat4, SDL_GetTicks() / 500, AXIS_Y);
+	rotate_matrix(mat4, SDL_GetTicks() / 250, AXIS_Z);
 
 	glUseProgram(app->shader_program);
 	unsigned int transform_location = glGetUniformLocation(

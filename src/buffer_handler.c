@@ -4,7 +4,7 @@ bool load_buffers(t_app *app)
 {
     glGenVertexArrays(1, &(app->VAO));
     glGenBuffers(1, &(app->VBO));
-    glGenBuffers(1, &(app->EBO));
+    // glGenBuffers(1, &(app->EBO));
     // bind the Vertex Array Object first, then bind and set vertex buffer(s),
 	// and then configure vertex attributes(s).
     glBindVertexArray(app->VAO);
@@ -15,12 +15,12 @@ bool load_buffers(t_app *app)
 		app->vertices_length * sizeof(float),
 		app->vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->EBO);
-    glBufferData(
-		GL_ELEMENT_ARRAY_BUFFER,
-		app->indices_length * sizeof(unsigned int),
-		app->indices,
-		GL_STATIC_DRAW);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->EBO);
+    // glBufferData(
+	// 	GL_ELEMENT_ARRAY_BUFFER,
+	// 	app->indices_length * sizeof(unsigned int),
+	// 	app->indices,
+	// 	GL_STATIC_DRAW);
 
 	// vertex attrib pointer for xyz
     glVertexAttribPointer(
