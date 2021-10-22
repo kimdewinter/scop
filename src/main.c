@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &app.VAO);
     glDeleteBuffers(1, &app.VBO);
-    glDeleteBuffers(1, &app.EBO);
+    // glDeleteBuffers(1, &app.EBO);
     glDeleteProgram(app.shader_program);
 
     return shutdown(&app, EXIT_SUCCESS);
