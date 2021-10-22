@@ -51,7 +51,7 @@ void scale_matrix(float matrix[16], const float scale_multipliers[3])
 
 void identity_matrix(float matrix[16])
 {
-	ft_memset(matrix, 0, sizeof(matrix));
+	ft_memset(matrix, 0, 16 * sizeof(float));
 	matrix[0] = 1.0f;
 	matrix[5] = 1.0f;
 	matrix[10] = 1.0f;

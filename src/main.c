@@ -35,11 +35,12 @@ int main(int argc, char *argv[])
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 	app.close_window = false;
+	identity_matrix(app.transformation_matrix);
 	while(!app.close_window)
 	{
-		identity_matrix(&app.transformation_matrix);
 		if (!handle_events(&app))
 			shutdown(&app, EXIT_FAILURE);
+		execute_transformation(&app);
 		// render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

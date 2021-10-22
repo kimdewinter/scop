@@ -34,22 +34,22 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_d:
 					{
-						rotate_matrix(app->transformation_matrix, 10, AXIS_X)
+						rotate_matrix(app->transformation_matrix, 10, AXIS_X);
 					}
 					break;
 					case SDLK_a:
 					{
-						rotate_matrix(app->transformation_matrix, -10, AXIS_X)
+						rotate_matrix(app->transformation_matrix, -10, AXIS_X);
 					}
 					break;
 					case SDLK_w:
 					{
-						rotate_matrix(app->transformation_matrix, 10, AXIS_Y)
+						rotate_matrix(app->transformation_matrix, 10, AXIS_Y);
 					}
 					break;
 					case SDLK_s:
 					{
-						rotate_matrix(app->transformation_matrix, -10, AXIS_Y)
+						rotate_matrix(app->transformation_matrix, -10, AXIS_Y);
 					}
 					break;
 					case SDLK_r:
@@ -64,32 +64,32 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_RIGHT:
 					{
-						translate_matrix(app->transformation_matrix, { 0.1f, 0.0f, 0.0f });
+						translate_matrix(app->transformation_matrix, (float[3]){ 0.1f, 0.0f, 0.0f });
 					}
 					break;
 					case SDLK_LEFT:
 					{
-						translate_matrix(app->transformation_matrix, { -0.1f, 0.0f, 0.0f });
+						translate_matrix(app->transformation_matrix, (float[3]){ -0.1f, 0.0f, 0.0f });
 					}
 					break;
 					case SDLK_UP:
 					{
-						translate_matrix(app->transformation_matrix, { 0.0f, 0.1f, 0.0f });
+						translate_matrix(app->transformation_matrix, (float[3]){ 0.0f, 0.1f, 0.0f });
 					}
 					break;
 					case SDLK_DOWN:
 					{
-						translate_matrix(app->transformation_matrix, { 0.0f, -0.1f, 0.0f });
+						translate_matrix(app->transformation_matrix, (float[3]){ 0.0f, -0.1f, 0.0f });
 					}
 					break;
 					case SDLK_EQUALS:
 					{
-						scale_matrix(app->transformation_matrix, { 0.1f, 0.1f, 0.1f });
+						scale_matrix(app->transformation_matrix, (float[3]){ 0.1f, 0.1f, 0.1f });
 					}
 					break;
 					case SDLK_MINUS:
 					{
-						scale_matrix(app->transformation_matrix, { -0.1f, -0.1f, -0.1f });
+						scale_matrix(app->transformation_matrix, (float[3]){ -0.1f, -0.1f, -0.1f });
 					}
 					break;
 				}

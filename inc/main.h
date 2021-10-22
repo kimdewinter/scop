@@ -70,6 +70,7 @@ void rotate_matrix(
 void translate_matrix(float matrix[16], const float translation_vector[3]);
 void scale_matrix(float matrix[16], const float scale_multipliers[3]);
 void identity_matrix(float matrix[16]);
+void execute_transformation(t_app *app);
 
 # ifdef DEBUG
 void print_opengl_info(void);
