@@ -35,7 +35,15 @@ typedef struct s_app
 	GLuint EBO;//Element Buffer Object
 	GLuint texture;
 	GLuint texture2;
-	float transformation_matrix[16];
+	float scaling_x;
+	float scaling_y;
+	float scaling_z;
+	float rotation_x;
+	float rotation_y;
+	float rotation_z;
+	float translation_x;
+	float translation_y;
+	float translation_z;
 	bool close_window;
 } t_app;
 
