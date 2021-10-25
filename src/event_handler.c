@@ -68,12 +68,12 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_RIGHT:
 					{
-						app->rotation_y += 0.1f;
+						app->rotation_y -= 0.1f;
 					}
 					break;
 					case SDLK_LEFT:
 					{
-						app->rotation_y -= 0.1f;
+						app->rotation_y += 0.1f;
 					}
 					break;
 					case SDLK_UP:
