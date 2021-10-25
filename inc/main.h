@@ -47,13 +47,6 @@ typedef struct s_app
 	bool close_window;
 } t_app;
 
-typedef enum e_axis
-{
-	AXIS_X,
-	AXIS_Y,
-	AXIS_Z
-} t_axis;
-
 bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,
@@ -72,11 +65,6 @@ void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
 void handle_transformations(t_app *app);
-void multiply_square_matrices(
-	const unsigned int size,
-	float *dst,
-	const float *src1,
-	const float *src2);
 
 # ifdef DEBUG
 void print_opengl_info(void);

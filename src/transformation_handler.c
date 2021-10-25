@@ -1,123 +1,129 @@
 #include "main.h"
 
-void multiply_square_matrices(
-	const unsigned int size,
-	float *dst,
-	const float *src1,
-	const float *src2)
+typedef struct s_mat4
 {
-	memset(dst, 0, 16 * sizeof(float));
-	for(unsigned int y = 0; y < size; y++)
-	{
-		for(unsigned int x = 0; x < size; x++)
-		{
-			for(unsigned int i = 0; i < size; i++)
+	float mat4[16];
+} t_mat4;
+
+static t_mat4 get_identity_matrix(void)
+{
+	t_mat4 result;
+
+	ft_memset(result.mat4, 0, 16 * sizeof(float));
+	result.mat4[0] += 1.0f;
+	result.mat4[5] += 1.0f;
+	result.mat4[10] += 1.0f;
+	result.mat4[15] += 1.0f;
+	return result;
+}
+
+static t_mat4 multiply_matrices(
+	t_mat4 const src1,
+	t_mat4 const src2)
+{
+	t_mat4 result;
+
+	memset(&result, 0, sizeof(t_mat4));
+	for(unsigned int y = 0; y < 4; y++)
+		for(unsigned int x = 0; x < 4; x++)
+			for(unsigned int i = 0; i < 4; i++)
 			{
-				dst[y * size + x] += src1[y * size + i] * src2[i * size + x];
+				result.mat4[y * 4 + x] +=
+					src1.mat4[y * 4 + i] * src2.mat4[i * 4 + x];
 			}
-		}
-	}
+	return result;
 }
 
-static void translate_matrix(float matrix[16], const float translation_vector[3])
+static t_mat4 get_translation_matrix(
+	float const x_translation,
+	float const y_translation,
+	float const z_translation)
 {
-	matrix[12] += translation_vector[0];
-	matrix[13] += translation_vector[1];
-	matrix[14] += translation_vector[2];
+	t_mat4 result = get_identity_matrix();
+
+	result.mat4[12] += x_translation;
+	result.mat4[13] += y_translation;
+	result.mat4[14] += z_translation;
+	return result;
 }
 
-static void rotate_matrix(
-	float matrix[16],
-	const float rotation_degrees,
-	t_axis rotation_axis)
+static t_mat4 get_rotation_matrix(
+	float const x_degrees,
+	float const y_degrees,
+	float const z_degrees
+)
 {
-	switch(rotation_axis)
-	{
-		case AXIS_X:
-		{
-			matrix[5] = cos((double)rotation_degrees);
-			matrix[6] = sin((double)rotation_degrees);
-			matrix[9] = -sin((double)rotation_degrees);
-			matrix[10] = cos((double)rotation_degrees);
-		}
-		break;
-		case AXIS_Y:
-		{
-			matrix[0] = cos((double)rotation_degrees);
-			matrix[2] = -sin((double)rotation_degrees);
-			matrix[8] = sin((double)rotation_degrees);
-			matrix[10] = cos((double)rotation_degrees);
-		}
-		break;
-		case AXIS_Z:
-		{
-			matrix[0] = cos((double)rotation_degrees);
-			matrix[1] = sin((double)rotation_degrees);
-			matrix[4] = -sin((double)rotation_degrees);
-			matrix[5] = cos((double)rotation_degrees);
-		}
-		break;
-	}
+	t_mat4 x_matrix = get_identity_matrix();
+	t_mat4 y_matrix = get_identity_matrix();
+	t_mat4 z_matrix = get_identity_matrix();
+
+	//set up x-axis rotation matrix
+	x_matrix.mat4[5] = cos((double)x_degrees);
+	x_matrix.mat4[6] = sin((double)x_degrees);
+	x_matrix.mat4[9] = -sin((double)x_degrees);
+	x_matrix.mat4[10] = cos((double)x_degrees);
+	//set up y-axis rotation matrix
+	y_matrix.mat4[0] = cos((double)y_degrees);
+	y_matrix.mat4[2] = -sin((double)y_degrees);
+	y_matrix.mat4[8] = sin((double)y_degrees);
+	y_matrix.mat4[10] = cos((double)y_degrees);
+	//set up z-axis rotation matrix
+	z_matrix.mat4[0] = cos((double)z_degrees);
+	z_matrix.mat4[1] = sin((double)z_degrees);
+	z_matrix.mat4[4] = -sin((double)z_degrees);
+	z_matrix.mat4[5] = cos((double)z_degrees);
+
+	//combine the matrices (crude method, may lead to gimbal lock)
+	return multiply_matrices(multiply_matrices(x_matrix, y_matrix), z_matrix);
 }
 
-static void scale_matrix(float matrix[16], const float scale_multipliers[3])
+static t_mat4 get_scaling_matrix(
+	float const x_scaling,
+	float const y_scaling,
+	float const z_scaling
+)
 {
-	matrix[0] += scale_multipliers[0];
-	matrix[5] += scale_multipliers[1];
-	matrix[10] += scale_multipliers[2];
-}
+	t_mat4 result = get_identity_matrix();
 
-static void identity_matrix(float matrix[16])
-{
-	ft_memset(matrix, 0, 16 * sizeof(float));
-	matrix[0] += 1.0f;
-	matrix[5] += 1.0f;
-	matrix[10] += 1.0f;
-	matrix[15] += 1.0f;
+	result.mat4[0] += x_scaling;
+	result.mat4[5] += y_scaling;
+	result.mat4[10] += z_scaling;
+	return result;
 }
 
 void handle_transformations(t_app *app)
 {
-	float translation_matrix[16];
-	float rotation_matrix[16];
-	float scaling_matrix[16];
-	float x[16];
-	float y[16];
-	float intermediate_matrix[16];
-	float final_matrix[16];
+	t_mat4 transformation_matrix = get_identity_matrix();
 
-	//create matrix that translates vertices
-	identity_matrix(translation_matrix);
-	translate_matrix(translation_matrix, (float[3]){ app->translation_x, app->translation_y, app->translation_z });
-	//create matrix that rotates vertices (may be susceptible to gimbal lock)
-	identity_matrix(x);
-	rotate_matrix(x, app->rotation_x, AXIS_X);
-	identity_matrix(y);
-	rotate_matrix(y, app->rotation_y, AXIS_Y);
-	multiply_square_matrices(4, rotation_matrix, x, y);
-	// rotate_matrix(rotation_matrix, app->rotation_z, AXIS_Z);
-	//create matrix that scales vertices
-	identity_matrix(scaling_matrix);
-	scale_matrix(scaling_matrix, (float[3]){ app->scaling_x, app->scaling_y, app->scaling_z });
+	//add translation to the transformation matrix
+	transformation_matrix = multiply_matrices(
+		transformation_matrix,
+		get_translation_matrix(
+			app->translation_x,
+			app->translation_y,
+			app->translation_z));
 
-	//multiply scaling with rotating matrix
-	multiply_square_matrices(
-		4,
-		intermediate_matrix,
-		translation_matrix,
-		rotation_matrix);
-	//multiply matrix made above with translation matrix
-	multiply_square_matrices(
-		4,
-		final_matrix,
-		intermediate_matrix,
-		scaling_matrix);
+	//add rotation to the transformation matrix
+	transformation_matrix = multiply_matrices(
+		transformation_matrix,
+		get_rotation_matrix(
+			app->rotation_x,
+			app->rotation_y,
+			app->rotation_z));
 
-	//send the final combined matrix to the shader program
+	//add scaling to the transformation matrix
+	transformation_matrix = multiply_matrices(
+		transformation_matrix,
+		get_scaling_matrix(
+			app->scaling_x,
+			app->scaling_y,
+			app->scaling_z));
+
+	//send the transformation matrix to the shader program
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "transform"),
 		1,
 		GL_FALSE,
-		final_matrix);
+		transformation_matrix.mat4);
 }
