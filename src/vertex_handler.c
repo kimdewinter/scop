@@ -2,6 +2,11 @@
 
 bool load_vertices(t_app *app)
 {
+
+}
+/*
+bool load_vertices(t_app *app)
+{
 	app->vertices_length = 180;
 	app->vertices = (float *)malloc(app->vertices_length * sizeof(float));
 	if (!app->vertices)
@@ -57,3 +62,4 @@ bool load_vertices(t_app *app)
 		180 * sizeof(float));
 	return true;
 }
+*/
