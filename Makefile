@@ -12,7 +12,7 @@ SRC_FILES:=	buffer_handler\
 			printers\
 			sdl_handler\
 			shader_compiler\
-			shader_utils\
+			utils\
 			stb_image\
 			texture_handler\
 			transformation_handler\

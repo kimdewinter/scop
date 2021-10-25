@@ -2,7 +2,6 @@
 
 bool handle_events(t_app *app)
 {
-	static float x_rot = 0;
 	while (SDL_PollEvent(&(app->sdl.event)))
 	{
 		switch(app->sdl.event.type)
@@ -35,63 +34,56 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_d:
 					{
-						x_rot += 0.1f;
-						rotate_matrix(app->transformation_matrix, x_rot, AXIS_X);
+						app->translation_x += 0.1f;
 					}
 					break;
 					case SDLK_a:
 					{
-						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_X);
+						app->translation_x -= 0.1f;
 					}
 					break;
 					case SDLK_w:
 					{
-						rotate_matrix(app->transformation_matrix, 1.0f, AXIS_Y);
+						app->translation_y += 0.1f;
 					}
 					break;
 					case SDLK_s:
 					{
-						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_Y);
+						app->translation_y -= 0.1f;
 					}
 					break;
 					case SDLK_r:
 					{
-						rotate_matrix(app->transformation_matrix, 1.0f, AXIS_Z);
+						app->scaling_x += 0.1f;
+						app->scaling_y += 0.1f;
+						app->scaling_z += 0.1f;
 					}
 					break;
 					case SDLK_f:
 					{
-						rotate_matrix(app->transformation_matrix, -1.0f, AXIS_Z);
+						app->scaling_x -= 0.1f;
+						app->scaling_y -= 0.1f;
+						app->scaling_z -= 0.1f;
 					}
 					break;
 					case SDLK_RIGHT:
 					{
-						translate_matrix(app->transformation_matrix, (float[3]){ 0.1f, 0.0f, 0.0f });
+						app->rotation_y += 0.1f;
 					}
 					break;
 					case SDLK_LEFT:
 					{
-						translate_matrix(app->transformation_matrix, (float[3]){ -0.1f, 0.0f, 0.0f });
+						app->rotation_y -= 0.1f;
 					}
 					break;
 					case SDLK_UP:
 					{
-						translate_matrix(app->transformation_matrix, (float[3]){ 0.0f, 0.1f, 0.0f });
+						app->rotation_x += 0.1f;
 					}
 					break;
 					case SDLK_DOWN:
 					{
-						translate_matrix(app->transformation_matrix, (float[3]){ 0.0f, -0.1f, 0.0f });
-					}
-					break;
-					case SDLK_EQUALS:
-					{
-						scale_matrix(app->transformation_matrix, (float[3]){ 0.1f, 0.1f, 0.1f });
-					}
-					break;
-					case SDLK_MINUS:
-					{
-						scale_matrix(app->transformation_matrix, (float[3]){ -0.1f, -0.1f, -0.1f });
+						app->rotation_x += 0.1f;
 					}
 					break;
 				}

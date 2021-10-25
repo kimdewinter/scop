@@ -1,12 +1,22 @@
 #include "main.h"
 
-static void combine_matrices(
-	float final_matrix[16],
-	const float matrix_a[16],
-	const float matrix_b[16],
-	const float matrix_c[16])
+void multiply_square_matrices(
+	const unsigned int size,
+	float *dst,
+	const float *src1,
+	const float *src2)
 {
-	//finish this function
+	memset(dst, 0, 16 * sizeof(float));
+	for(unsigned int y = 0; y < size; y++)
+	{
+		for(unsigned int x = 0; x < size; x++)
+		{
+			for(unsigned int i = 0; i < size; i++)
+			{
+				dst[y * size + x] += src1[y * size + i] * src2[i * size + x];
+			}
+		}
+	}
 }
 
 static void translate_matrix(float matrix[16], const float translation_vector[3])
@@ -68,22 +78,42 @@ static void identity_matrix(float matrix[16])
 
 void handle_transformations(t_app *app)
 {
-	float scaling_matrix[16];
-	float rotation_matrix[16];
 	float translation_matrix[16];
-	float combined_matrixp[16];
+	float rotation_matrix[16];
+	float scaling_matrix[16];
+	float intermediate_matrix[16];
+	float final_matrix[16];
 
-	identity_matrix(&scaling_matrix);
-	identity_matrix(&rotation_matrix);
-	identity_matrix(&translation_matrix);
-	scale_matrix(&scaling_matrix, (float[3]){ app->scaling_x, app->scaling_y, app->scaling_z });
-	rotate_matrix(&rotation_matrix, (float[3]]){ app->rotation_x, app->rotation_y, app->rotation_z });
-	translate_matrix(&translate_matrix, (float[3]){ app->translation_x, app->translation_y, app->translation_z });
-	combine_matrices(&scaling_matrix, &rotation_matrix, &translation_matrix);*
+	//create matrix that translates vertices
+	identity_matrix(translation_matrix);
+	translate_matrix(translation_matrix, (float[3]){ app->translation_x, app->translation_y, app->translation_z });
+	//create matrix that rotates vertices (may be susceptible to gimbal lock)
+	identity_matrix(rotation_matrix);
+	// rotate_matrix(rotation_matrix, app->rotation_x, AXIS_X);
+	rotate_matrix(rotation_matrix, app->rotation_y, AXIS_Y);
+	// rotate_matrix(rotation_matrix, app->rotation_z, AXIS_Z);
+	//create matrix that scales vertices
+	identity_matrix(scaling_matrix);
+	scale_matrix(scaling_matrix, (float[3]){ app->scaling_x, app->scaling_y, app->scaling_z });
+
+	//multiply scaling with rotating matrix
+	multiply_square_matrices(
+		4,
+		intermediate_matrix,
+		translation_matrix,
+		rotation_matrix);
+	//multiply matrix made above with translation matrix
+	multiply_square_matrices(
+		4,
+		final_matrix,
+		intermediate_matrix,
+		scaling_matrix);
+
+	//send the final combined matrix to the shader program
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "transform"),
 		1,
 		GL_FALSE,
-		combined_matrix);
+		final_matrix);
 }

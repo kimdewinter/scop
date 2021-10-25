@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 	app.close_window = false;
-	identity_matrix(app.transformation_matrix);
 	while(!app.close_window)
 	{
 		if (!handle_events(&app))
