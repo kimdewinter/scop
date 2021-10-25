@@ -83,7 +83,7 @@ bool handle_events(t_app *app)
 					break;
 					case SDLK_DOWN:
 					{
-						app->rotation_x += 0.1f;
+						app->rotation_x -= 0.1f;
 					}
 					break;
 				}

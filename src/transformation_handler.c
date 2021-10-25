@@ -81,6 +81,8 @@ void handle_transformations(t_app *app)
 	float translation_matrix[16];
 	float rotation_matrix[16];
 	float scaling_matrix[16];
+	float x[16];
+	float y[16];
 	float intermediate_matrix[16];
 	float final_matrix[16];
 
@@ -88,9 +90,11 @@ void handle_transformations(t_app *app)
 	identity_matrix(translation_matrix);
 	translate_matrix(translation_matrix, (float[3]){ app->translation_x, app->translation_y, app->translation_z });
 	//create matrix that rotates vertices (may be susceptible to gimbal lock)
-	identity_matrix(rotation_matrix);
-	// rotate_matrix(rotation_matrix, app->rotation_x, AXIS_X);
-	rotate_matrix(rotation_matrix, app->rotation_y, AXIS_Y);
+	identity_matrix(x);
+	rotate_matrix(x, app->rotation_x, AXIS_X);
+	identity_matrix(y);
+	rotate_matrix(y, app->rotation_y, AXIS_Y);
+	multiply_square_matrices(4, rotation_matrix, x, y);
 	// rotate_matrix(rotation_matrix, app->rotation_z, AXIS_Z);
 	//create matrix that scales vertices
 	identity_matrix(scaling_matrix);
