@@ -16,9 +16,11 @@ SRC_FILES:=	buffer_handler\
 			stb_image\
 			texture_handler\
 			transformation_handler\
+			vector\
 			vertex_handler
 INC_FILES:=	main\
-			stb_image
+			stb_image\
+			vector
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj

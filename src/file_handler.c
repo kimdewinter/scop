@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 //returns NULL if error
-char *file_to_string(const char *file_name)
+char *file_to_string(char const*const file_name)
 {
 	FILE *file_pointer;
 	long file_length;

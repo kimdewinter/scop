@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 	app.close_window = false;
-	while(!app.close_window)
+	while (!app.close_window)
 	{
 		if (!handle_events(&app))
 			shutdown(&app, EXIT_FAILURE);
@@ -65,6 +65,11 @@ int main(int argc, char *argv[])
     glDeleteBuffers(1, &app.VBO);
     // glDeleteBuffers(1, &app.EBO);
     glDeleteProgram(app.shader_program);
+
+	if (app.vertices)
+		vector_free(app.vertices);
+	if (app.indices)
+		vector_free(app.indices);
 
     return shutdown(&app, EXIT_SUCCESS);
 }

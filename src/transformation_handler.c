@@ -24,9 +24,9 @@ static t_mat4 multiply_matrices(
 	t_mat4 result;
 
 	memset(&result, 0, sizeof(t_mat4));
-	for(unsigned int y = 0; y < 4; y++)
-		for(unsigned int x = 0; x < 4; x++)
-			for(unsigned int i = 0; i < 4; i++)
+	for (unsigned int y = 0; y < 4; y++)
+		for (unsigned int x = 0; x < 4; x++)
+			for (unsigned int i = 0; i < 4; i++)
 			{
 				result.mat4[y * 4 + x] +=
 					src1.mat4[y * 4 + i] * src2.mat4[i * 4 + x];

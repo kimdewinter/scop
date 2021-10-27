@@ -10,6 +10,7 @@
 # define DEFAULT_CLEARCOLOR_ALPHA 1.0f
 
 # include "libft.h"
+# include "vector.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include <SDL2/SDL.h>
@@ -26,9 +27,9 @@ typedef struct s_app
 {
 	struct s_sdl sdl;
 	GLuint shader_program;
-	float *vertices;
+	t_vector *vertices;
 	unsigned int vertices_length;
-	unsigned int *indices;
+	t_vector *indices;
 	unsigned int indices_length;
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
@@ -53,18 +54,21 @@ bool compile_shader_program(
 	const char *fragment_shader_filename);
 void construct_t_app(t_app *app);
 bool handle_events(t_app *app);
-char *file_to_string(const char *file_name);
+char *file_to_string(char const*const file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);
 bool load_buffers(t_app *app);
 bool load_indices(t_app *app);
 bool load_textures(t_app *app);
-bool load_vertices(t_app *app);
+bool load_vertices(t_app *app, char const*const file_name);
 void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
 void handle_transformations(t_app *app);
+bool is_float(char const*const str);
+char *skip_float(char const*const str);
+bool load_obj(t_app *app, char const*const file_name);
 
 # ifdef DEBUG
 void print_opengl_info(void);
