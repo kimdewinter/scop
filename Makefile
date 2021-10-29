@@ -24,7 +24,7 @@ INC_FILES:=	main\
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
-INC_DIR:=	inc
+INC_DIR:=	include
 
 SRCS:=	$(patsubst %,$(SRC_DIR)/%.c,$(SRC_FILES))
 OBJS:=	$(patsubst %,$(OBJ_DIR)/%.o,$(SRC_FILES))
@@ -32,7 +32,7 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 
 # LIBRARIES
 
-LIBS_DIR:=		libs
+LIBS_DIR:=		lib
 
 LIBFT_NAME:=	libft
 LIBFT_DIR:=		$(LIBS_DIR)/libft
