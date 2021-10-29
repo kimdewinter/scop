@@ -69,14 +69,14 @@ bool vector_append(t_vector *vec, void const*const ptr, const size_t size)
 	}
 }
 
-void vector_free(t_vector **vec)
+void vector_delete(t_vector **vec)
 {
 	if (!vec || !(*vec))
 	{
 		write(
 			0,
-			"Error: param vec is null in vector_resize\n",
-			42);
+			"Warning: param vec is null in vector_delete\n",
+			44);
 		return false;
 	}
 	if ((*vec)->vec)
