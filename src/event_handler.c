@@ -1,7 +1,9 @@
 #include "main.h"
+#include <stdio.h>
 
 bool handle_events(t_app *app)
 {
+	static bool keymap[SDL_NUM_SCANCODES] = {};
 	while (SDL_PollEvent(&(app->sdl.event)))
 	{
 		switch(app->sdl.event.type)
@@ -23,8 +25,14 @@ bool handle_events(t_app *app)
 				}
 			}
 			break;
+			case SDL_KEYUP:
+			{
+				keymap[app->sdl.event.key.keysym.scancode] = false;
+			}
+			break;
 			case SDL_KEYDOWN:
 			{
+				keymap[app->sdl.event.key.keysym.scancode] = true;
 				switch(app->sdl.event.key.keysym.sym)
 				{
 					case SDLK_ESCAPE:
@@ -66,30 +74,39 @@ bool handle_events(t_app *app)
 						app->scaling_z -= 0.1f;
 					}
 					break;
-					case SDLK_RIGHT:
-					{
-						app->rotation_y -= 0.1f;
-					}
-					break;
-					case SDLK_LEFT:
-					{
-						app->rotation_y += 0.1f;
-					}
-					break;
-					case SDLK_UP:
-					{
-						app->rotation_x += 0.1f;
-					}
-					break;
-					case SDLK_DOWN:
-					{
-						app->rotation_x -= 0.1f;
-					}
-					break;
+					// case SDLK_RIGHT:
+					// {
+					// 	app->rotation_y -= 0.1f;
+					// }
+					// break;
+					// case SDLK_LEFT:
+					// {
+					// 	app->rotation_y += 0.1f;
+					// }
+					// break;
+					// case SDLK_UP:
+					// {
+					// 	app->rotation_x += 0.1f;
+					// }
+					// break;
+					// case SDLK_DOWN:
+					// {
+					// 	app->rotation_x -= 0.1f;
+					// }
+					// break;
 				}
 			}
 			break;
 		}
 	}
+
+
+	printf("%d\n", keymap[SDL_SCANCODE_RIGHT]);
+
+	if (keymap[SDL_SCANCODE_RIGHT]) app->rotation_y -= 0.1f;
+    if (keymap[SDL_SCANCODE_LEFT]) app->rotation_y += 0.1f;
+	if (keymap[SDL_SCANCODE_UP]) app->rotation_x += 0.1f;
+	if (keymap[SDL_SCANCODE_DOWN]) app->rotation_x -= 0.1f;
+
 	return true;
 }
