@@ -16,7 +16,9 @@ typedef struct s_reader
 } t_reader;
 
 bool extract_vertex(t_reader *reader);
-char *skip_float(char const*const str);
+char *skip_float(char *const str);
 bool is_float(char const*const str);
+bool is_uint(char const*const str);
+char *skip_uint(char *const str);
 
 #endif

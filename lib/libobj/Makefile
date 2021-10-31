@@ -28,25 +28,21 @@ DEBUGFLAGS?=-g
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "Compiling $@ executable"
-	@ar crs $(NAME) $(OBJS)
+	@ar crs $(NAME).a $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
-	@echo "Cleaning $(NAME) object files"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "Removing $(NAME)"
 	@rm -rf $(NAME) $(NAME).dSYM
 
 re: fclean all
 
 debug: $(SRCS) $(INCS)
-	@echo "Compiling debuggable $(NAME) executable"
 	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS) $(TEST_MAIN)
 
 .PHONY: all clean fclean re debug

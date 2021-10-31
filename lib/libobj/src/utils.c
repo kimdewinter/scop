@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
 
@@ -78,4 +79,63 @@ bool is_float(char *const str)
 		return false;
 
 	return true;
+}
+
+//This function takes a char * starting with an int,
+//and returns a char * to the element after the int.
+char *skip_uint(char *const str)
+{
+	int i = 0;
+
+	if (!str)
+		return (NULL);
+
+	//ensure str starts with a digit
+	if (!isdigit(str[i]))
+		return (NULL);
+	i++;
+	
+	//skip until end of digits is found
+	while (str[i] && isdigit(str[i]))
+		i++;
+
+	//ensure last digit is not followed by a '.' and a digit
+	//(which would indicate that it's a float)
+	if (str[i] == '.' && isdigit(str[i + 1]))
+		return (NULL);
+
+	//ensure last digit is not followed by a letter
+	if (isalpha(str[i]))
+		return (NULL);
+	
+	return (&str[i]);
+}
+
+//This function takes a char * and returns whether it is an int.
+bool is_uint(char const*const str)
+{
+	int i = 0;
+
+	if (!str)
+		return false;
+
+	//ensure str starts with a digit
+	if (!isdigit(str[i]))
+		return false;
+	i++;
+	
+	//skip until end of digits is found
+	while (str[i] && isdigit(str[i]))
+		i++;
+
+	//ensure last digit is not followed by a '.' and a digit
+	//(which would indicate that it's a float)
+	if (str[i] == '.' && isdigit(str[i + 1]))
+		return false;
+
+	//ensure last digit is not followed by a letter
+	if (isalpha(str[i]))
+		return (false);
+	
+	return (true);
 }
