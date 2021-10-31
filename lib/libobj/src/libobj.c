@@ -34,14 +34,7 @@ static void cleanup(t_reader *reader, t_obj **obj)
 		memset(reader, 0, sizeof(t_reader));
 	}
 	if (obj)
-	{
-		if ((*obj)->vertices)
-			free((*obj)->vertices);
-		if ((*obj)->indices)
-			free((*obj)->indices);
-		memset(*obj, 0, sizeof(t_obj));
-		*obj = NULL;
-	}
+		obj_delete(obj);
 }
 
 bool construct_reader(t_reader *reader, char const*const file_name)
@@ -71,7 +64,7 @@ t_obj *obj_import(char const*const file_name)
 	{
 		if (strcmp("v ", reader.line) == 0)
 		{
-			if (!extract_vertex(reader.line))
+			if (!extract_vertex(&reader))
 			{
 				cleanup(&reader, &obj);
 				return NULL;
@@ -79,7 +72,7 @@ t_obj *obj_import(char const*const file_name)
 		}
 		else if (strcmp("f ", reader.line) == 0)
 		{
-			if (!extract_faces(reader.line))
+			if (!extract_faces(&reader))
 			{
 				cleanup(&reader, &obj);
 				return NULL;
@@ -88,7 +81,7 @@ t_obj *obj_import(char const*const file_name)
 		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	}
 
-	
+
 
 	cleanup(&reader, &obj);
 	return obj;
