@@ -1,4 +1,6 @@
 #include "vector.h"
+#include <unistd.h>
+#include <string.h>
 
 //returns NULL in case of error
 t_vector *vector_init(const size_t initial_bytes)
@@ -65,16 +67,16 @@ bool vector_append(t_vector **vec, void const*const ptr, const size_t size)
 	{
 		*vec = vector_init(size);
 		if (!*vec)
-			return false;
+			return (false);
 	}
 	while ((*vec)->used + size > (*vec)->cap)
 	{
 		vector_resize(*vec, (*vec)->cap * 2);
 		(*vec)->cap *= 2;
 	}
-	memset((*vec)->vec + (*vec)->used, ptr, size);
+	memcpy((*vec)->vec + (*vec)->used, ptr, size);
 	(*vec)->used += size;
-	return true;
+	return (true);
 }
 
 void vector_delete(t_vector **vec)
@@ -85,15 +87,11 @@ void vector_delete(t_vector **vec)
 			0,
 			"Warning: param vec is null in vector_delete\n",
 			44);
-		return false;
+		return ;
 	}
 	if ((*vec)->vec)
-	{
 		free((*vec)->vec);
-		(*vec)->vec = NULL;
-	}
-	(*vec)->cap = 0;
-	(*vec)->used = 0;
+	memset(*vec, 0, sizeof(t_vector));
 	free(*vec);
 	*vec = NULL;
 }

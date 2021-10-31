@@ -2,10 +2,13 @@ NAME:=	libobj
 
 # FILES AND FOLDERS
 
-SRC_FILES:=	libobj\
+SRC_FILES:=	extractor\
+			libobj\
+			utils\
 			vector
-INC_FILES:=	libobj\
-			libobj_internal
+INC_FILES:=	libobj_internal\
+			libobj\
+			vector
 TEST_MAIN=	$(SRC_DIR)/main.c
 
 SRC_DIR:=	src
@@ -19,7 +22,7 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 # COMPILATION
 
 CFLAGS?=	-Wall -Wextra -Werror\
-			-I$(INC_DIR)\
+			-I$(INC_DIR)
 DEBUGFLAGS?=-g
 
 all: $(NAME)

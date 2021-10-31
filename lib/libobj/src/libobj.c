@@ -2,6 +2,7 @@
 #include "libobj_internal.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 void obj_delete(t_obj **obj_ptr)
 {
@@ -72,11 +73,11 @@ t_obj *obj_import(char const*const file_name)
 		}
 		else if (strcmp("f ", reader.line) == 0)
 		{
-			if (!extract_faces(&reader))
-			{
-				cleanup(&reader, &obj);
-				return (NULL);
-			}
+			// if (!extract_faces(&reader))
+			// {
+			// 	cleanup(&reader, &obj);
+			// 	return (NULL);
+			// }
 		}
 		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	}

@@ -1,4 +1,5 @@
 #include "libobj_internal.h"
+#include <string.h>
 
 bool extract_vertex(t_reader *reader)
 {
@@ -45,12 +46,12 @@ bool extract_vertex(t_reader *reader)
 		return (false);
 
 	//add vertex to vector
-	if (!vector_append(reader->vertices, &vertex, 3 * sizeof(float)))
+	if (!vector_append(&reader->vertices, &vertex, 3 * sizeof(float)))
 		return false;
 	return (true);
 }
 
-bool extract_face(t_reader *reader)
-{
-	
-}
+// bool extract_face(t_reader *reader)
+// {
+
+// }

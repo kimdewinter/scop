@@ -1,8 +1,9 @@
 #include <stdbool.h>
+#include <ctype.h>
 
 //This function takes a char * starting with a float,
 //and returns a char * to the element after the float.
-char *skip_float(char const*const str)
+char *skip_float(char *const str)
 {
 	char *walker = str;
 
@@ -39,7 +40,7 @@ char *skip_float(char const*const str)
 }
 
 //This function takes a char * and returns whether it is a float.
-bool is_float(char const*const str)
+bool is_float(char *const str)
 {
 	char *walker = str;
 
