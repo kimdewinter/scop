@@ -42,8 +42,8 @@ bool construct_reader(t_reader *reader, char const*const file_name)
 	memset(reader, 0, sizeof(t_reader));
 	reader->fp = fopen(file_name, "r");
 	if (!reader->fp)
-		return false;
-	return true;
+		return (false);
+	return (true);
 }
 
 //in case of error, returns NULL
@@ -55,7 +55,7 @@ t_obj *obj_import(char const*const file_name)
 	if (!construct_reader(&reader, file_name))
 	{
 		cleanup(&reader, &obj);
-		return NULL;
+		return (NULL);
 	}
 
 	//start reading
@@ -67,7 +67,7 @@ t_obj *obj_import(char const*const file_name)
 			if (!extract_vertex(&reader))
 			{
 				cleanup(&reader, &obj);
-				return NULL;
+				return (NULL);
 			}
 		}
 		else if (strcmp("f ", reader.line) == 0)
@@ -75,7 +75,7 @@ t_obj *obj_import(char const*const file_name)
 			if (!extract_faces(&reader))
 			{
 				cleanup(&reader, &obj);
-				return NULL;
+				return (NULL);
 			}
 		}
 		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
@@ -84,5 +84,5 @@ t_obj *obj_import(char const*const file_name)
 
 
 	cleanup(&reader, &obj);
-	return obj;
+	return (obj);
 }
