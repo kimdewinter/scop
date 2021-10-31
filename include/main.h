@@ -10,7 +10,6 @@
 # define DEFAULT_CLEARCOLOR_ALPHA 1.0f
 
 # include "libft.h"
-# include "vector.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include <SDL2/SDL.h>

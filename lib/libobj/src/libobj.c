@@ -3,41 +3,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-bool construct_reader(t_reader *reader, char const*const file_name)
-{
-	reader->fp = fopen(file_name, "r");
-	reader->obj = (t_obj *)calloc(1, sizeof(t_obj));
-	reader->vertices = NULL;
-	reader->indices = NULL;
-	reader->line = NULL;
-	reader->line_len = 0;
-	reader->buf_len = 0;
-
-	if (!reader->fp || reader->!obj)
-	{
-		cleanup(&fp, &obj, &vertices, &indices);
-		return NULL;
-	}
-
-	return true;
-}
-
 void obj_delete(t_obj **obj_ptr)
 {
 	if (obj_ptr && *obj_ptr)
 	{
 		if ((*obj_ptr)->vertices)
-		{
 			free((*obj_ptr)->vertices);
-			(*obj_ptr)->vertices = NULL;
-			(*obj_ptr)->vertices_len = 0;
-		}
 		if ((*obj_ptr)->indices)
-		{
 			free((*obj_ptr)->indices);
-			(*obj_ptr)->indices = NULL;
-			(*obj_ptr)->indices_len = 0;
-		}
+		memset(*obj_ptr, 0, sizeof(t_obj));
 		free(*obj_ptr);
 		*obj_ptr = NULL;
 	}
@@ -45,57 +19,77 @@ void obj_delete(t_obj **obj_ptr)
 		fprintf(stderr, "Warning: delete_obj received null-pointer argument\n");
 }
 
-static void cleanup(t_reader *reader)
+static void cleanup(t_reader *reader, t_obj **obj)
 {
 	if (reader)
 	{
 		if (reader->fp)
-		{
 			fclose(reader->fp);
-			reader->fp = NULL;
-		}
-		if (reader->obj)
-			obj_delete(&reader->obj);
 		if (reader->vertices)
 			vector_delete(&reader->vertices);
 		if (reader->indices)
 			vector_delete(&reader->indices);
+		if (reader->line)
+			free(reader->line);
+		memset(reader, 0, sizeof(t_reader));
 	}
+	if (obj)
+	{
+		if ((*obj)->vertices)
+			free((*obj)->vertices);
+		if ((*obj)->indices)
+			free((*obj)->indices);
+		memset(*obj, 0, sizeof(t_obj));
+		*obj = NULL;
+	}
+}
+
+bool construct_reader(t_reader *reader, char const*const file_name)
+{
+	memset(reader, 0, sizeof(t_reader));
+	reader->fp = fopen(file_name, "r");
+	if (!reader->fp)
+		return false;
+	return true;
 }
 
 //in case of error, returns NULL
 t_obj *obj_import(char const*const file_name)
 {
 	t_reader reader;
-	t_obj *obj;
+	t_obj *obj = NULL;
 
-	if (!reader.fp)
+	if (!construct_reader(&reader, file_name))
 	{
-		cleanup(&reader);
+		cleanup(&reader, &obj);
 		return NULL;
 	}
 
 	//start reading
-	line_len = getline(&line, &buf_len, fp);
-	while (line_len > 0)
+	reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
+	while (reader.line_len > 0)
 	{
-		if (strcmp("v ", line) == 0)
+		if (strcmp("v ", reader.line) == 0)
 		{
-			if (!extract_vertex(line))
-				return false;
+			if (!extract_vertex(reader.line))
+			{
+				cleanup(&reader, &obj);
+				return NULL;
+			}
 		}
-		else if (strcmp("f ", line) == 0)
+		else if (strcmp("f ", reader.line) == 0)
 		{
-			if (!extract_faces(line))
-				return false;
+			if (!extract_faces(reader.line))
+			{
+				cleanup(&reader, &obj);
+				return NULL;
+			}
 		}
-		line_len = getline(&line, &buf_len, fp);
+		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	}
 
+	
 
-
-
-
-	cleanup(&reader);
+	cleanup(&reader, &obj);
 	return obj;
 }
