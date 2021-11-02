@@ -5,6 +5,10 @@ static int shutdown(t_app *app, int exit_return)
 	shutdown_sdl(app);
 	if (app->shader_program)
 		glDeleteProgram(app->shader_program);
+	if (app->vertices)
+		free(app->vertices);
+	if (app->indices)
+		free(app->indices);
 	return exit_return;
 }
 
@@ -24,10 +28,8 @@ int main(int argc, char *argv[])
 		"vertex_shader.vert",
 		"fragment_shader.frag"))
 		return shutdown(&app, EXIT_FAILURE);
-	if (!load_vertices(&app))
-		return shutdown(&app, EXIT_FAILURE);
-	// if (!load_indices(&app))
-		// return shutdown(&app, EXIT_FAILURE);
+	if (!load_obj(&app, "resources/42.obj"))
+		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_buffers(&app))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_textures(&app))
@@ -65,11 +67,6 @@ int main(int argc, char *argv[])
     glDeleteBuffers(1, &app.VBO);
     // glDeleteBuffers(1, &app.EBO);
     glDeleteProgram(app.shader_program);
-
-	if (app.vertices)
-		vector_free(app.vertices);
-	if (app.indices)
-		vector_free(app.indices);
 
     return shutdown(&app, EXIT_SUCCESS);
 }

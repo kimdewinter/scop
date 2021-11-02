@@ -6,21 +6,18 @@ SRC_FILES:=	buffer_handler\
 			constructors\
 			event_handler\
 			file_handler\
-			index_handler\
 			main\
 			opengl_handler\
+			obj_loader\
 			printers\
 			sdl_handler\
 			shader_compiler\
 			utils\
 			stb_image\
 			texture_handler\
-			transformation_handler\
-			vector\
-			vertex_handler
+			transformation_handler
 INC_FILES:=	main\
-			stb_image\
-			vector
+			stb_image
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -42,27 +39,37 @@ SDL2_DIR?=		~/.brew
 SDL2_INC?=		$(SDL2_DIR)/include
 SDL2_LIB?=		$(SDL2_DIR)/lib
 
+LIBOBJ_NAME=	libobj
+LIBOBJ_DIR:=	$(LIBS_DIR)/libobj
+LIBOBJ:=		$(LIBOBJ_DIR)/$(LIBOBJ_NAME).a
+
 # COMPILATION
 
 CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
+			-I$(LIBOBJ_DIR)/include/\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
+			-L$(LIBOBJ_DIR) -lobj\
 			-lSDL2 -lSDL2main\
 			-framework OpenGL
 DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ)
 	@echo "Compiling $@ executable"
 	@$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
 $(LIBFT):
 	@echo "Compiling libft library"
 	@$(MAKE) -s -C $(LIBFT_DIR)
+
+$(LIBOBJ):
+	@echo "Compiling libobj library"
+	@$(MAKE) -s -C $(LIBOBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
@@ -82,7 +89,7 @@ fclean: clean
 
 re: fclean all
 
-debug: $(LIBFT) $(SRCS) $(INCS)
+debug: $(LIBFT) $(LIBOBJ) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS)
 

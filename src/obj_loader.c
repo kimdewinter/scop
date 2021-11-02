@@ -1,30 +1,17 @@
 #include "main.h"
+#include "libobj.h"
 
 bool load_obj(t_app *app, char const*const file_name)
 {
-	FILE *fp = fopen(file_name, "r");
-	char *line = NULL;
-	ssize_t line_len = 0;
-	size_t buf_len = 0;
+	t_obj *obj = obj_import(file_name);
 
-	if(!fp)
-	{
-		printf("Error: failure to open file in load_obj\n");
-		return false;
-	}
-	line_len = getline(&line, &buf_len, fp);
-	while (line_len > 0)
-	{
-		if (strcmp("v ", line) == 0)
-		{
-			if (!extract_vertex(line))
-				return false;
-		}
-		else if (strcmp("f ", line) == 0)
-		{
-			if (!extract_faces(line))
-				return false;
-		}
-		line_len = getline(&line, &buf_len, fp);
-	}
+	if (!obj)
+		return (false);
+	app->vertices_length = obj->vertices_len;
+	app->vertices = obj->vertices;
+	app->indices_length = obj->indices_len;
+	app->indices = obj->indices;
+	free(obj);
+	obj = NULL;
+	return (true);
 }

@@ -39,7 +39,7 @@ clean:
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@rm -rf $(NAME) $(NAME).dSYM $(TEST_EXEC)
+	@rm -rf $(NAME) $(NAME).dSYM $(TEST_EXEC) $(TEST_EXEC).dSYM
 
 re: fclean all
 

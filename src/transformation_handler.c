@@ -9,7 +9,7 @@ static t_mat4 get_identity_matrix(void)
 {
 	t_mat4 result;
 
-	ft_memset(result.mat4, 0, 16 * sizeof(float));
+	memset(result.mat4, 0, 16 * sizeof(float));
 	result.mat4[0] += 1.0f;
 	result.mat4[5] += 1.0f;
 	result.mat4[10] += 1.0f;

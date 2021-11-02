@@ -9,7 +9,6 @@
 # define DEFAULT_CLEARCOLOR_BLUE 0.0f
 # define DEFAULT_CLEARCOLOR_ALPHA 1.0f
 
-# include "libft.h"
 # include <stdlib.h>
 # include <stdbool.h>
 # include <SDL2/SDL.h>
@@ -26,9 +25,9 @@ typedef struct s_app
 {
 	struct s_sdl sdl;
 	GLuint shader_program;
-	t_vector *vertices;
+	float *vertices;
 	unsigned int vertices_length;
-	t_vector *indices;
+	unsigned int *indices;
 	unsigned int indices_length;
 	GLuint VBO;//Vertex Buffer Object
 	GLuint VAO;//Vertex Buffer Array
@@ -65,8 +64,8 @@ void set_int(GLuint shader_program, const char *name, const int value);
 void set_float(GLuint shader_program, const char *name, const float value);
 void shutdown_sdl(t_app *app);
 void handle_transformations(t_app *app);
-bool is_float(char const*const str);
-char *skip_float(char const*const str);
+bool is_float(char *const str);
+char *skip_float(char *const str);
 bool load_obj(t_app *app, char const*const file_name);
 
 # ifdef DEBUG
