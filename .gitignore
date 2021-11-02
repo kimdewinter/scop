@@ -7,7 +7,7 @@ scop
 *.d
 
 # Object files
-# .obj
+**.obj
 *.o
 # *.ko
 # *.obj

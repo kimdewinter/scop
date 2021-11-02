@@ -7,7 +7,7 @@ t_vector *vector_init(const size_t initial_bytes)
 {
 	t_vector *vec;
 
-	vec = malloc(sizeof(t_vector));
+	vec = (t_vector *)malloc(sizeof(t_vector));
 	if (!vec)
 	{
 		write(0, "Error: misallocation in function vector_init\n", 45);
@@ -63,17 +63,14 @@ static bool vector_resize(t_vector *vec, const size_t new_size)
 
 bool vector_append(t_vector **vec, void const*const ptr, const size_t size)
 {
-	if (!vec)
+	if (!*vec)
 	{
 		*vec = vector_init(size);
 		if (!*vec)
 			return (false);
 	}
 	while ((*vec)->used + size > (*vec)->cap)
-	{
 		vector_resize(*vec, (*vec)->cap * 2);
-		(*vec)->cap *= 2;
-	}
 	memcpy((*vec)->vec + (*vec)->used, ptr, size);
 	(*vec)->used += size;
 	return (true);

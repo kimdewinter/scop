@@ -7,44 +7,47 @@ bool extract_vertex(t_reader *reader)
 	char *walker = reader->line;
 
 	if (!walker)
+	{
+		printf("Error: reader->line is NULL in extract_vertex\n");
 		return (false);
+	}
 	
 	//ensure line starts with "v "
-	if (strcmp("v ", walker) != 0)
-		return (false);
+	if (strncmp("v ", walker, 2) != 0)
+		return (true);
 	walker += 2;
 
 	//first float
 	if (!is_float(walker))
-		return (false);
+		return (true);
 	vertex[0] = atof(walker);
 	walker = skip_float(walker);
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
-		return (false);
+		return (true);
 	walker++;
 
 	//second float
 	if (!is_float(walker))
-		return (false);
+		return (true);
 	vertex[1] = atof(walker);
 	walker = skip_float(walker);
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
-		return (false);
+		return (true);
 	walker++;
 
 	//third float
 	if (!is_float(walker))
-		return (false);
+		return (true);
 	vertex[2] = atof(walker);
 	walker = skip_float(walker);
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
-		return (false);
+		return (true);
 
 	//add vertex to vector
 	if (!vector_append(&reader->vertices, &vertex, 3 * sizeof(float)))
@@ -59,39 +62,42 @@ bool extract_face(t_reader *reader)
 	char *walker = reader->line;
 
 	if(!walker)
+	{
+		printf("Error: reader->line is NULL in extract_face\n");
 		return (false);
+	}
 
 	//ensure line starts with "f "
-	if(strcmp("f ", walker) != 0)
-		return (false);
+	if(strncmp("f ", walker, 2) != 0)
+		return (true);
 	walker += 2;
 
 	//first uint
 	if (!is_uint(walker))
-		return (false);
+		return (true);
 	triangle_one[0] = atoi(walker);
 	walker = skip_uint(walker);
 
 	//ensure uint is followed by a ' '
 	if (*walker != ' ')
-		return (false);
+		return (true);
 	walker++;
 
 	//second uint
 	if (!is_uint(walker))
-		return (false);
+		return (true);
 	triangle_one[1] = atoi(walker);
 	triangle_two[0] = atoi(walker);
 	walker = skip_uint(walker);
 
 	//ensure uint is followed by a ' '
 	if (*walker != ' ')
-		return (false);
+		return (true);
 	walker++;
 
 	//third uint
 	if (!is_uint(walker))
-		return (false);
+		return (true);
 	triangle_one[2] = atoi(walker);
 	triangle_two[1] = atoi(walker);
 	walker = skip_uint(walker);
@@ -115,19 +121,19 @@ bool extract_face(t_reader *reader)
 
 	//ensure uint is followed by a ' '
 	if (*walker != ' ')
-		return (false);
+		return (true);
 	walker++;
 
 	//fourth uint (note: triangle_one[2] is overwritten)
 	if (!is_uint(walker))
-		return (false);
+		return (true);
 	triangle_one[2] = atoi(walker);
 	triangle_two[2] = atoi(walker);
 	walker = skip_uint(walker);
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
-		return (false);
+		return (true);
 
 	if (!vector_append(
 		&reader->indices,
@@ -145,7 +151,7 @@ bool extract_face(t_reader *reader)
 }
 
 /*
-to transform two triangles into a cube,
+to transform two triangles into a square,
 use the indices like this:
 
 unsigned int indices[] = {

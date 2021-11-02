@@ -4,9 +4,8 @@
 typedef struct s_obj
 {
 	float *vertices;
-	unsigned int vertex_attributes;//3 for xyz, 4 for xyzw
 	unsigned int vertices_len;
-	unsigned char *indices;
+	unsigned int *indices;
 	unsigned int indices_len;
 } t_obj;
 

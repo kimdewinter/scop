@@ -1,4 +1,4 @@
-NAME:=	libobj
+NAME:=	libobj.a
 
 # FILES AND FOLDERS
 
@@ -9,7 +9,8 @@ SRC_FILES:=	extractor\
 INC_FILES:=	libobj_internal\
 			libobj\
 			vector
-TEST_MAIN=	$(SRC_DIR)/main.c
+TEST_MAIN=	tests/test.c
+TEST_EXEC=	test
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -28,7 +29,7 @@ DEBUGFLAGS?=-g
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ar crs $(NAME).a $(OBJS)
+	@ar crs $(NAME) $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
@@ -38,11 +39,11 @@ clean:
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@rm -rf $(NAME) $(NAME).dSYM
+	@rm -rf $(NAME) $(NAME).dSYM $(TEST_EXEC)
 
 re: fclean all
 
 debug: $(SRCS) $(INCS)
-	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS) $(TEST_MAIN)
+	@$(CC) $(CFLAGS) $(DEBUGFLAGS) -o $(TEST_EXEC) $(SRCS) $(TEST_MAIN)
 
 .PHONY: all clean fclean re debug
