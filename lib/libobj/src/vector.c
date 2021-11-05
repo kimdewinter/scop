@@ -61,31 +61,19 @@ static bool vector_resize(t_vector *vec, const size_t new_size)
 	return (true);
 }
 
-bool vector_append(t_vector **vec, void const*const ptr, const size_t size)
+//call vector_init() once before any vector_append() calls
+//returns false in case of error
+bool vector_append(t_vector **vec, void const*const data, const size_t size)
 {
-	if (!*vec)
-	{
-		*vec = vector_init(size);
-		if (!*vec)
-			return (false);
-	}
 	while ((*vec)->used + size > (*vec)->cap)
 		vector_resize(*vec, (*vec)->cap * 2);
-	memcpy((*vec)->vec + (*vec)->used, ptr, size);
+	memcpy((*vec)->vec + (*vec)->used, data, size);
 	(*vec)->used += size;
 	return (true);
 }
 
 void vector_delete(t_vector **vec)
 {
-	if (!vec || !(*vec))
-	{
-		write(
-			0,
-			"Warning: param vec is null in vector_delete\n",
-			44);
-		return ;
-	}
 	if ((*vec)->vec)
 		free((*vec)->vec);
 	memset(*vec, 0, sizeof(t_vector));

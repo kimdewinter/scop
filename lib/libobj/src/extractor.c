@@ -6,12 +6,6 @@ bool extract_vertex(t_reader *reader)
 	float vertex[3];
 	char *walker = reader->line;
 
-	if (!walker)
-	{
-		printf("Error: reader->line is NULL in extract_vertex\n");
-		return (false);
-	}
-	
 	//ensure line starts with "v "
 	if (strncmp("v ", walker, 2) != 0)
 		return (true);

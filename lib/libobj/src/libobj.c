@@ -76,25 +76,20 @@ void obj_delete(t_obj **obj_ptr)
 
 static void cleanup(t_reader *reader, t_obj **obj)
 {
-	if (reader)
-	{
-		if (reader->fp)
-			fclose(reader->fp);
-		if (reader->vertices)
-			vector_delete(&reader->vertices);
-		if (reader->indices)
-			vector_delete(&reader->indices);
-		if (reader->line)
-			free(reader->line);
-		memset(reader, 0, sizeof(t_reader));
-	}
-	if (obj)
-	{
-		printf("derp\n");
+	if (reader->fp)
+		fclose(reader->fp);
+	if (reader->vertices)
+		vector_delete(&reader->vertices);
+	if (reader->indices)
+		vector_delete(&reader->indices);
+	if (reader->line)
+		free(reader->line);
+	memset(reader, 0, sizeof(t_reader));
+	if (obj && *obj)
 		obj_delete(obj);
-	}
 }
 
+//in case of error, returns false
 bool construct_reader(t_reader *reader, char const*const file_name)
 {
 	memset(reader, 0, sizeof(t_reader));
@@ -109,8 +104,8 @@ t_obj *obj_import(char const*const file_name)
 {
 	t_reader reader;
 	t_obj *obj = NULL;
-	unsigned int *test = NULL;
 
+	//set up t_reader (zero variables, open file)
 	if (!construct_reader(&reader, file_name))
 	{
 		cleanup(&reader, &obj);
@@ -121,17 +116,6 @@ t_obj *obj_import(char const*const file_name)
 	reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	while (reader.line_len > 0)
 	{
-		if (reader.indices)
-		{
-			test = (unsigned int *)reader.indices->vec;
-			printf("START PRINTING\n\n");
-			for (int i = 0; i < (int)reader.indices->used / (int)sizeof(unsigned int); i++)
-			{
-				if (i % 3 == 0 && i > 0)
-					printf("\n");
-				printf("%d ", test[i]);
-			}
-		}
 		if (strncmp("v ", reader.line, 2) == 0)
 		{
 			if (!extract_vertex(&reader))
@@ -150,7 +134,9 @@ t_obj *obj_import(char const*const file_name)
 		}
 		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	}
-	obj = construct_obj(&reader);
+
+	//move data from t_reader into t_obj and return the latter
+	obj = (reader.vertices && reader.vertices->used) ? construct_obj(&reader) : NULL;
 	cleanup(&reader, NULL);
 	return (obj);
 }
