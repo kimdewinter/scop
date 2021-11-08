@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
 	// if (!load_textures(&app))
 	// 	return shutdown(&app, EXIT_FAILURE);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
-
+	printf("%d faces\n", app.indices_length);
+	printf("EBO ID is %d\n", app.EBO);
 	app.close_window = false;
 	while (!app.close_window)
 	{
@@ -55,8 +56,10 @@ int main(int argc, char *argv[])
         // draw our first triangle
         glUseProgram(app.shader_program);
         glBindVertexArray(app.VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        // glDrawArrays(GL_TRIANGLES, 0, 36);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		if (app.indices_length > 0)
+			glDrawElements(GL_TRIANGLES, app.indices_length, GL_UNSIGNED_INT, 0);
+		else
+			glDrawArrays(GL_TRIANGLES, 0, app.vertices_length);
         // glBindVertexArray(0); // no need to unbind it every time
 		SDL_GL_SwapWindow(app.sdl.window);
 	}
@@ -65,7 +68,8 @@ int main(int argc, char *argv[])
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &app.VAO);
     glDeleteBuffers(1, &app.VBO);
-    glDeleteBuffers(1, &app.EBO);
+	if (app.indices_length > 0)
+    	glDeleteBuffers(1, &app.EBO);
     glDeleteProgram(app.shader_program);
 
     return shutdown(&app, EXIT_SUCCESS);
