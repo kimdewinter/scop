@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/08/13 19:02:32 by kde-wint      #+#    #+#                  #
-#    Updated: 2021/08/04 17:25:30 by kde-wint      ########   odam.nl          #
+#    Updated: 2021/11/08 18:12:37 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC=gcc
 
 SRC_DIR=.
 OBJ_DIR=./.obj
-INC_DIR=./includes
+INC_DIR=./include
 TEST_MAIN=main.c
 
 OBJ_NAMES=	\
