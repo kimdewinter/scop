@@ -6,11 +6,11 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/08/17 14:23:34 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/04 17:25:30 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/11/08 18:24:03 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft_internals.h"
+#include "include/libft_internals.h"
 
 static void	minfw_padder(t_argprops *props, int n, t_writer *writer)
 {

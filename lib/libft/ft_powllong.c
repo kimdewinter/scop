@@ -6,11 +6,11 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/17 16:34:56 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/04 17:25:30 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/11/08 18:24:03 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft_internals.h"
+#include "include/libft_internals.h"
 
 static long long	expowner(const long long base, const long long exponent,
 						const long long result)

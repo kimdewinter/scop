@@ -6,11 +6,11 @@
 /*   By: kde-wint <kde-wint@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/02 16:44:14 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/04 17:25:30 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/11/08 18:24:03 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft_internals.h"
+#include "include/libft_internals.h"
 
 size_t	ft_countchr(const char *s, const int c)
 {

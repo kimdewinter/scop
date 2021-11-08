@@ -6,11 +6,11 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/30 10:39:10 by kde-wint      #+#    #+#                 */
-/*   Updated: 2021/08/04 17:25:30 by kde-wint      ########   odam.nl         */
+/*   Updated: 2021/11/08 18:24:03 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft_internals.h"
+#include "include/libft_internals.h"
 
 void	ft_putchar(char c)
 {
