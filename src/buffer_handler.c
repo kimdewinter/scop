@@ -4,7 +4,8 @@ bool load_buffers(t_app *app)
 {
     glGenVertexArrays(1, &(app->VAO));
     glGenBuffers(1, &(app->VBO));
-    // glGenBuffers(1, &(app->EBO));
+    glGenBuffers(1, &(app->EBO));
+
     // bind the Vertex Array Object first, then bind and set vertex buffer(s),
 	// and then configure vertex attributes(s).
     glBindVertexArray(app->VAO);
@@ -15,12 +16,12 @@ bool load_buffers(t_app *app)
 		app->vertices_length * sizeof(float),
 		app->vertices, GL_STATIC_DRAW);
 
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->EBO);
-    // glBufferData(
-	// 	GL_ELEMENT_ARRAY_BUFFER,
-	// 	app->indices_length * sizeof(unsigned int),
-	// 	app->indices,
-	// 	GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->EBO);
+    glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER,
+		app->indices_length * sizeof(unsigned int),
+		app->indices,
+		GL_STATIC_DRAW);
 
 	// vertex attrib pointer for xyz
     glVertexAttribPointer(
@@ -28,19 +29,19 @@ bool load_buffers(t_app *app)
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		5 * sizeof(float),
+		3 * sizeof(float),
 		(void *)0);
     glEnableVertexAttribArray(0);
 
 	// vertex attrib pointer for texture coords
-	glVertexAttribPointer(
-		1,
-		2,
-		GL_FLOAT,
-		GL_FALSE,
-		5 * sizeof(float),
-		(void *)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	// glVertexAttribPointer(
+	// 	1,
+	// 	2,
+	// 	GL_FLOAT,
+	// 	GL_FALSE,
+	// 	5 * sizeof(float),
+	// 	(void *)(3 * sizeof(float)));
+	// glEnableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered
 	// VBO as the vertex attribute's bound vertex buffer object so afterwards we
@@ -58,6 +59,6 @@ bool load_buffers(t_app *app)
     glBindVertexArray(0); 
 
     // uncomment this call to draw in wireframe polygons.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	return true;
 }
