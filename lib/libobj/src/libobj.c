@@ -5,21 +5,22 @@
 #include <string.h>
 #include <assert.h>
 
-static t_obj *construct_obj(t_reader const*const reader)
+static t_obj *construct_obj(t_reader const * const reader)
 {
-	t_obj *obj = (t_obj *)calloc(1, sizeof(t_obj));
+	t_obj *obj;
 
-	if (!obj)
-	{
-		fprintf(stdout, "Error: misallocation in construct_obj\n");
-		return NULL;
-	}
-
+	//check that there is actual data to package into the t_obj
 	if (!reader->vertices || reader->vertices->used < 1)
 	{
 		fprintf(stdout, "Error: no vertices in reader in construct_obj\n");
-		free(obj);
-		obj = NULL;
+		return NULL;
+	}
+
+	obj = (t_obj *)calloc(1, sizeof(t_obj));
+	//check for misallocation
+	if (!obj)
+	{
+		fprintf(stdout, "Error: misallocation in construct_obj\n");
 		return NULL;
 	}
 
@@ -29,12 +30,15 @@ static t_obj *construct_obj(t_reader const*const reader)
 	if (!obj->vertices)
 	{
 		fprintf(stdout, "Error: misallocation in construct_obj\n");
-		free(obj);
-		obj = NULL;
+		obj_delete(&obj);
 		return NULL;
 	}
-	memcpy(obj->vertices, reader->vertices->vec, obj->vertices_len * sizeof(float));
+	memcpy(
+		obj->vertices,
+		reader->vertices->vec,
+		reader->vertices->used);
 
+	//check if there are indices to copy as well; if not, we're done and return
 	if (!reader->indices || reader->indices->used < 1)
 		return obj;
 
@@ -45,56 +49,54 @@ static t_obj *construct_obj(t_reader const*const reader)
 	if (!obj->indices)
 	{
 		fprintf(stdout, "Error: misallocation in construct_obj\n");
-		free(obj->vertices);
-		obj->vertices = NULL;
-		free(obj);
-		obj = NULL;
+		obj_delete(&obj);
 		return NULL;
 	}
 	memcpy(
 		obj->indices,
 		reader->indices->vec,
-		obj->indices_len * sizeof(unsigned int));
+		reader->indices->used);
 	return obj;
 }
 
 void obj_delete(t_obj **obj_ptr)
 {
-	if (obj_ptr && *obj_ptr)
-	{
-		if ((*obj_ptr)->vertices)
-			free((*obj_ptr)->vertices);
-		if ((*obj_ptr)->indices)
-			free((*obj_ptr)->indices);
-		memset(*obj_ptr, 0, sizeof(t_obj));
-		free(*obj_ptr);
-		*obj_ptr = NULL;
-	}
-	else
-		fprintf(stdout, "Warning: obj_delete received null-pointer argument\n");
+	if ((*obj_ptr)->vertices)
+		free((*obj_ptr)->vertices);
+	if ((*obj_ptr)->indices)
+		free((*obj_ptr)->indices);
+	memset(*obj_ptr, 0, sizeof(t_obj));
+	free(*obj_ptr);
+	*obj_ptr = NULL;
 }
 
+//arguments are allowed to be NULL
 static void cleanup(t_reader *reader, t_obj **obj)
 {
-	if (reader->fp)
-		fclose(reader->fp);
-	if (reader->vertices)
-		vector_delete(&reader->vertices);
-	if (reader->indices)
-		vector_delete(&reader->indices);
-	if (reader->line)
-		free(reader->line);
-	memset(reader, 0, sizeof(t_reader));
+	if (reader)
+	{
+		if (reader->fp)
+			fclose(reader->fp);
+		if (reader->vertices)
+			vector_delete(&reader->vertices);
+		if (reader->indices)
+			vector_delete(&reader->indices);
+		if (reader->line)
+			free(reader->line);
+		memset(reader, 0, sizeof(t_reader));
+	}
 	if (obj && *obj)
 		obj_delete(obj);
 }
 
 //in case of error, returns false
-bool construct_reader(t_reader *reader, char const*const file_name)
+static bool construct_reader(t_reader *reader, char const * const file_name)
 {
 	memset(reader, 0, sizeof(t_reader));
 	reader->fp = fopen(file_name, "r");
-	if (!reader->fp)
+	reader->vertices = vector_init(3 * sizeof(float));
+	reader->indices = vector_init(3 * sizeof(unsigned int));
+	if (!reader->fp || !reader->vertices || !reader->indices)
 		return (false);
 	return (true);
 }
@@ -136,7 +138,8 @@ t_obj *obj_import(char const*const file_name)
 	}
 
 	//move data from t_reader into t_obj and return the latter
-	obj = (reader.vertices && reader.vertices->used) ? construct_obj(&reader) : NULL;
+	obj = (reader.vertices && reader.vertices->used) ?
+		construct_obj(&reader) : NULL;
 	cleanup(&reader, NULL);
 	return (obj);
 }

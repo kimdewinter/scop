@@ -16,6 +16,8 @@ bool extract_vertex(t_reader *reader)
 		return (true);
 	vertex[0] = atof(walker);
 	walker = skip_float(walker);
+	if (!walker)
+		return false;
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
@@ -27,6 +29,8 @@ bool extract_vertex(t_reader *reader)
 		return (true);
 	vertex[1] = atof(walker);
 	walker = skip_float(walker);
+	if (!walker)
+		return false;
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
@@ -38,6 +42,8 @@ bool extract_vertex(t_reader *reader)
 		return (true);
 	vertex[2] = atof(walker);
 	walker = skip_float(walker);
+	if (!walker)
+		return false;
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
@@ -71,6 +77,8 @@ bool extract_face(t_reader *reader)
 		return (true);
 	triangle_one[0] = atoi(walker);
 	walker = skip_uint(walker);
+	if (!walker)
+		return false;
 
 	//ensure uint is followed by a ' '
 	if (*walker != ' ')
@@ -83,6 +91,8 @@ bool extract_face(t_reader *reader)
 	triangle_one[1] = atoi(walker);
 	triangle_two[0] = atoi(walker);
 	walker = skip_uint(walker);
+	if (!walker)
+		return false;
 
 	//ensure uint is followed by a ' '
 	if (*walker != ' ')
@@ -95,6 +105,8 @@ bool extract_face(t_reader *reader)
 	triangle_one[2] = atoi(walker);
 	triangle_two[1] = atoi(walker);
 	walker = skip_uint(walker);
+	if (!walker)
+		return false;
 
 	//check if end of line, which means only three face-elements are given
 	//and we can submit only triangle_one
@@ -124,6 +136,8 @@ bool extract_face(t_reader *reader)
 	triangle_one[2] = atoi(walker);
 	triangle_two[2] = atoi(walker);
 	walker = skip_uint(walker);
+	if (!walker)
+		return false;
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
@@ -143,7 +157,6 @@ bool extract_face(t_reader *reader)
 
 	return (true);
 }
-
 /*
 to transform two triangles into a square,
 use the indices like this:

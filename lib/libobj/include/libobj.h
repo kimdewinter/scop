@@ -9,7 +9,7 @@ typedef struct s_obj
 	unsigned int indices_len;
 } t_obj;
 
-t_obj *obj_import(char const*const file_name);//returns NULL if error
+t_obj *obj_import(char const * const file_name);
 void obj_delete(t_obj **obj_ptr);
 
 #endif
