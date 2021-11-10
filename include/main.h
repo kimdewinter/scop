@@ -2,11 +2,12 @@
 
 # define MAIN_H
 # define PROGRAM_NAME "scop"
+# define WIREFRAME_MODE 1
 # define DEFAULT_SCREEN_WIDTH 1280
 # define DEFAULT_SCREEN_HEIGHT 900
-# define DEFAULT_CLEARCOLOR_RED 0.0f
-# define DEFAULT_CLEARCOLOR_GREEN 0.0f
-# define DEFAULT_CLEARCOLOR_BLUE 0.0f
+# define DEFAULT_CLEARCOLOR_RED 0.2f
+# define DEFAULT_CLEARCOLOR_GREEN 0.3f
+# define DEFAULT_CLEARCOLOR_BLUE 0.3f
 # define DEFAULT_CLEARCOLOR_ALPHA 1.0f
 
 # include <stdlib.h>
@@ -50,7 +51,6 @@ bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,
 	const char *fragment_shader_filename);
-void construct_t_app(t_app *app);
 bool handle_events(t_app *app);
 char *file_to_string(char const*const file_name);
 bool get_context_and_window(t_app *app);

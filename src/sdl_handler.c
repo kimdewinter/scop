@@ -4,7 +4,11 @@ static bool initialize_sdl(void)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+		fprintf(
+			stdout,
+			"SDL could not initialize! SDL Error: %s\n",
+			SDL_GetError()
+		);
 		return false;
 	}
 	return true;
@@ -22,9 +26,11 @@ static bool create_window(t_app *app)
 		SDL_WINDOW_RESIZABLE);
 	if (app->sdl.window == NULL)
 	{
-		printf(
+		fprintf(
+			stdout,
 			"Window could not be created! SDL Error: %s\n",
-			SDL_GetError());
+			SDL_GetError()
+		);
 		return false;
 	}
 	return true;
@@ -35,9 +41,11 @@ static bool create_context(t_app *app)
 	app->sdl.context = SDL_GL_CreateContext(app->sdl.window);
 	if (app->sdl.context == NULL)
 	{
-		printf(
+		fprintf(
+			stdout,
 			"OpenGL context could not be created! SDL Error: %s\n",
-			SDL_GetError());
+			SDL_GetError()
+		);
 		return false;
 	}
 	return true;
@@ -47,9 +55,11 @@ static bool set_vsync(void)
 {
 	if (SDL_GL_SetSwapInterval(1) < 0)
 	{
-		printf(
+		fprintf(
+			stdout,
 			"Warning: Unable to set VSync! SDL Error: %s\n",
-			SDL_GetError());
+			SDL_GetError()
+		);
 		return false;
 	}
 	return true;

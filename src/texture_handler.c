@@ -17,10 +17,26 @@ bool load_textures(t_app *app)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
 	stbi_set_flip_vertically_on_load(true);
-	unsigned char *data = stbi_load("resources/textures/wall.jpg", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load(
+		"resources/textures/wall.jpg",
+		&width,
+		&height,
+		&nrChannels,
+		0
+	);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGB,
+			width,
+			height,
+			0,
+			GL_RGB,
+			GL_UNSIGNED_BYTE,
+			data
+		);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -42,10 +58,25 @@ bool load_textures(t_app *app)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
-	data = stbi_load("resources/textures/awesomeface.png", &width, &height, &nrChannels, 0);
+	data = stbi_load(
+		"resources/textures/awesomeface.png",
+		&width,
+		&height,
+		&nrChannels,
+		0
+	);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGB,
+			width,
+			height,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else

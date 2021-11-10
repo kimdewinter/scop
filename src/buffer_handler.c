@@ -63,6 +63,8 @@ bool load_buffers(t_app *app)
     glBindVertexArray(0); 
 
     // uncomment this call to draw in wireframe polygons.
+#if WIREFRAME_MODE > 0
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif
 	return true;
 }

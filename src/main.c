@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     (void)argc;//Remove this line before submission
     (void)argv;//Remove this line before submission	
-	construct_t_app(&app);
+	memset(&app, 0, sizeof(t_app));
 	if (!get_context_and_window(&app))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!init_opengl())
@@ -26,7 +26,8 @@ int main(int argc, char *argv[])
 	if (!compile_shader_program(
 		&app.shader_program,
 		"vertex_shader.vert",
-		"fragment_shader.frag"))
+		"fragment_shader.frag"
+	))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_obj(&app, "resources/cube.obj"))
 		return (shutdown(&app, EXIT_FAILURE));
@@ -35,8 +36,6 @@ int main(int argc, char *argv[])
 	// if (!load_textures(&app))
 	// 	return shutdown(&app, EXIT_FAILURE);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
-	printf("%d faces\n", app.indices_length);
-	printf("EBO ID is %d\n", app.EBO);
 	app.close_window = false;
 	while (!app.close_window)
 	{
@@ -45,7 +44,12 @@ int main(int argc, char *argv[])
 		handle_transformations(&app);
 		// render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(
+			DEFAULT_CLEARCOLOR_RED,
+			DEFAULT_CLEARCOLOR_GREEN,
+			DEFAULT_CLEARCOLOR_BLUE,
+			DEFAULT_CLEARCOLOR_ALPHA
+		);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// glActiveTexture(GL_TEXTURE0);
@@ -57,7 +61,12 @@ int main(int argc, char *argv[])
         glUseProgram(app.shader_program);
         glBindVertexArray(app.VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		if (app.indices_length > 0)
-			glDrawElements(GL_TRIANGLES, app.indices_length, GL_UNSIGNED_INT, 0);
+			glDrawElements(
+				GL_TRIANGLES,
+				app.indices_length,
+				GL_UNSIGNED_INT,
+				0
+			);
 		else
 			glDrawArrays(GL_TRIANGLES, 0, app.vertices_length);
         // glBindVertexArray(0); // no need to unbind it every time

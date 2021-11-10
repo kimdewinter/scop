@@ -3,7 +3,6 @@ NAME:=	scop
 # FILES AND FOLDERS
 
 SRC_FILES:=	buffer_handler\
-			constructors\
 			event_handler\
 			file_handler\
 			main\
