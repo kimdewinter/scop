@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_obj(&app, "resources/cube.obj"))
 		return (shutdown(&app, EXIT_FAILURE));
-	if (!load_buffers(&app))
+	if (!load_buffer(&app))
 		return shutdown(&app, EXIT_FAILURE);
-	// if (!load_textures(&app))
-	// 	return shutdown(&app, EXIT_FAILURE);
+	if (!load_texture(&app))
+		return shutdown(&app, EXIT_FAILURE);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	app.close_window = false;
 	while (!app.close_window)
@@ -52,10 +52,8 @@ int main(int argc, char *argv[])
 		);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// glActiveTexture(GL_TEXTURE0);
-		// glBindTexture(GL_TEXTURE_2D, app.texture);
-		// glActiveTexture(GL_TEXTURE1);
-		// glBindTexture(GL_TEXTURE_2D, app.texture2);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, app.texture);
 
         // draw our first triangle
         glUseProgram(app.shader_program);

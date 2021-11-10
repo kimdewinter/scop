@@ -34,7 +34,6 @@ typedef struct s_app
 	GLuint VAO;//Vertex Buffer Array
 	GLuint EBO;//Element Buffer Object
 	GLuint texture;
-	GLuint texture2;
 	float scaling_x;
 	float scaling_y;
 	float scaling_z;
@@ -55,9 +54,9 @@ bool handle_events(t_app *app);
 char *file_to_string(char const*const file_name);
 bool get_context_and_window(t_app *app);
 bool init_opengl(void);
-bool load_buffers(t_app *app);
+bool load_buffer(t_app *app);
 bool load_indices(t_app *app);
-bool load_textures(t_app *app);
+bool load_texture(t_app *app);
 bool load_vertices(t_app *app, char const*const file_name);
 void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_int(GLuint shader_program, const char *name, const int value);
@@ -66,7 +65,7 @@ void shutdown_sdl(t_app *app);
 void handle_transformations(t_app *app);
 bool is_float(char *const str);
 char *skip_float(char *const str);
-bool load_obj(t_app *app, char const*const file_name);
+bool load_obj(t_app *app, char const * const file_name);
 
 # ifdef DEBUG
 void print_opengl_info(void);

@@ -1,7 +1,7 @@
 #include "main.h"
 #include "stb_image.h"
 
-bool load_textures(t_app *app)
+bool load_textures_old(t_app *app)
 {
 	int width, height, nrChannels;
 
@@ -90,4 +90,14 @@ bool load_textures(t_app *app)
 	glUniform1i(glGetUniformLocation(app->shader_program, "texture2"), 1);
 
 	return true;
+}
+
+bool load_texture(t_app *app, char const * const file_name)
+{
+	GLuint texture;
+	int width, height;
+	unsigned char *data;
+	FILE *file;
+
+	file = fopen(file_name, "rb");
 }

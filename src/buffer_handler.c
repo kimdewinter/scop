@@ -1,6 +1,6 @@
 #include "main.h"
 
-bool load_buffers(t_app *app)
+bool load_buffer(t_app *app)
 {
     glGenVertexArrays(1, &(app->VAO));
     glGenBuffers(1, &(app->VBO));
