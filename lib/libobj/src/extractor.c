@@ -75,8 +75,8 @@ bool extract_face(t_reader *reader)
 	//first uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[0] = atoi(walker);
-	triangle_two[0] = atoi(walker);
+	triangle_one[0] = atoi(walker) - 1;
+	triangle_two[0] = atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
 		return false;
@@ -89,7 +89,7 @@ bool extract_face(t_reader *reader)
 	//second uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[1] = atoi(walker);
+	triangle_one[1] = atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
 		return false;
@@ -102,8 +102,8 @@ bool extract_face(t_reader *reader)
 	//third uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[2] = atoi(walker);
-	triangle_two[1] = atoi(walker);
+	triangle_one[2] = atoi(walker) - 1;
+	triangle_two[1] = atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
 		return false;
@@ -133,7 +133,7 @@ bool extract_face(t_reader *reader)
 	//fourth uint (note: triangle_one[2] is overwritten)
 	if (!is_uint(walker))
 		return (true);
-	triangle_two[2] = atoi(walker);
+	triangle_two[2] = atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
 		return false;
