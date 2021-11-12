@@ -35,6 +35,10 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	if (!load_texture(&app))
 		return shutdown(&app, EXIT_FAILURE);
+	glUniform1i(
+		glGetUniformLocation(app.shader_program, "texture_provided"),
+		1
+	);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	app.close_window = false;
 	while (!app.close_window)

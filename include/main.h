@@ -2,7 +2,7 @@
 
 # define MAIN_H
 # define PROGRAM_NAME "scop"
-# define WIREFRAME_MODE 1
+# define WIREFRAME_MODE 0
 # define DEFAULT_SCREEN_WIDTH 1280
 # define DEFAULT_SCREEN_HEIGHT 900
 # define DEFAULT_CLEARCOLOR_RED 0.2f
