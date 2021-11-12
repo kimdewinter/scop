@@ -6,7 +6,8 @@ int main(void)
 {
 	t_obj *obj;
 
-	obj = obj_import("tests/42.obj");//give path and filename to obj file here
+	// obj = obj_import("tests/42.obj");//give path and filename to obj file here
+	obj = obj_import("lib/libobj/tests/42.obj");
 	if (!obj)
 	{
 		printf("Epic fail on obj_import.\n");

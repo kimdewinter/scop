@@ -79,12 +79,16 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "Cleaning $(LIBFT_NAME) object files"
 	@make clean -s -C $(LIBFT_DIR)
+	@echo "Cleaning $(LIBOBJ_NAME) object files"
+	@make clean -s -C $(LIBOBJ_DIR)
 
 fclean: clean
 	@echo "Removing $(NAME)"
 	@rm -rf $(NAME) $(NAME).dSYM
 	@echo "Removing $(LIBFT_NAME)"
 	@make fclean -s -C $(LIBFT_DIR)
+	@echo "Removing $(LIBOBJ_NAME)"
+	@make fclean -s -C $(LIBOBJ_DIR)
 
 re: fclean all
 

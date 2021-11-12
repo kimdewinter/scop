@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		"fragment_shader.frag"
 	))
 		return shutdown(&app, EXIT_FAILURE);
-	if (!load_obj(&app, "resources/cube.obj"))
+	if (!load_obj(&app, "resources/42.obj"))
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_buffer(&app))
 		return shutdown(&app, EXIT_FAILURE);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		return shutdown(&app, EXIT_FAILURE);
 	glUniform1i(
 		glGetUniformLocation(app.shader_program, "texture_provided"),
-		1
+		0
 	);
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	app.close_window = false;

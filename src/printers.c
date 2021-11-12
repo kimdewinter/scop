@@ -28,7 +28,7 @@ static void print_context_profile_mask(void)
 	int mask;
 
 	glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &mask);
-	ft_printf("GL Context Profile Mask: %b\n", mask);
+	// ft_printf("GL Context Profile Mask: %b\n", mask);
 }
 
 void print_opengl_info(void)
