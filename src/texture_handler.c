@@ -1,5 +1,4 @@
 #include "main.h"
-#include "stb_image.h"
 
 bool parse_texture_arg(t_app *app, int argc, char *argv[])
 {
