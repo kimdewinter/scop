@@ -13,7 +13,8 @@ SRC_FILES:=	buffer_handler\
 			shader_compiler\
 			utils\
 			texture_handler\
-			transformation_handler
+			transformation_handler\
+			main_args_parser
 INC_FILES:=	main
 
 SRC_DIR:=	src

@@ -55,8 +55,7 @@ bool compile_shader_program(
 bool handle_events(t_app *app);
 char *file_to_string(char const*const file_name);
 bool get_context_and_window(t_app *app);
-bool parse_obj_arg(t_app *app, int argc, char *argv[]);
-bool parse_texture_arg(t_app *app, int argc, char *argv[]);
+bool parse_main_args(t_app *app, const int argc, char const ** const argv);
 bool init_opengl(void);
 bool load_buffer(t_app *app);
 bool load_indices(t_app *app);

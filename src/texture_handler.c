@@ -1,43 +1,5 @@
 #include "main.h"
 
-bool parse_texture_arg(t_app *app, int argc, char *argv[])
-{
-	size_t len;
-
-	if (argc < 2)
-	{
-		fprintf(
-			stdout,
-			"Error: %s received too few parameters\n",
-			PROGRAM_NAME
-		);
-		return (false);
-	}
-	else if (argc == 2)
-		return (true);
-	else if (argc > 3)
-	{
-		fprintf(
-			stdout,
-			"Error: %s received too many parameters\n",
-			PROGRAM_NAME
-		);
-		return (false);
-	}
-	len = strlen(argv[2]);
-	if (len < 5 || strncmp(".bmp", &argv[2][len - 4], 4) != 0)
-	{
-		fprintf(
-			stdout,
-			"Error: %s must receive filename with .bmp filename extension\n",
-			PROGRAM_NAME
-		);
-		return (false);
-	}
-	app->texture_file_name = strdup(argv[2]);
-	return (true);
-}
-
 static bool import_image(
 	const char *file_name,
 	unsigned char **dst_data,
