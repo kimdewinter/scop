@@ -1,6 +1,32 @@
 #include "main.h"
 #include "stb_image.h"
 
+bool parse_texture_arg(t_app *app, int argc, char *argv[])
+{
+	if (argc < 2)
+	{
+		fprintf(
+			stdout,
+			"Error: %s received too few parameters\n",
+			PROGRAM_NAME
+		);
+		return (false);
+	}
+	else if (argc == 2)
+		return (true);
+	else if (argc > 3)
+	{
+		fprintf(
+			stdout,
+			"Error: %s received too many parameters\n",
+			PROGRAM_NAME
+		);
+		return (false);
+	}
+	app->texture_file_name = strdup(argv[2]);
+	return (true);
+}
+
 bool load_texture(t_app *app)
 {
 	int width, height, nrChannels;
@@ -18,7 +44,7 @@ bool load_texture(t_app *app)
 	// load image, create texture and generate mipmaps
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char *data = stbi_load(
-		"resources/textures/wall.jpg",
+		app->texture_file_name,
 		&width,
 		&height,
 		&nrChannels,

@@ -9,6 +9,10 @@ static int shutdown(t_app *app, int exit_return)
 		free(app->vertices);
 	if (app->indices)
 		free(app->indices);
+	if (app->obj_file_name)
+		free(app->obj_file_name);
+	if (app->texture_file_name)
+		free(app->texture_file_name);
 	return exit_return;
 }
 
@@ -16,9 +20,11 @@ int main(int argc, char *argv[])
 {
 	t_app app;
 
-    (void)argc;//Remove this line before submission
-    (void)argv;//Remove this line before submission	
 	memset(&app, 0, sizeof(t_app));
+	if (!parse_obj_arg(&app, argc, argv))
+		return shutdown(&app, EXIT_FAILURE);
+	if (!parse_texture_arg(&app, argc, argv))
+		return shutdown(&app, EXIT_FAILURE);
 	if (!get_context_and_window(&app))
 		return shutdown(&app, EXIT_FAILURE);
 	if (!init_opengl())
@@ -29,12 +35,13 @@ int main(int argc, char *argv[])
 		"fragment_shader.frag"
 	))
 		return shutdown(&app, EXIT_FAILURE);
-	if (!load_obj(&app, "resources/42.obj"))
+	if (!load_obj(&app, app.obj_file_name))
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_buffer(&app))
 		return shutdown(&app, EXIT_FAILURE);
-	if (!load_texture(&app))
-		return shutdown(&app, EXIT_FAILURE);
+	if (app.texture_file_name)
+		if (!load_texture(&app))
+			return shutdown(&app, EXIT_FAILURE);
 	glUniform1i(
 		glGetUniformLocation(app.shader_program, "texture_provided"),
 		1
