@@ -132,17 +132,14 @@ bool load_texture(t_app *app)
 			width,
 			height,
 			0,
-			GL_BGR,
+			GL_BGRA,
 			GL_UNSIGNED_BYTE,
 			data
 		);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
-	{
-		printf("Failed to load texture\n");
 		return (false);
-	}
 
 	free(data);
 	glUseProgram(app->shader_program);
