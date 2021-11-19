@@ -5,7 +5,7 @@
 # define WIREFRAME_MODE 0
 # define DEFAULT_SCREEN_WIDTH 1280
 # define DEFAULT_SCREEN_HEIGHT 900
-# define DEFAULT_CLEARCOLOR_RED 1.0f
+# define DEFAULT_CLEARCOLOR_RED 0.0f
 # define DEFAULT_CLEARCOLOR_GREEN 0.0f
 # define DEFAULT_CLEARCOLOR_BLUE 0.0f
 # define DEFAULT_CLEARCOLOR_ALPHA 1.0f
@@ -60,10 +60,10 @@ bool load_buffer(t_app *app);
 bool load_indices(t_app *app);
 bool load_obj(t_app *app, char const * const file_name);
 bool load_texture(t_app *app);
-bool load_vertices(t_app *app, char const*const file_name);
+bool load_vertices(t_app *app, char const * const file_name);
 bool parse_main_args(t_app *app, const int argc, char const ** const argv);
-char *file_to_string(char const*const file_name);
-char *skip_float(char *const str);
+char *file_to_string(char const * const file_name);
+char *skip_float(char * const str);
 void handle_transformations(t_app *app);
 void set_bool(GLuint shader_program, const char *name, const bool value);
 void set_float(GLuint shader_program, const char *name, const float value);
