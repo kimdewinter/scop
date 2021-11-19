@@ -1,7 +1,7 @@
-#ifdef DEBUG
-
 #include "main.h"
 #include <stdio.h>
+
+#ifdef DEBUG
 
 static void print_opengl_version()
 {
