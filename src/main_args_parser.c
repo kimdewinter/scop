@@ -1,23 +1,27 @@
 #include "main.h"
 #include <assert.h>
 
-//argument file_extension also requires the period
+//argument "file_extension" must include the period
 static bool has_file_extension(
-    char const * const file_extension,
-    char const * const file_name)
+    char const *const file_extension,
+    char const *const file_name)
 {
-    size_t len = strlen(file_name);
+    size_t file_len = strlen(file_name);
+    size_t ext_len = strlen(file_extension);
 
-    //ensure file name is long enough (shortest possible example: a.xyz)
-    if (!(len > 4))
+    if (ext_len < 4)
         return (false);
-    //ensure file name ends in the file extension
-    if (!(strncmp(file_extension, &file_name[len - 4], 4) == 0))
+    if (file_len < (ext_len + 1))
+        return (false);
+    if (strncmp(
+            file_extension,
+            &file_name[file_len - ext_len],
+            ext_len) != 0)
         return (false);
     return (true);
 }
 
-bool parse_main_args(t_app *app, const int argc, char const ** const argv)
+bool parse_main_args(t_app *app, const int argc, char const **const argv)
 {
     //program must receive .obj object file, and optionally a .bmp texture file
     assert(argc == 2 || argc == 3);
@@ -31,7 +35,7 @@ bool parse_main_args(t_app *app, const int argc, char const ** const argv)
     if (argc == 3)
     {
         app->texture_file_name = strdup(argv[2]);
-        assert(app->obj_file_name);
+        assert(app->texture_file_name);
     }
     return (true);
 }
