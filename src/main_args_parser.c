@@ -1,5 +1,4 @@
 #include "main.h"
-#include <assert.h>
 
 //argument "file_extension" must include the period
 static bool has_file_extension(
@@ -24,18 +23,38 @@ static bool has_file_extension(
 bool parse_main_args(t_app *app, const int argc, char const **const argv)
 {
     //program must receive .obj object file, and optionally a .bmp texture file
-    assert(argc == 2 || argc == 3);
-    assert(has_file_extension(".obj", argv[1]));
-    if (argc == 3)
-        assert(has_file_extension(".bmp", argv[2]));
+    if (!(argc == 2 || argc == 3) ||
+        !has_file_extension(".obj", argv[1]) ||
+        (argc == 3 && !has_file_extension(".bmp", argv[2])))
+    {
+        fprintf(
+            stdout,
+            "Error: %s requires .obj filename and optionally .bmp filename\n",
+            PROGRAM_NAME);
+        return (false);
+    }
 
     //parsing complete, now store main args
     app->obj_file_name = strdup(argv[1]);
-    assert(app->obj_file_name);
     if (argc == 3)
-    {
         app->texture_file_name = strdup(argv[2]);
-        assert(app->texture_file_name);
+    if (!app->obj_file_name ||
+        (argc == 3 && !app->texture_file_name))
+    {
+        if (app->obj_file_name)
+        {
+            free(app->obj_file_name);
+            app->obj_file_name = NULL;
+        }
+        if (argc == 3 && app->texture_file_name)
+        {
+            free(app->texture_file_name);
+            app->texture_file_name = NULL;
+        }
+        fprintf(
+            stdout,
+            "Error: parse_main_args encountered misallocation\n");
+        return (false);
     }
     return (true);
 }

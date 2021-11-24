@@ -29,8 +29,8 @@ int main(int argc, char const **const argv)
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!compile_shader_program(
 			&app.shader_program,
-			"vertex_shader.vert",
-			"fragment_shader.frag"))
+			VERTEX_SHADER_FILE_NAME,
+			FRAGMENT_SHADER_FILE_NAME))
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_obj(&app, app.obj_file_name))
 		return (shutdown(&app, EXIT_FAILURE));
