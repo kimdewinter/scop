@@ -64,6 +64,7 @@ static bool compile_shader(
 	return (true);
 }
 
+// Compiled shader program is returned through parameter shader_program
 bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,
