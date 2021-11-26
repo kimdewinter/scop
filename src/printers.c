@@ -26,8 +26,8 @@ static void print_opengl_extensions()
 static void print_context_profile_mask(void)
 {
 	int mask;
-
-	glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &mask);
+	ß
+		glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &mask);
 	// ft_printf("GL Context Profile Mask: %b\n", mask);
 }
 
@@ -40,8 +40,7 @@ void print_opengl_info(void)
 	printf("Using renderer %s\n", glGetString(GL_RENDERER));
 	printf(
 		"Primary GLSL supported is %s\n",
-		glGetString(GL_SHADING_LANGUAGE_VERSION)
-	);
+		glGetString(GL_SHADING_LANGUAGE_VERSION));
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &n);
 	printf("Maximum nr of vertex attributes supported: %d\n", n);
 	print_context_profile_mask();

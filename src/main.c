@@ -2,17 +2,24 @@
 
 static int shutdown(t_app *app, int exit_return)
 {
-	shutdown_sdl(app);
-	if (app->shader_program)
-		glDeleteProgram(app->shader_program);
+	if (app->obj_file_name)
+		free(app->obj_file_name);
+	if (app->texture_file_name)
+	{
+		free(app->texture_file_name);
+		glDeleteTextures(1, &app->texture);
+	}
 	if (app->vertices)
 		free(app->vertices);
 	if (app->indices)
 		free(app->indices);
-	if (app->obj_file_name)
-		free(app->obj_file_name);
-	if (app->texture_file_name)
-		free(app->texture_file_name);
+	glDeleteBuffers(1, &app->VBO);
+	glDeleteVertexArrays(1, &app->VAO);
+	if (app->indices_length > 0)
+		glDeleteBuffers(1, &app->EBO);
+	if (app->shader_program)
+		glDeleteProgram(app->shader_program);
+	shutdown_sdl(app);
 	return (exit_return);
 }
 
@@ -83,14 +90,6 @@ int main(int argc, char const **const argv)
 		// glBindVertexArray(0); // no need to unbind it every time
 		SDL_GL_SwapWindow(app.sdl.window);
 	}
-
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-	glDeleteVertexArrays(1, &app.VAO);
-	glDeleteBuffers(1, &app.VBO);
-	if (app.indices_length > 0)
-		glDeleteBuffers(1, &app.EBO);
-	glDeleteProgram(app.shader_program);
 
 	return (shutdown(&app, EXIT_SUCCESS));
 }

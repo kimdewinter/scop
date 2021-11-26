@@ -28,16 +28,11 @@ typedef struct s_app
 {
 	char *obj_file_name;
 	char *texture_file_name;
-	struct s_sdl sdl;
-	GLuint shader_program;
+	GLuint texture;
 	float *vertices;
 	unsigned int vertices_length;
 	unsigned int *indices;
 	unsigned int indices_length;
-	GLuint VBO; //Vertex Buffer Object
-	GLuint VAO; //Vertex Buffer Array
-	GLuint EBO; //Element Buffer Object
-	GLuint texture;
 	float scaling_x;
 	float scaling_y;
 	float scaling_z;
@@ -48,6 +43,11 @@ typedef struct s_app
 	float translation_y;
 	float translation_z;
 	bool close_window;
+	GLuint VBO; //Vertex Buffer Object
+	GLuint VAO; //Vertex Buffer Array
+	GLuint EBO; //Element Buffer Object
+	GLuint shader_program;
+	struct s_sdl sdl;
 } t_app;
 
 bool compile_shader_program(
