@@ -66,16 +66,16 @@ bool get_context_and_window(t_app *app)
 	if (!initialize_sdl())
 		return (false);
 
-	//Specify OpenGL version #.#
+	// Specify OpenGL version #.#
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-	//Use OpenGL's Core profile (disable deprecated Fixed Function Pipeline)
+	// Use OpenGL's Core profile (disable deprecated Fixed Function Pipeline)
 	SDL_GL_SetAttribute(
 		SDL_GL_CONTEXT_PROFILE_MASK,
 		SDL_GL_CONTEXT_PROFILE_CORE);
 
-	//Use Forward Compatible mode (don't support deprecated functionality)
+	// Use Forward Compatible mode (don't support deprecated functionality)
 	SDL_GL_SetAttribute(
 		SDL_GL_CONTEXT_FLAGS,
 		SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);

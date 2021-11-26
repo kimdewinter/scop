@@ -1,6 +1,6 @@
 #include "main.h"
 
-//argument "file_extension" must include the period
+// Argument "file_extension" must include the period
 static bool has_file_extension(
     char const *const file_extension,
     char const *const file_name)
@@ -22,7 +22,7 @@ static bool has_file_extension(
 
 bool parse_main_args(t_app *app, const int argc, char const **const argv)
 {
-    //program must receive .obj object file, and optionally a .bmp texture file
+    // Program must receive .obj object file, and optionally a .bmp texture file
     if (!(argc == 2 || argc == 3) ||
         !has_file_extension(".obj", argv[1]) ||
         (argc == 3 && !has_file_extension(".bmp", argv[2])))
@@ -34,7 +34,7 @@ bool parse_main_args(t_app *app, const int argc, char const **const argv)
         return (false);
     }
 
-    //parsing complete, now store main args
+    // Parsing complete, now store main args
     app->obj_file_name = strdup(argv[1]);
     if (argc == 3)
         app->texture_file_name = strdup(argv[2]);
