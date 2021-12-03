@@ -78,7 +78,9 @@ bool compile_shader_program(
 			&vertex_shader,
 			vertex_shader_filename,
 			GL_VERTEX_SHADER))
+	{
 		return (false);
+	}
 	if (!compile_shader(
 			&fragment_shader,
 			fragment_shader_filename,

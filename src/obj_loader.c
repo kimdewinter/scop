@@ -1,7 +1,7 @@
 #include "main.h"
 #include "libobj.h"
 
-bool load_obj(t_app *app, char const * const file_name)
+bool load_obj(t_app *app, char const *const file_name)
 {
 	t_obj *obj = obj_import(file_name);
 

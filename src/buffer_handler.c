@@ -1,18 +1,44 @@
 #include "main.h"
 
-bool load_buffer(t_app *app)
+static void unbind_all(void)
 {
-    glGenVertexArrays(1, &(app->VAO));
-    glGenBuffers(1, &(app->VBO));
-	if (app->indices_length > 0)
-    	glGenBuffers(1, &(app->EBO));
+	// note that this is allowed, the call to glVertexAttribPointer registered
+	// VBO as the vertex attribute's bound vertex buffer object so afterwards we
+	// can safely unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s),
+	// You can unbind the VAO afterwards so other VAO calls won't accidentally
+	// modify this VAO, but this rarely happens. Modifying other
+	// VAOs requires a call to glBindVertexArray anyways so we generally don't
+	// unbind VAOs (nor VBOs) when it's not directly necessary.
+	glBindVertexArray(0);
+
+	// remember: do NOT unbind the EBO while a VAO is active as the bound
+	// element buffer object IS stored in the VAO; keep the EBO bound.
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+static void set_vao(void)
+{
+	// vertex attrib pointer for xyz
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3 * sizeof(float),
+		(void *)0);
+	glEnableVertexAttribArray(0);
+}
+
+static void buffer_data(t_app *app)
+{
+	// bind the Vertex Array Object first, then bind and set vertex buffer(s),
 	// and then configure vertex attributes(s).
-    glBindVertexArray(app->VAO);
+	glBindVertexArray(app->VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, app->VBO);
-    glBufferData(
+	glBindBuffer(GL_ARRAY_BUFFER, app->VBO);
+	glBufferData(
 		GL_ARRAY_BUFFER,
 		app->vertices_length * sizeof(float),
 		app->vertices, GL_STATIC_DRAW);
@@ -26,45 +52,24 @@ bool load_buffer(t_app *app)
 			app->indices,
 			GL_STATIC_DRAW);
 	}
+}
 
-	// vertex attrib pointer for xyz
-    glVertexAttribPointer(
-		0,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		3 * sizeof(float),
-		(void *)0);
-    glEnableVertexAttribArray(0);
+static void gen_buffer(t_app *app)
+{
+	glGenVertexArrays(1, &(app->VAO));
+	glGenBuffers(1, &(app->VBO));
+	if (app->indices_length > 0)
+		glGenBuffers(1, &(app->EBO));
+}
 
-	// vertex attrib pointer for texture coords
-	// glVertexAttribPointer(
-	// 	1,
-	// 	2,
-	// 	GL_FLOAT,
-	// 	GL_FALSE,
-	// 	5 * sizeof(float),
-	// 	(void *)(3 * sizeof(float)));
-	// glEnableVertexAttribArray(1);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered
-	// VBO as the vertex attribute's bound vertex buffer object so afterwards we
-	// can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    // remember: do NOT unbind the EBO while a VAO is active as the bound
-	// element buffer object IS stored in the VAO; keep the EBO bound.
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally
-	// modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't
-	// unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
-
-    // uncomment this call to draw in wireframe polygons.
+bool load_buffer(t_app *app)
+{
+	gen_buffer(app);
+	buffer_data(app);
+	set_vao();
+	unbind_all();
 #if WIREFRAME_MODE > 0
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
 	return true;
 }

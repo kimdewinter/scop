@@ -4,15 +4,14 @@ static bool import_image(
 	const char *file_name,
 	unsigned char **dst_data,
 	unsigned int *dst_width,
-	unsigned int *dst_height
-)
+	unsigned int *dst_height)
 {
 	// Data read from the header of the BMP file
-	unsigned char header[54];// Each BMP file begins by a 54-bytes header
-	unsigned int dataPos;// Position in the file where the actual data begins
+	unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+	unsigned int dataPos;	  // Position in the file where the actual data begins
 	unsigned int width, height;
 	unsigned char *data;
-	unsigned int imageSize;// = width*height*3
+	unsigned int imageSize; // = width*height*3
 	FILE *file = fopen(file_name, "r");
 
 	if (!file)
@@ -67,23 +66,22 @@ bool load_texture(t_app *app)
 	unsigned char *data;
 	unsigned int width, height;
 
-	// load and create a texture 
+	// load and create a texture
 	// -------------------------
 	glGenTextures(1, &app->texture);
 	glBindTexture(GL_TEXTURE_2D, app->texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
 	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
 	if (import_image(
-		app->texture_file_name,
-		&data,
-		&width,
-		&height
-		) &&
+			app->texture_file_name,
+			&data,
+			&width,
+			&height) &&
 		data)
 	{
 		glTexImage2D(
@@ -95,8 +93,7 @@ bool load_texture(t_app *app)
 			0,
 			GL_BGRA,
 			GL_UNSIGNED_BYTE,
-			data
-		);
+			data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else

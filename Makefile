@@ -46,7 +46,7 @@ LIBOBJ:=		$(LIBOBJ_DIR)/$(LIBOBJ_NAME).a
 CFLAGS?=	-Wall -Wextra -Werror -pedantic\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
-			-I$(LIBOBJ_DIR)/include/\
+			-I$(LIBOBJ_DIR)/include\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\

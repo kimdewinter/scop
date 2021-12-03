@@ -50,8 +50,7 @@ static t_mat4 get_translation_matrix(
 static t_mat4 get_rotation_matrix(
 	float const x_degrees,
 	float const y_degrees,
-	float const z_degrees
-)
+	float const z_degrees)
 {
 	t_mat4 x_matrix = get_identity_matrix();
 	t_mat4 y_matrix = get_identity_matrix();
@@ -80,8 +79,7 @@ static t_mat4 get_rotation_matrix(
 static t_mat4 get_scaling_matrix(
 	float const x_scaling,
 	float const y_scaling,
-	float const z_scaling
-)
+	float const z_scaling)
 {
 	t_mat4 result = get_identity_matrix();
 
