@@ -52,7 +52,7 @@ static bool import_image(
 	// Read the actual data from the file into the buffer
 	fread(data, sizeof(unsigned char), imageSize, file);
 
-	//Everything is in memory now, the file can be closed
+	// Everything is in memory now, the file can be closed
 	fclose(file);
 
 	*dst_data = data;
@@ -66,17 +66,23 @@ bool load_texture(t_app *app)
 	unsigned char *data;
 	unsigned int width, height;
 
-	// load and create a texture
-	// -------------------------
+	// Set uniform "texture_provided" to 0 until texture is correctly prepared
+	set_uniform_int(app.shader_program, "texture_provided", 0);
+	// Check if texture file is provided as one of executable's arguments
+	if (!app->texture_file_name)
+		return true;
+
+	// Generate texture object to work with
 	glGenTextures(1, &app->texture);
-	glBindTexture(GL_TEXTURE_2D, app->texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-	// set the texture wrapping parameters
+	// Set all upcoming GL_TEXTURE_2D operations to affect this texture object
+	glBindTexture(GL_TEXTURE_2D, app->texture);
+	// Set texture wrapping parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
+	// Set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load image, create texture and generate mipmaps
+	// Load image, create texture and generate mipmaps
 	if (import_image(
 			app->texture_file_name,
 			&data,
@@ -101,6 +107,7 @@ bool load_texture(t_app *app)
 
 	free(data);
 	glUseProgram(app->shader_program);
+	// Tell shader that the texture object it must use has ID 0
 	glUniform1i(glGetUniformLocation(app->shader_program, "texture1"), 0);
 	return (true);
 }

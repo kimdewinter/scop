@@ -67,9 +67,9 @@ bool parse_main_args(t_app *app, const int argc, char const **const argv);
 char *file_to_string(char const *const file_name);
 char *skip_float(char *const str);
 void handle_transformations(t_app *app);
-void set_bool(GLuint shader_program, const char *name, const bool value);
-void set_float(GLuint shader_program, const char *name, const float value);
-void set_int(GLuint shader_program, const char *name, const int value);
+void set_uniform_bool(GLuint shader_program, const char *name, const bool value);
+void set_uniform_float(GLuint shader_program, const char *name, const float value);
+void set_uniform_int(GLuint shader_program, const char *name, const int value);
 void shutdown_sdl(t_app *app);
 #ifdef DEBUG
 void print_opengl_info(void);

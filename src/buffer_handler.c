@@ -64,8 +64,11 @@ static void gen_buffer(t_app *app)
 
 bool load_buffer(t_app *app)
 {
+	// Generate VBO, VAO and EBO
 	gen_buffer(app);
+	// Copy data to the GPU
 	buffer_data(app);
+	// Configure how to read data, and finish up
 	set_vao();
 	unbind_all();
 #if WIREFRAME_MODE > 0
