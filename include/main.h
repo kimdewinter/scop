@@ -24,6 +24,11 @@ typedef struct s_sdl
 	SDL_Event event;
 } t_sdl;
 
+// typedef struct s_obj_props
+// {
+
+// } t_obj_props;
+
 typedef struct s_app
 {
 	char *obj_file_name;

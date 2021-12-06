@@ -63,6 +63,16 @@ static bool handle_keydown_event(t_app *app)
 		app->rotation_x -= 0.1f;
 	}
 	break;
+	case SDLK_PAGEDOWN:
+	{
+		app->rotation_z -= 0.1f;
+	}
+	break;
+	case SDLK_PAGEUP:
+	{
+		app->rotation_z += 0.1f;
+	}
+	break;
 	}
 	return (true);
 }

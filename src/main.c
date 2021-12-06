@@ -23,6 +23,30 @@ static int shutdown(t_app *app, int exit_return)
 	return (exit_return);
 }
 
+static inline void render(t_app *app)
+{
+	glClearColor(
+		DEFAULT_CLEARCOLOR_RED,
+		DEFAULT_CLEARCOLOR_GREEN,
+		DEFAULT_CLEARCOLOR_BLUE,
+		DEFAULT_CLEARCOLOR_ALPHA);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, app->texture);
+	glUseProgram(app->shader_program);
+	glBindVertexArray(app->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	if (app->indices_length > 0)
+		glDrawElements(
+			GL_TRIANGLES,
+			app->indices_length,
+			GL_UNSIGNED_INT,
+			0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, app->vertices_length);
+	// glBindVertexArray(0); // No need to unbind it every time
+	SDL_GL_SwapWindow(app->sdl.window);
+}
+
 int main(int argc, char const **const argv)
 {
 	t_app app;
@@ -52,31 +76,7 @@ int main(int argc, char const **const argv)
 		if (!handle_events(&app))
 			(shutdown(&app, EXIT_FAILURE));
 		handle_transformations(&app);
-		// render
-		// ------
-		glClearColor(
-			DEFAULT_CLEARCOLOR_RED,
-			DEFAULT_CLEARCOLOR_GREEN,
-			DEFAULT_CLEARCOLOR_BLUE,
-			DEFAULT_CLEARCOLOR_ALPHA);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, app.texture);
-
-		// draw our first triangle
-		glUseProgram(app.shader_program);
-		glBindVertexArray(app.VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		if (app.indices_length > 0)
-			glDrawElements(
-				GL_TRIANGLES,
-				app.indices_length,
-				GL_UNSIGNED_INT,
-				0);
-		else
-			glDrawArrays(GL_TRIANGLES, 0, app.vertices_length);
-		// glBindVertexArray(0); // no need to unbind it every time
-		SDL_GL_SwapWindow(app.sdl.window);
+		render(&app);
 	}
 
 	return (shutdown(&app, EXIT_SUCCESS));

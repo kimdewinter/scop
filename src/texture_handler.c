@@ -67,7 +67,7 @@ bool load_texture(t_app *app)
 	unsigned int width, height;
 
 	// Set uniform "texture_provided" to 0 until texture is correctly prepared
-	set_uniform_int(app.shader_program, "texture_provided", 0);
+	set_uniform_int(app->shader_program, "texture_provided", 0);
 	// Check if texture file is provided as one of executable's arguments
 	if (!app->texture_file_name)
 		return true;
@@ -107,6 +107,8 @@ bool load_texture(t_app *app)
 
 	free(data);
 	glUseProgram(app->shader_program);
+	// Tell shader that a texture has been provided
+	set_uniform_int(app->shader_program, "texture_provided", 1);
 	// Tell shader that the texture object it must use has ID 0
 	glUniform1i(glGetUniformLocation(app->shader_program, "texture1"), 0);
 	return (true);
