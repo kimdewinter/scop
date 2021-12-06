@@ -64,7 +64,7 @@ static bool compile_shader(
 	return (true);
 }
 
-// Compiled shader program is returned through parameter shader_program
+//Compiled shader program is returned through parameter shader_program
 bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,
@@ -73,7 +73,7 @@ bool compile_shader_program(
 	GLuint vertex_shader = 0;
 	GLuint fragment_shader = 0;
 
-	// Compile individual shaders
+	//Compile individual shaders
 	if (!compile_shader(
 			&vertex_shader,
 			vertex_shader_filename,
@@ -90,7 +90,7 @@ bool compile_shader_program(
 		return (false);
 	}
 
-	// Create shader program and link shaders to it
+	//Create shader program and link shaders to it
 	if (!create_and_link_shader_program(
 			shader_program,
 			vertex_shader,
@@ -101,7 +101,7 @@ bool compile_shader_program(
 		return (false);
 	}
 
-	// Clean up shaders which aren't necessary anymore
+	//Clean up shaders which aren't necessary anymore
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
 	return (true);

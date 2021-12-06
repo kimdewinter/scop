@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Returns NULL if error
+//Returns NULL if error
 char *file_to_string(char const *const file_name)
 {
 	FILE *file_pointer;

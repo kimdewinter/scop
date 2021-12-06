@@ -109,8 +109,10 @@ bool handle_events(t_app *app)
 		}
 		break;
 		case SDL_WINDOWEVENT:
+		{
 			no_errors = handle_window_event(app);
-			break;
+		}
+		break;
 		case SDL_KEYDOWN:
 		{
 			no_errors = handle_keydown_event(app);

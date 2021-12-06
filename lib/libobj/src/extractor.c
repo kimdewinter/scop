@@ -61,14 +61,14 @@ bool extract_face(t_reader *reader)
 	unsigned int triangle_two[3];
 	char *walker = reader->line;
 
-	if(!walker)
+	if (!walker)
 	{
 		printf("Error: reader->line is NULL in extract_face\n");
 		return (false);
 	}
 
 	//ensure line starts with "f "
-	if(strncmp("f ", walker, 2) != 0)
+	if (strncmp("f ", walker, 2) != 0)
 		return (true);
 	walker += 2;
 
@@ -113,9 +113,9 @@ bool extract_face(t_reader *reader)
 	if (*walker == '\n' || *walker == '\0')
 	{
 		if (!vector_append(
-			&reader->indices,
-			&triangle_one,
-			3 * sizeof(unsigned int)))
+				&reader->indices,
+				&triangle_one,
+				3 * sizeof(unsigned int)))
 		{
 			return (false);
 		}
@@ -143,13 +143,13 @@ bool extract_face(t_reader *reader)
 		return (true);
 
 	if (!vector_append(
-		&reader->indices,
-		&triangle_one,
-		3 * sizeof(unsigned int)) ||
+			&reader->indices,
+			&triangle_one,
+			3 * sizeof(unsigned int)) ||
 		!vector_append(
-		&reader->indices,
-		&triangle_two,
-		3 * sizeof(unsigned int)))
+			&reader->indices,
+			&triangle_two,
+			3 * sizeof(unsigned int)))
 	{
 		return (false);
 	}
@@ -161,7 +161,7 @@ to transform two triangles into a square,
 use the indices like this:
 
 unsigned int indices[] = {
-	0, 1, 3,   // first triangle
-	1, 2, 3    // second triangle
+	0, 1, 3,   first triangle
+	1, 2, 3    second triangle
 };
 */

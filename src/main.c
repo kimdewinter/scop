@@ -34,7 +34,7 @@ static inline void render(t_app *app)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, app->texture);
 	glUseProgram(app->shader_program);
-	glBindVertexArray(app->VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	glBindVertexArray(app->VAO); //No need to bind it every time since there's only a single VAO
 	if (app->indices_length > 0)
 		glDrawElements(
 			GL_TRIANGLES,
@@ -43,7 +43,7 @@ static inline void render(t_app *app)
 			0);
 	else
 		glDrawArrays(GL_TRIANGLES, 0, app->vertices_length);
-	// glBindVertexArray(0); // No need to unbind it every time
+	//glBindVertexArray(0); //No need to unbind it every time since there's only a single VAO
 	SDL_GL_SwapWindow(app->sdl.window);
 }
 

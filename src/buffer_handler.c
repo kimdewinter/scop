@@ -2,25 +2,25 @@
 
 static void unbind_all(void)
 {
-	// note that this is allowed, the call to glVertexAttribPointer registered
-	// VBO as the vertex attribute's bound vertex buffer object so afterwards we
-	// can safely unbind
+	//note that this is allowed, the call to glVertexAttribPointer registered
+	//VBO as the vertex attribute's bound vertex buffer object so afterwards we
+	//can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// You can unbind the VAO afterwards so other VAO calls won't accidentally
-	// modify this VAO, but this rarely happens. Modifying other
-	// VAOs requires a call to glBindVertexArray anyways so we generally don't
-	// unbind VAOs (nor VBOs) when it's not directly necessary.
+	//You can unbind the VAO afterwards so other VAO calls won't accidentally
+	//modify this VAO, but this rarely happens. Modifying other
+	//VAOs requires a call to glBindVertexArray anyways so we generally don't
+	//unbind VAOs (nor VBOs) when it's not directly necessary.
 	glBindVertexArray(0);
 
-	// remember: do NOT unbind the EBO while a VAO is active as the bound
-	// element buffer object IS stored in the VAO; keep the EBO bound.
+	//remember: do NOT unbind the EBO while a VAO is active as the bound
+	//element buffer object IS stored in the VAO; keep the EBO bound.
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 static void set_vao(void)
 {
-	// vertex attrib pointer for xyz
+	vertex attrib pointer for xyz
 	glVertexAttribPointer(
 		0,
 		3,
@@ -33,8 +33,8 @@ static void set_vao(void)
 
 static void buffer_data(t_app *app)
 {
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s),
-	// and then configure vertex attributes(s).
+	//bind the Vertex Array Object first, then bind and set vertex buffer(s),
+	//and then configure vertex attributes(s).
 	glBindVertexArray(app->VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, app->VBO);
@@ -64,11 +64,11 @@ static void gen_buffer(t_app *app)
 
 bool load_buffer(t_app *app)
 {
-	// Generate VBO, VAO and EBO
+	//Generate VBO, VAO and EBO
 	gen_buffer(app);
-	// Copy data to the GPU
+	//Copy data to the GPU
 	buffer_data(app);
-	// Configure how to read data, and finish up
+	//Configure how to read data, and finish up
 	set_vao();
 	unbind_all();
 #if WIREFRAME_MODE > 0

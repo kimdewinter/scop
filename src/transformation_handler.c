@@ -56,23 +56,23 @@ static t_mat4 get_rotation_matrix(
 	t_mat4 y_matrix = get_identity_matrix();
 	t_mat4 z_matrix = get_identity_matrix();
 
-	//set up x-axis rotation matrix
+	//Set up x-axis rotation matrix
 	x_matrix.mat4[5] = cos((double)x_degrees);
 	x_matrix.mat4[6] = sin((double)x_degrees);
 	x_matrix.mat4[9] = -sin((double)x_degrees);
 	x_matrix.mat4[10] = cos((double)x_degrees);
-	//set up y-axis rotation matrix
+	//Set up y-axis rotation matrix
 	y_matrix.mat4[0] = cos((double)y_degrees);
 	y_matrix.mat4[2] = -sin((double)y_degrees);
 	y_matrix.mat4[8] = sin((double)y_degrees);
 	y_matrix.mat4[10] = cos((double)y_degrees);
-	//set up z-axis rotation matrix
+	//Set up z-axis rotation matrix
 	z_matrix.mat4[0] = cos((double)z_degrees);
 	z_matrix.mat4[1] = sin((double)z_degrees);
 	z_matrix.mat4[4] = -sin((double)z_degrees);
 	z_matrix.mat4[5] = cos((double)z_degrees);
 
-	//combine the matrices (crude method, may lead to gimbal lock)
+	//Combine the matrices (crude method, may lead to gimbal lock)
 	return multiply_matrices(multiply_matrices(x_matrix, y_matrix), z_matrix);
 }
 
@@ -93,7 +93,7 @@ void handle_transformations(t_app *app)
 {
 	t_mat4 transformation_matrix = get_identity_matrix();
 
-	//add scaling to the transformation matrix
+	//Add scaling to the transformation matrix
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_scaling_matrix(
@@ -101,7 +101,7 @@ void handle_transformations(t_app *app)
 			app->scaling_y,
 			app->scaling_z));
 
-	//add rotation to the transformation matrix
+	//Add rotation to the transformation matrix
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_rotation_matrix(
@@ -109,7 +109,7 @@ void handle_transformations(t_app *app)
 			app->rotation_y,
 			app->rotation_z));
 
-	//add translation to the transformation matrix
+	//Add translation to the transformation matrix
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_translation_matrix(
@@ -117,7 +117,7 @@ void handle_transformations(t_app *app)
 			app->translation_y,
 			app->translation_z));
 
-	//send the transformation matrix to the shader program
+	//Send the transformation matrix to the shader program
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "transform"),
