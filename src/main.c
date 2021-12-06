@@ -78,6 +78,5 @@ int main(int argc, char const **const argv)
 		handle_transformations(&app);
 		render(&app);
 	}
-
 	return (shutdown(&app, EXIT_SUCCESS));
 }

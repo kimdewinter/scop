@@ -8,7 +8,7 @@ static float find_highest(
     float highest = vertices[starting_index];
 
     for (
-        unsigned int i = starting_index + VERTEX_ATTRIBUTES;
+        unsigned int i = starting_index;
         i < vertices_length;
         i += VERTEX_ATTRIBUTES)
     {
@@ -26,7 +26,7 @@ static float find_lowest(
     float lowest = vertices[starting_index];
 
     for (
-        unsigned int i = starting_index + VERTEX_ATTRIBUTES;
+        unsigned int i = starting_index;
         i < vertices_length;
         i += VERTEX_ATTRIBUTES)
     {
@@ -46,38 +46,36 @@ static float find_center(
 
     lowest = find_lowest(vertices, vertices_length, starting_index);
     highest = find_highest(vertices, vertices_length, starting_index);
-    return ((highest - lowest) / 2);
+    return ((highest + lowest) / 2);
 }
 
 static void shift_attribute(
-    const float shift_value,
     float *vertices,
     const unsigned int vertices_length,
     const unsigned int starting_index)
 {
+    const float center = find_center(vertices, vertices_length, starting_index);
+
     for (
         unsigned int i = starting_index;
         i < vertices_length;
         i += VERTEX_ATTRIBUTES)
     {
-        vertices[i] -= shift_value;
+        vertices[i] -= center;
     }
-}
-
-static void shift_vertices(
-    const float centers[VERTEX_ATTRIBUTES],
-    float *vertices,
-    const float vertices_length)
-{
-    for (int i = 0; i < VERTEX_ATTRIBUTES; i++)
-        shift_attribute(centers[i], vertices, vertices_length, i);
 }
 
 void centralize(t_app *app)
 {
-    float centers[VERTEX_ATTRIBUTES];
-
     for (int i = 0; i < VERTEX_ATTRIBUTES; i++)
-        centers[i] = find_center(app->vertices, app->vertices_length, i);
-    shift_vertices(centers, app->vertices, app->vertices_length);
+    {
+        shift_attribute(app->vertices, app->vertices_length, i);
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, app->VBO);
+    glBufferData(
+        GL_ARRAY_BUFFER,
+        app->vertices_length * sizeof(float),
+        app->vertices,
+        GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -41,7 +41,8 @@ static void buffer_data(t_app *app)
 	glBufferData(
 		GL_ARRAY_BUFFER,
 		app->vertices_length * sizeof(float),
-		app->vertices, GL_STATIC_DRAW);
+		app->vertices,
+		GL_STATIC_DRAW);
 
 	if (app->indices_length > 0)
 	{
