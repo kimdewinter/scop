@@ -97,25 +97,25 @@ void handle_transformations(t_app *app)
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_scaling_matrix(
-			app->scaling_x,
-			app->scaling_y,
-			app->scaling_z));
+			app->orientation.scaling_x,
+			app->orientation.scaling_y,
+			app->orientation.scaling_z));
 
 	//Add rotation to the transformation matrix
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_rotation_matrix(
-			app->rotation_x,
-			app->rotation_y,
-			app->rotation_z));
+			app->orientation.rotation_x,
+			app->orientation.rotation_y,
+			app->orientation.rotation_z));
 
 	//Add translation to the transformation matrix
 	transformation_matrix = multiply_matrices(
 		transformation_matrix,
 		get_translation_matrix(
-			app->translation_x,
-			app->translation_y,
-			app->translation_z));
+			app->orientation.translation_x,
+			app->orientation.translation_y,
+			app->orientation.translation_z));
 
 	//Send the transformation matrix to the shader program
 	glUseProgram(app->shader_program);

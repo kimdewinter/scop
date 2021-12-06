@@ -24,15 +24,8 @@ typedef struct s_sdl
 	SDL_Event event;
 } t_sdl;
 
-typedef struct s_app
+typedef struct s_orientation
 {
-	char *obj_file_name;
-	char *texture_file_name;
-	GLuint texture;
-	float *vertices;
-	unsigned int vertices_length;
-	unsigned int *indices;
-	unsigned int indices_length;
 	float scaling_x;
 	float scaling_y;
 	float scaling_z;
@@ -42,6 +35,18 @@ typedef struct s_app
 	float translation_x;
 	float translation_y;
 	float translation_z;
+} t_orientation;
+
+typedef struct s_app
+{
+	char *obj_file_name;
+	char *texture_file_name;
+	GLuint texture;
+	float *vertices;
+	unsigned int vertices_length;
+	unsigned int *indices;
+	unsigned int indices_length;
+	struct s_orientation orientation;
 	bool close_window;
 	GLuint VBO; //Vertex Buffer Object
 	GLuint VAO; //Vertex Buffer Array

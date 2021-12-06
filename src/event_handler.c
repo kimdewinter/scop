@@ -11,66 +11,66 @@ static bool handle_keydown_event(t_app *app)
 	break;
 	case SDLK_d:
 	{
-		app->translation_x += 0.1f;
+		app->orientation.translation_x += 0.1f;
 	}
 	break;
 	case SDLK_a:
 	{
-		app->translation_x -= 0.1f;
+		app->orientation.translation_x -= 0.1f;
 	}
 	break;
 	case SDLK_w:
 	{
-		app->translation_y += 0.1f;
+		app->orientation.translation_y += 0.1f;
 	}
 	break;
 	case SDLK_s:
 	{
-		app->translation_y -= 0.1f;
+		app->orientation.translation_y -= 0.1f;
 	}
 	break;
 	case SDLK_r:
 	{
-		app->scaling_x += 0.1f;
-		app->scaling_y += 0.1f;
-		app->scaling_z += 0.1f;
+		app->orientation.scaling_x += 0.1f;
+		app->orientation.scaling_y += 0.1f;
+		app->orientation.scaling_z += 0.1f;
 	}
 	break;
 	case SDLK_f:
 	{
-		app->scaling_x -= 0.1f;
-		app->scaling_y -= 0.1f;
-		app->scaling_z -= 0.1f;
+		app->orientation.scaling_x -= 0.1f;
+		app->orientation.scaling_y -= 0.1f;
+		app->orientation.scaling_z -= 0.1f;
 	}
 	break;
 	case SDLK_RIGHT:
 	{
-		app->rotation_y -= 0.1f;
+		app->orientation.rotation_y -= 0.1f;
 	}
 	break;
 	case SDLK_LEFT:
 	{
-		app->rotation_y += 0.1f;
+		app->orientation.rotation_y += 0.1f;
 	}
 	break;
 	case SDLK_UP:
 	{
-		app->rotation_x += 0.1f;
+		app->orientation.rotation_x += 0.1f;
 	}
 	break;
 	case SDLK_DOWN:
 	{
-		app->rotation_x -= 0.1f;
+		app->orientation.rotation_x -= 0.1f;
 	}
 	break;
 	case SDLK_PAGEDOWN:
 	{
-		app->rotation_z -= 0.1f;
+		app->orientation.rotation_z -= 0.1f;
 	}
 	break;
 	case SDLK_PAGEUP:
 	{
-		app->rotation_z += 0.1f;
+		app->orientation.rotation_z += 0.1f;
 	}
 	break;
 	}

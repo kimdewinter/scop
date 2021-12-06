@@ -2,7 +2,7 @@
 
 static void unbind_all(void)
 {
-	//note that this is allowed, the call to glVertexAttribPointer registered
+	//Note that this is allowed, the call to glVertexAttribPointer registered
 	//VBO as the vertex attribute's bound vertex buffer object so afterwards we
 	//can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -13,14 +13,14 @@ static void unbind_all(void)
 	//unbind VAOs (nor VBOs) when it's not directly necessary.
 	glBindVertexArray(0);
 
-	//remember: do NOT unbind the EBO while a VAO is active as the bound
+	//Remember: do NOT unbind the EBO while a VAO is active as the bound
 	//element buffer object IS stored in the VAO; keep the EBO bound.
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 static void set_vao(void)
 {
-	vertex attrib pointer for xyz
+	//Vertex attrib pointer for xyz
 	glVertexAttribPointer(
 		0,
 		3,
@@ -33,7 +33,7 @@ static void set_vao(void)
 
 static void buffer_data(t_app *app)
 {
-	//bind the Vertex Array Object first, then bind and set vertex buffer(s),
+	//Bind the Vertex Array Object first, then bind and set vertex buffer(s),
 	//and then configure vertex attributes(s).
 	glBindVertexArray(app->VAO);
 
