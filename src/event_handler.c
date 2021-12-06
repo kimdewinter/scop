@@ -43,6 +43,11 @@ static bool handle_keydown_event(t_app *app)
 		app->orientation.scaling_z -= 0.1f;
 	}
 	break;
+	case SDLK_c:
+	{
+		centralize(app);
+	}
+	break;
 	case SDLK_RIGHT:
 	{
 		app->orientation.rotation_y -= 0.1f;

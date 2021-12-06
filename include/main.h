@@ -5,6 +5,7 @@
 #define VERTEX_SHADER_FILE_NAME "vertex_shader.vert"
 #define FRAGMENT_SHADER_FILE_NAME "fragment_shader.frag"
 #define WIREFRAME_MODE 0
+#define VERTEX_ATTRIBUTES 3
 #define DEFAULT_SCREEN_WIDTH 1280
 #define DEFAULT_SCREEN_HEIGHT 900
 #define DEFAULT_CLEARCOLOR_RED 0.0f
@@ -55,6 +56,7 @@ typedef struct s_app
 	struct s_sdl sdl;
 } t_app;
 
+void centralize(t_app *app);
 bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,

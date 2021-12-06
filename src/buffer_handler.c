@@ -23,10 +23,10 @@ static void set_vao(void)
 	//Vertex attrib pointer for xyz
 	glVertexAttribPointer(
 		0,
-		3,
+		VERTEX_ATTRIBUTES,
 		GL_FLOAT,
 		GL_FALSE,
-		3 * sizeof(float),
+		VERTEX_ATTRIBUTES * sizeof(float),
 		(void *)0);
 	glEnableVertexAttribArray(0);
 }
