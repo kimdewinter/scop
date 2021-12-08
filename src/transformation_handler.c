@@ -89,7 +89,24 @@ static t_mat4 get_scaling_matrix(
 	return result;
 }
 
-void handle_transformations(t_app *app)
+static t_mat4 get_projection_matrix(
+	const float fov,
+	const float aspect,
+	float near,
+	float far)
+{
+	t_mat4 result = get_identity_matrix();
+	float f = (float)tan(fov / 2.0f);
+
+	result.mat4[0] = 1.0f / (f * aspect);
+	result.mat4[5] = 1.0f / f;
+	result.mat4[10] = -(far + near) / (far - near);
+	result.mat4[11] = -1.0f;
+	result.mat4[14] = -(2.0f * far * near) / (far - near);
+	return (result);
+}
+
+void send_model_matrix(t_app *app)
 {
 	t_mat4 transformation_matrix = get_identity_matrix();
 
@@ -120,8 +137,30 @@ void handle_transformations(t_app *app)
 	//Send the transformation matrix to the shader program
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
-		glGetUniformLocation(app->shader_program, "transform"),
+		glGetUniformLocation(app->shader_program, "modelmatrix"),
 		1,
 		GL_FALSE,
 		transformation_matrix.mat4);
+}
+
+void send_projection_matrix(t_app *app)
+{
+	t_mat4 projection_matrix = get_identity_matrix();
+
+	//Add projection to the matrix
+	projection_matrix = multiply_matrices(
+		projection_matrix,
+		get_projection_matrix(
+			DEFAULT_FOV,
+			DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
+			0.1f,
+			100.0f));
+
+	//Send the projection matrix to the shader program
+	glUseProgram(app->shader_program);
+	glUniformMatrix4fv(
+		glGetUniformLocation(app->shader_program, "projectionmatrix"),
+		1,
+		GL_FALSE,
+		projection_matrix.mat4);
 }

@@ -75,7 +75,8 @@ int main(int argc, char const **const argv)
 	{
 		if (!handle_events(&app))
 			(shutdown(&app, EXIT_FAILURE));
-		handle_transformations(&app);
+		send_model_matrix(&app);
+		send_projection_matrix(&app);
 		render(&app);
 	}
 	return (shutdown(&app, EXIT_SUCCESS));

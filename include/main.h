@@ -8,6 +8,7 @@
 #define VERTEX_ATTRIBUTES 3
 #define DEFAULT_SCREEN_WIDTH 1280
 #define DEFAULT_SCREEN_HEIGHT 900
+#define DEFAULT_FOV 70
 #define DEFAULT_CLEARCOLOR_RED 0.0f
 #define DEFAULT_CLEARCOLOR_GREEN 0.3f
 #define DEFAULT_CLEARCOLOR_BLUE 0.3f
@@ -73,7 +74,8 @@ bool load_vertices(t_app *app, char const *const file_name);
 bool parse_main_args(t_app *app, const int argc, char const **const argv);
 char *file_to_string(char const *const file_name);
 char *skip_float(char *const str);
-void handle_transformations(t_app *app);
+void send_model_matrix(t_app *app);
+void send_projection_matrix(t_app *app);
 void set_uniform_bool(GLuint shader_program, const char *name, const bool value);
 void set_uniform_float(GLuint shader_program, const char *name, const float value);
 void set_uniform_int(GLuint shader_program, const char *name, const int value);
