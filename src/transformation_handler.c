@@ -5,6 +5,38 @@ typedef struct s_mat4
 	float mat4[16];
 } t_mat4;
 
+//Only for vectors of 3,
+//make sure that dst is not the same memory as src1 or src2!
+static void cross_product_vectors(
+	float *dst,
+	float *src1,
+	float *src2)
+{
+	dst[0] = src1[1] * src2[2] - src1[2] * src2[1];
+	dst[1] = src1[2] * src2[0] - src1[0] * src2[2];
+	dst[2] = src1[0] * src2[1] - src1[1] * src2[0];
+}
+
+static void normalize_vector(
+	float *const dst,
+	float const *const src,
+	size_t const len)
+{
+	float mod = 0.0f;
+	double magnitude;
+
+	for (size_t i = 0; i < len; ++i)
+		mod += src[i] * src[i];
+	magnitude = sqrt(mod);
+	if (magnitude == 0)
+	{
+		fprintf(stderr, "The input vector is a zero vector");
+		return;
+	}
+	for (size_t i = 0; i < len; ++i)
+		dst[i] = src[i] / magnitude;
+}
+
 static t_mat4 get_identity_matrix(void)
 {
 	t_mat4 result;
@@ -163,4 +195,41 @@ void send_projection_matrix(t_app *app)
 		1,
 		GL_FALSE,
 		projection_matrix.mat4);
+}
+
+void send_view_matrix(t_app *app)
+{
+	t_mat4 view_matrix = get_identity_matrix();
+	float cam_direction[3];
+
+	app->camera.cam_pos[0] = 0.0f;
+	app->camera.cam_pos[1] = 0.0f;
+	app->camera.cam_pos[2] = 3.0f;
+
+	app->camera.cam_target[0] = 0.0f;
+	app->camera.cam_target[1] = 0.0f;
+	app->camera.cam_target[2] = 0.0f;
+
+	cam_direction[0] = app->camera.cam_pos[0] - app->camera.cam_target[0];
+	cam_direction[1] = app->camera.cam_pos[1] - app->camera.cam_target[1];
+	cam_direction[2] = app->camera.cam_pos[2] - app->camera.cam_target[2];
+	normalize_vector(&cam_direction, &cam_direction, 3);
+
+	app->camera.cam_up[0] = 0.0f;
+	app->camera.cam_up[1] = 1.0f;
+	app->camera.cam_up[2] = 0.0f;
+
+	cross_product_vectors(
+		app->camera.cam_right,
+		app->camera.cam_up,
+		&cam_direction);
+	normalize_vector(&app->camera.cam_right, &app->camera.cam_right, 3);
+
+	//Add world space transformation to matrix
+	view_matrix = multiply_matrices(
+		view_matrix,
+		get_translation_matrix(
+			-app->obj_pos[0],
+			-app->obj_pos[1],
+			-app->obj_pos[2]));
 }

@@ -39,6 +39,14 @@ typedef struct s_orientation
 	float translation_z;
 } t_orientation;
 
+typedef struct s_camera
+{
+	float cam_pos[3];
+	float cam_target[3];
+	float cam_right[3];
+	float cam_up[3];
+} t_camera;
+
 typedef struct s_app
 {
 	char *obj_file_name;
@@ -49,6 +57,8 @@ typedef struct s_app
 	unsigned int *indices;
 	unsigned int indices_length;
 	struct s_orientation orientation;
+	float obj_pos[3];
+	struct s_camera camera;
 	bool close_window;
 	GLuint VBO; //Vertex Buffer Object
 	GLuint VAO; //Vertex Buffer Array
@@ -76,6 +86,7 @@ char *file_to_string(char const *const file_name);
 char *skip_float(char *const str);
 void send_model_matrix(t_app *app);
 void send_projection_matrix(t_app *app);
+void send_view_matrix(t_app *app);
 void set_uniform_bool(GLuint shader_program, const char *name, const bool value);
 void set_uniform_float(GLuint shader_program, const char *name, const float value);
 void set_uniform_int(GLuint shader_program, const char *name, const int value);

@@ -1,4 +1,5 @@
 #include "main.h"
+#include <float.h>
 
 void set_uniform_bool(GLuint shader_program, const char *name, const bool value)
 {
