@@ -42,23 +42,29 @@ LIBOBJ_NAME=	libobj
 LIBOBJ_DIR:=	$(LIBS_DIR)/libobj
 LIBOBJ:=		$(LIBOBJ_DIR)/$(LIBOBJ_NAME).a
 
+LIBMATH_NAME=	libmath
+LIBMATH_DIR:=	$(LIBS_DIR)/libmath
+LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
+
 # COMPILATION
 
 CFLAGS?=	-Wall -Wextra -Werror -pedantic\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
 			-I$(LIBOBJ_DIR)/include\
+			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
+			-L$(LIBMATH_DIR) -lmath\
 			-lSDL2 -lSDL2main\
 			-framework OpenGL
 DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ)
+$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH)
 	@echo "Compiling $@ executable"
 	@$(CC) $(LDFLAGS) -o $@ $(OBJS)
 
@@ -69,6 +75,10 @@ $(LIBFT):
 $(LIBOBJ):
 	@echo "Compiling libobj library"
 	@$(MAKE) -s -C $(LIBOBJ_DIR)
+
+$(LIBMATH):
+	@echo "Compiling libmath library"
+	@$(MAKE) -s -C $(LIBMATH_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(OBJ_DIR)
@@ -81,6 +91,8 @@ clean:
 	@make clean -s -C $(LIBFT_DIR)
 	@echo "Cleaning $(LIBOBJ_NAME) object files"
 	@make clean -s -C $(LIBOBJ_DIR)
+	@echo "Cleaning $(LIBMATH_NAME) object files"
+	@make clean -s -C $(LIBMATH_DIR)
 
 fclean: clean
 	@echo "Removing $(NAME)"
@@ -89,10 +101,12 @@ fclean: clean
 	@make fclean -s -C $(LIBFT_DIR)
 	@echo "Removing $(LIBOBJ_NAME)"
 	@make fclean -s -C $(LIBOBJ_DIR)
+	@echo "Removing $(LIBMATH_NAME)"
+	@make fclean -s -C $(LIBMATH_DIR)
 
 re: fclean all
 
-debug: $(LIBFT) $(LIBOBJ) $(SRCS) $(INCS)
+debug: $(LIBFT) $(LIBOBJ) $(LIBMATH) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS)
 
