@@ -11,6 +11,12 @@ void get_rotation_mat4(
     float const x_deg,
     float const y_deg,
     float const z_deg);
+void get_projection_matrix(
+    t_mat4 *dst,
+    const float fov,
+    const float aspect,
+    float near,
+    float far);
 void get_translation_mat4(
     t_mat4 *dst,
     float const x,

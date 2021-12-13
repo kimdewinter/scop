@@ -89,6 +89,26 @@ void get_translation_mat4(
 }
 
 //The caller must allocate the space for arg "dst"
+void get_projection_matrix(
+    t_mat4 *dst,
+    const float fov,
+    const float aspect,
+    float near,
+    float far)
+{
+    float f = (float)tan(fov / 2.0f);
+
+    assert(dst);
+    memcpy(
+        dst,
+        (t_mat4){1.0f / (f * aspect), 0.0f, 0.0f, 0.0f,
+                 0.0f, 1.0f / f, 0.0f, 0.0f,
+                 0.0f, 0.0f, -(far + near) / (far - near), -1.0f,
+                 0.0f, 0.0f, -(2.0f * far * near) / (far - near), 1.0f},
+        sizeof(t_mat4));
+}
+
+//The caller must allocate the space for arg "dst"
 //"dst" is allowed to be the same as "src1" or "src2"
 void multiply_mat4(
     t_mat4 *dst,
