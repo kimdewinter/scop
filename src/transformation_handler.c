@@ -13,26 +13,6 @@
 // 	dst[2] = src1[0] * src2[1] - src1[1] * src2[0];
 // }
 
-// static void normalize_vector(
-// 	float *const dst,
-// 	float const *const src,
-// 	size_t const len)
-// {
-// 	float mod = 0.0f;
-// 	double magnitude;
-
-// 	for (size_t i = 0; i < len; ++i)
-// 		mod += src[i] * src[i];
-// 	magnitude = sqrt(mod);
-// 	if (magnitude == 0)
-// 	{
-// 		fprintf(stderr, "The input vector is a zero vector");
-// 		return;
-// 	}
-// 	for (size_t i = 0; i < len; ++i)
-// 		dst[i] = src[i] / magnitude;
-// }
-
 void send_model_matrix(t_app *app)
 {
 	t_mat4 output;
@@ -80,7 +60,7 @@ void send_projection_matrix(t_app *app)
 	t_mat4 output;
 
 	//Configure "output" as a projection matrix
-	get_projection_matrix(
+	get_projection_mat4(
 		&output,
 		DEFAULT_FOV,
 		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
