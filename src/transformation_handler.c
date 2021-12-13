@@ -1,18 +1,6 @@
 #include "main.h"
 #include "libmath.h"
 
-// //Only for vectors of 3,
-// //make sure that dst is not the same memory as src1 or src2!
-// static void cross_product_vectors(
-// 	float *dst,
-// 	float *src1,
-// 	float *src2)
-// {
-// 	dst[0] = src1[1] * src2[2] - src1[2] * src2[1];
-// 	dst[1] = src1[2] * src2[0] - src1[0] * src2[2];
-// 	dst[2] = src1[0] * src2[1] - src1[1] * src2[0];
-// }
-
 void send_model_matrix(t_app *app)
 {
 	t_mat4 output;
@@ -76,7 +64,57 @@ void send_projection_matrix(t_app *app)
 		output);
 }
 
-// void send_view_matrix(t_app *app)
+void send_view_matrix(t_app *app)
+{
+	t_mat4 output;
+	t_vec3 cam_direction;
+
+	//Get the necessary information to call get_lookat_mat4()
+	app->camera.cam_pos[0] = 0.0f;
+	app->camera.cam_pos[1] = 0.0f;
+	app->camera.cam_pos[2] = 3.0f;
+
+	app->camera.cam_target[0] = 0.0f;
+	app->camera.cam_target[1] = 0.0f;
+	app->camera.cam_target[2] = 0.0f;
+
+	subtract_vec3(&cam_direction, &app->camera.cam_pos, &app->camera.cam_target);
+	normalize_vec3(&cam_direction, &cam_direction);
+
+	app->camera.cam_up[0] = 0.0f;
+	app->camera.cam_up[1] = 1.0f;
+	app->camera.cam_up[2] = 0.0f;
+
+	cross_product_vec3(
+		&app->camera.cam_right,
+		&app->camera.cam_up,
+		&cam_direction);
+	normalize_vec3(&app->camera.cam_right, &app->camera.cam_right);
+
+	get_lookat_mat4(
+		&output,
+		&app->camera.cam_right,
+		&app->camera.cam_up,
+		&cam_direction,
+		&app->camera.cam_pos);
+
+	glUseProgram(app->shader_program);
+	glUniformMatrix4fv(
+		glGetUniformLocation(app->shader_program, "viewmatrix"),
+		1,
+		GL_FALSE,
+		output);
+
+	//Add world space transformation to matrix
+	// view_matrix = multiply_matrices(
+	// 	view_matrix,
+	// 	get_translation_matrix(
+	// 		-app->obj_pos[0],
+	// 		-app->obj_pos[1],
+	// 		-app->obj_pos[2]));
+}
+
+//  send_view_matrix(t_app *app)
 // {
 // 	t_mat4 view_matrix = get_identity_matrix();
 // 	float cam_direction[3];

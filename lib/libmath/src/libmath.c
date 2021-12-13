@@ -129,6 +129,8 @@ void multiply_mat4(
     memcpy(dst, &output, sizeof(t_mat4));
 }
 
+//The caller must allocate the space for arg "dst"
+//"dst" is allowed to be the same as "src"
 void normalize_vec3(t_vec3 *dst, t_vec3 const *const src)
 {
     float mod = 0.0f;
@@ -136,16 +138,61 @@ void normalize_vec3(t_vec3 *dst, t_vec3 const *const src)
 
     assert(dst && src);
     for (size_t i = 0; i < 3; ++i)
-        mod += (*src)[i] * (*src)[i];
+        mod += *src[i] * *src[i];
     magnitude = sqrt(mod);
     for (size_t i = 0; i < 3; ++i)
-        (*dst)[i] = (*src)[i] / magnitude;
+        *dst[i] = *src[i] / magnitude;
 }
 
-void cross_product_vec3(float *dst, float *src1, float *src2)
+//The caller must allocate the space for arg "dst"
+//"dst" is allowed to be the same as "src1" or "src2"
+void cross_product_vec3(t_vec3 *dst, t_vec3 *src1, t_vec3 *src2)
 {
     assert(dst && src1 && src2);
-    dst[0] = src1[1] * src2[2] - src1[2] * src2[1];
-    dst[1] = src1[2] * src2[0] - src1[0] * src2[2];
-    dst[2] = src1[0] * src2[1] - src1[1] * src2[0];
+    *dst[0] = *src1[1] * *src2[2] - *src1[2] * *src2[1];
+    *dst[1] = *src1[2] * *src2[0] - *src1[0] * *src2[2];
+    *dst[2] = *src1[0] * *src2[1] - *src1[1] * *src2[0];
+}
+
+//The caller must allocate the space for arg "dst"
+//"dst" is allowed to be the same as "minuend" or "subtrahend"
+void subtract_vec3(
+    t_vec3 *dst,
+    t_vec3 const *const minuend,
+    t_vec3 const *const subtrahend)
+{
+    assert(dst && minuend && subtrahend);
+    for (size_t i = 0; i < 3; i++)
+        *dst[i] = *minuend[i] - *subtrahend[i];
+}
+
+void get_lookat_mat4(
+    t_mat4 *dst,
+    t_vec3 const *const right,
+    t_vec3 const *const up,
+    t_vec3 const *const direction,
+    t_vec3 const *const cam_pos)
+{
+    t_mat4 rotation;
+    t_mat4 translation;
+
+    assert(dst && right && up && direction && cam_pos);
+    //Set up the rotation matrix
+    memcpy(
+        rotation,
+        (t_mat4){*right[0], *right[1], *right[2], 0.0f,
+                 *up[0], *up[1], *up[2], 0.0f,
+                 *direction[0], *direction[1], *direction[2], 0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f},
+        sizeof(t_mat4));
+    //Set up the translation matrix
+    memcpy(
+        dst,
+        (t_mat4){1.0f, 0.0f, 0.0f, -*cam_pos[0],
+                 0.0f, 1.0f, 0.0f, -*cam_pos[1],
+                 0.0f, 0.0f, 1.0f, -*cam_pos[2],
+                 0.0f, 0.0f, 0.0f, 1.0f},
+        sizeof(t_mat4));
+    //Combine the two matrices to form a lookat matrix
+    multiply_mat4(dst, &rotation, &translation);
 }
