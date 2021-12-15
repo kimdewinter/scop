@@ -10,14 +10,14 @@ typedef float t_vec3[3];
 
 void cross_product_vec3(
     t_vec3 *dst,
-    t_vec3 const *const src1,
-    t_vec3 const *const src2);
+    t_vec3 *src1,
+    t_vec3 *src2);
 void get_identity_mat4(t_mat4 *dst);
 void get_lookat_mat4(
     t_mat4 *dst,
-    t_vec3 const *const cam_pos,
-    t_vec3 const *const target,
-    t_vec3 const *const up);
+    t_vec3 *cam_pos,
+    t_vec3 *target,
+    t_vec3 *up);
 void get_scaling_mat4(t_mat4 *dst, float const x, float const y, float const z);
 void get_rotation_mat4(
     t_mat4 *dst,
@@ -39,7 +39,7 @@ void multiply_mat4(
     t_mat4 *dst,
     t_mat4 const *const src1,
     t_mat4 const *const src2);
-void normalize_vec3(t_vec3 *dst, t_vec3 const *const src);
+void normalize_vec3(t_vec3 *dst, t_vec3 *src);
 void subtract_vec3(
     t_vec3 *dst,
     t_vec3 const *const minuend,

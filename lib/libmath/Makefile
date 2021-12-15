@@ -5,7 +5,8 @@ NAME:=	libmath.a
 SRC_FILES:=	libmath
 INC_FILES:=	libmath
 TEST_MAIN=
-TEST_EXEC=
+TEST_MAIN=	tests/test.c
+TEST_EXEC=	test
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
