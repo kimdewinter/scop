@@ -178,7 +178,7 @@ void get_lookat_mat4(
     t_vec3 cam_direction;
     t_vec3 right;
 
-    assert(dst && target && up);
+    assert(dst && cam_pos && target && up);
 
     //Get camera direction
     subtract_vec3(&cam_direction, cam_pos, target);
