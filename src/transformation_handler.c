@@ -68,19 +68,35 @@ void send_view_matrix(t_app *app)
 {
 	t_mat4 output;
 
-	get_identity_mat4(&output);
-	float radius = 10.0f;
-	float camX = sin(SDL_GetTicks() * radius);
-	float camZ = cos(SDL_GetTicks() * radius);
-	get_lookat_mat4(
+	//TESTS START HERE
+	memcpy(
 		&output,
-		&(t_vec3){camX, 0.0f, camZ},
-		&(t_vec3){0.0f, 0.0f, 0.0f},
-		&(t_vec3){0.0f, 1.0f, 0.0f});
+		(t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
+				 0.0f, 1.0f, 0.0f, 0.0f,
+				 0.0f, 0.0f, 1.0f, 0.0f,
+				 0.0f, 0.0f, 0.0f, 1.0f},
+		sizeof(t_mat4));
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "viewmatrix"),
 		1,
 		GL_FALSE,
 		output);
+	//TESTS END HERE
+
+	// get_identity_mat4(&output);
+	// // float radius = 10.0f;
+	// // float camX = sin(SDL_GetTicks() * radius);
+	// // float camZ = cos(SDL_GetTicks() * radius);
+	// get_lookat_mat4(
+	// 	&output,
+	// 	&(t_vec3){0.1f, 0.0f, 0.1f},
+	// 	&(t_vec3){0.0f, 0.0f, 0.0f},
+	// 	&(t_vec3){0.0f, 1.0f, 0.0f});
+	// glUseProgram(app->shader_program);
+	// glUniformMatrix4fv(
+	// 	glGetUniformLocation(app->shader_program, "viewmatrix"),
+	// 	1,
+	// 	GL_FALSE,
+	// 	output);
 }

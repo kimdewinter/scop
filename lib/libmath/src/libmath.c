@@ -46,23 +46,23 @@ void get_rotation_mat4(
     memcpy(
         &x_mat,
         (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, (float)cos((double)x_deg), (float)sin((double)x_deg), 0.0f,
-                 0.0f, (float)(-(sin((double)x_deg))), (float)cos((double)x_deg), 0.0f,
+                 0.0f, cos(x_deg), sin(x_deg), 0.0f,
+                 0.0f, -sin(x_deg), cos(x_deg), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create y rotation matrix
     memcpy(
         &y_mat,
-        (t_mat4){(float)cos((double)y_deg), 0.0f, (float)(-(sin((double)y_deg))), 0.0f,
+        (t_mat4){cos(y_deg), 0.0f, -(sin(y_deg)), 0.0f,
                  0.0f, 1.0f, 0.0f, 0.0f,
-                 (float)sin((double)y_deg), 0.0f, (float)cos((double)y_deg), 0.0f,
+                 sin(y_deg), 0.0f, cos(y_deg), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create z rotation matrix
     memcpy(
         &z_mat,
-        (t_mat4){(float)cos((double)z_deg), (float)sin((double)z_deg), 0.0f, 0.0f,
-                 (float)(-(sin((double)z_deg))), (float)cos((double)z_deg), 0.0f, 0.0f,
+        (t_mat4){cos(z_deg), sin(z_deg), 0.0f, 0.0f,
+                 -sin(z_deg), cos(z_deg), 0.0f, 0.0f,
                  0.0f, 0.0f, 1.0f, 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
@@ -138,10 +138,10 @@ void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 
     assert(dst && src);
     for (size_t i = 0; i < 3; ++i)
-        mod += (*src)[i] * (*src)[i];
+        mod += *src[i] * *src[i];
     magnitude = sqrt(mod);
     for (size_t i = 0; i < 3; ++i)
-        (*dst)[i] = (*src)[i] / magnitude;
+        *dst[i] = *src[i] / magnitude;
 }
 
 //The caller must allocate the space for arg "dst"
@@ -152,9 +152,9 @@ void cross_product_vec3(
     t_vec3 *src2)
 {
     assert(dst && src1 && src2);
-    (*dst)[0] = (((*src1)[1]) * ((*src2)[2])) - (((*src1)[2]) * ((*src2)[1]));
-    (*dst)[1] = (((*src1)[2]) * ((*src2)[0])) - (((*src1)[0]) * ((*src2)[2]));
-    (*dst)[2] = (((*src1)[0]) * ((*src2)[1])) - (((*src1)[1]) * ((*src2)[0]));
+    *dst[0] = (*src1[1] * *src2[2]) - (*src1[2] * *src2[1]);
+    *dst[1] = (*src1[2] * *src2[0]) - (*src1[0] * *src2[2]);
+    *dst[2] = (*src1[0] * *src2[1]) - (*src1[1] * *src2[0]);
 }
 
 //The caller must allocate the space for arg "dst"
@@ -166,7 +166,7 @@ void subtract_vec3(
 {
     assert(dst && minuend && subtrahend);
     for (size_t i = 0; i < 3; i++)
-        (*dst)[i] = (*minuend)[i] - (*subtrahend)[i];
+        *dst[i] = *minuend[i] - *subtrahend[i];
 }
 
 void get_lookat_mat4(
@@ -205,7 +205,7 @@ void get_lookat_mat4(
         (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
                  0.0f, 1.0f, 0.0f, 0.0f,
                  0.0f, 0.0f, 1.0f, 0.0f,
-                 -((*cam_pos)[0]), -((*cam_pos)[1]), -((*cam_pos)[2]), 1.0f},
+                 -*cam_pos[0], -*cam_pos[1], -*cam_pos[2], 1.0f},
         sizeof(t_mat4));
     //Combine the two matrices to form a lookat matrix
     multiply_mat4(dst, &rotation, &translation);
