@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <math.h>
 
-#include <stdlib.h> //delete later
-
 //The caller must allocate the space for arg "dst"
 void get_identity_mat4(t_mat4 *dst)
 {
