@@ -180,6 +180,16 @@ void get_lookat_mat4(
 
     assert(dst && cam_pos && target && up);
 
+    //TEST: remove this and the return statement
+    memcpy(
+        dst,
+        (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
+                 0.0f, 1.0f, 0.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f},
+        sizeof(t_mat4));
+    return;
+
     //Get camera direction
     subtract_vec3(&cam_direction, cam_pos, target);
     normalize_vec3(&cam_direction, &cam_direction);
@@ -210,3 +220,47 @@ void get_lookat_mat4(
     //Combine the two matrices to form a lookat matrix
     multiply_mat4(dst, &rotation, &translation);
 }
+
+/*
+void get_lookat_mat4(
+    t_mat4 *dst,
+    t_vec3 *cam_pos,
+    t_vec3 *target,
+    t_vec3 *up)
+{
+    t_vec3 cam_direction;
+    t_vec3 right;
+
+    assert(dst && cam_pos && target && up);
+
+    //Get camera direction
+    subtract_vec3(&cam_direction, cam_pos, target);
+    normalize_vec3(&cam_direction, &cam_direction);
+
+    //Get right
+    cross_product_vec3(&right, up, &cam_direction);
+    normalize_vec3(&right, &right);
+
+    t_mat4 rotation;
+    t_mat4 translation;
+
+    //Set up rotation matrix
+    memcpy(
+        rotation,
+        (t_mat4){right[0], *up[0], cam_direction[0], 0.0f,
+                 right[1], *up[1], cam_direction[1], 0.0f,
+                 right[2], *up[2], cam_direction[2], 0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f},
+        sizeof(t_mat4));
+    //Set up translation matrix
+    memcpy(
+        translation,
+        (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
+                 0.0f, 1.0f, 0.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f, 0.0f,
+                 -*cam_pos[0], -*cam_pos[1], -*cam_pos[2], 1.0f},
+        sizeof(t_mat4));
+    //Combine the two matrices to form a lookat matrix
+    multiply_mat4(dst, &rotation, &translation);
+}
+*/
