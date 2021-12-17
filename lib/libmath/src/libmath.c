@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <math.h>
 
+#include <stdlib.h>
+
 //The caller must allocate the space for arg "dst"
 void get_identity_mat4(t_mat4 *dst)
 {
@@ -133,15 +135,12 @@ void multiply_mat4(
 //"dst" is allowed to be the same as "src"
 void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 {
-    float mod = 0.0f;
-    double magnitude;
-
-    assert(dst && src);
-    for (size_t i = 0; i < 3; ++i)
-        mod += *src[i] * *src[i];
-    magnitude = sqrt(mod);
-    for (size_t i = 0; i < 3; ++i)
-        *dst[i] = *src[i] / magnitude;
+    float magnitude = (*src)[0] * (*src)[0] +
+                      (*src)[1] * (*src)[1] +
+                      (*src)[2] * (*src)[2];
+    (*dst)[0] = (*src)[0] / magnitude;
+    (*dst)[1] = (*src)[1] / magnitude;
+    (*dst)[2] = (*src)[2] / magnitude;
 }
 
 //The caller must allocate the space for arg "dst"
@@ -152,9 +151,9 @@ void cross_product_vec3(
     t_vec3 *src2)
 {
     assert(dst && src1 && src2);
-    *dst[0] = (*src1[1] * *src2[2]) - (*src1[2] * *src2[1]);
-    *dst[1] = (*src1[2] * *src2[0]) - (*src1[0] * *src2[2]);
-    *dst[2] = (*src1[0] * *src2[1]) - (*src1[1] * *src2[0]);
+    (*dst)[0] = (*src1)[1] * (*src2)[2] - (*src1)[2] * (*src2)[1];
+    (*dst)[1] = (*src1)[2] * (*src2)[0] - (*src1)[0] * (*src2)[2];
+    (*dst)[2] = (*src1)[0] * (*src2)[1] - (*src1)[1] * (*src2)[0];
 }
 
 //The caller must allocate the space for arg "dst"
@@ -166,7 +165,7 @@ void subtract_vec3(
 {
     assert(dst && minuend && subtrahend);
     for (size_t i = 0; i < 3; i++)
-        *dst[i] = *minuend[i] - *subtrahend[i];
+        (*dst)[i] = (*minuend)[i] - (*subtrahend)[i];
 }
 
 void get_lookat_mat4(
@@ -175,50 +174,47 @@ void get_lookat_mat4(
     t_vec3 *target,
     t_vec3 *up)
 {
-    t_vec3 cam_direction;
+    t_vec3 forward;
     t_vec3 right;
 
-    assert(dst && cam_pos && target && up);
+    subtract_vec3(&forward, target, cam_pos);
+    normalize_vec3(&forward, &forward);
 
-    //TEST: remove this and the return statement
-    memcpy(
-        dst,
-        (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, 1.0f, 0.0f, 0.0f,
-                 0.0f, 0.0f, 1.0f, 0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f},
-        sizeof(t_mat4));
-    return;
+    normalize_vec3(up, up);
 
-    //Get camera direction
-    subtract_vec3(&cam_direction, cam_pos, target);
-    normalize_vec3(&cam_direction, &cam_direction);
-
-    //Get right
-    cross_product_vec3(&right, up, &cam_direction);
+    cross_product_vec3(&right, &forward, up);
     normalize_vec3(&right, &right);
 
-    t_mat4 rotation;
-    t_mat4 translation;
+    memset(dst, 0, sizeof(t_mat4));
 
-    //Set up rotation matrix
-    memcpy(
-        rotation,
-        (t_mat4){right[0], *up[0], cam_direction[0], 0.0f,
-                 right[1], *up[1], cam_direction[1], 0.0f,
-                 right[2], *up[2], cam_direction[2], 0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f},
-        sizeof(t_mat4));
-    //Set up translation matrix
-    memcpy(
-        translation,
-        (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, 1.0f, 0.0f, 0.0f,
-                 0.0f, 0.0f, 1.0f, 0.0f,
-                 -*cam_pos[0], -*cam_pos[1], -*cam_pos[2], 1.0f},
-        sizeof(t_mat4));
-    //Combine the two matrices to form a lookat matrix
-    multiply_mat4(dst, &rotation, &translation);
+    //top row
+    (*dst)[0] = right[0];
+    (*dst)[4] = right[1];
+    (*dst)[8] = right[2];
+
+    //second row
+    (*dst)[1] = (*up)[0];
+    (*dst)[5] = (*up)[1];
+    (*dst)[9] = (*up)[2];
+
+    //third row
+    (*dst)[2] = -(forward[0]);
+    (*dst)[6] = -(forward[1]);
+    (*dst)[10] = -(forward[2]);
+
+    //fourth row
+    (*dst)[3] = -(
+        right[0] * (*cam_pos)[0] +
+        right[1] * (*cam_pos)[1] +
+        right[2] * (*cam_pos)[2]);
+    (*dst)[7] = -(
+        (*up)[0] * (*cam_pos)[0] +
+        (*up)[1] * (*cam_pos)[1] +
+        (*up)[2] * (*cam_pos)[2]);
+    (*dst)[11] = (forward[0] * (*cam_pos)[0] +
+                  forward[1] * (*cam_pos)[1] +
+                  forward[2] * (*cam_pos)[2]);
+    (*dst)[15] = 1.0f;
 }
 
 /*

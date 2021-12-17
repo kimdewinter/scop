@@ -69,12 +69,18 @@ void send_view_matrix(t_app *app)
 	t_mat4 output;
 
 	get_identity_mat4(&output);
-	// float radius = 10.0f;
-	// float camX = sin(SDL_GetTicks() * radius);//test-thing
-	// float camZ = cos(SDL_GetTicks() * radius);//test-thing
+	float radius = 100.0f;
+	float camX = sin((SDL_GetTicks() / 100) * radius); //test-thing
+	float camZ = cos((SDL_GetTicks() / 100) * radius); //test-thing
+	// t_vec3 cam_pos;
+	// t_vec3 target;
+	// t_vec3 up;
+	// memcpy(cam_pos, (t_vec3){1.0f, 0.0f, 1.0f}, sizeof(t_vec3));
+	// memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
+	// memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
 	get_lookat_mat4(
 		&output,
-		&(t_vec3){0.1f, 0.0f, 0.1f},
+		&(t_vec3){camX, 0.0f, camZ},
 		&(t_vec3){0.0f, 0.0f, 0.0f},
 		&(t_vec3){0.0f, 1.0f, 0.0f});
 	glUseProgram(app->shader_program);
