@@ -70,8 +70,8 @@ void send_view_matrix(t_app *app)
 
 	get_identity_mat4(&output);
 	float radius = 100.0f;
-	float camX = sin((SDL_GetTicks() / 100) * radius); //test-thing
-	float camZ = cos((SDL_GetTicks() / 100) * radius); //test-thing
+	float camX = sin((SDL_GetTicks() / 75) * radius); //test-thing
+	float camZ = cos((SDL_GetTicks() / 75) * radius); //test-thing
 	// t_vec3 cam_pos;
 	// t_vec3 target;
 	// t_vec3 up;

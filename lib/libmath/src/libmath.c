@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <math.h>
 
-#include <stdlib.h>
-
 //The caller must allocate the space for arg "dst"
 void get_identity_mat4(t_mat4 *dst)
 {
@@ -135,12 +133,18 @@ void multiply_mat4(
 //"dst" is allowed to be the same as "src"
 void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 {
+    assert(dst && src);
     float magnitude = (*src)[0] * (*src)[0] +
                       (*src)[1] * (*src)[1] +
                       (*src)[2] * (*src)[2];
-    (*dst)[0] = (*src)[0] / magnitude;
-    (*dst)[1] = (*src)[1] / magnitude;
-    (*dst)[2] = (*src)[2] / magnitude;
+    if (magnitude == 0)
+        memcpy(dst, src, sizeof(t_vec3));
+    else
+    {
+        (*dst)[0] = (*src)[0] / magnitude;
+        (*dst)[1] = (*src)[1] / magnitude;
+        (*dst)[2] = (*src)[2] / magnitude;
+    }
 }
 
 //The caller must allocate the space for arg "dst"
@@ -177,31 +181,31 @@ void get_lookat_mat4(
     t_vec3 forward;
     t_vec3 right;
 
+    //Get axis from camera to target
     subtract_vec3(&forward, target, cam_pos);
     normalize_vec3(&forward, &forward);
 
+    //Normalize up axis
     normalize_vec3(up, up);
 
+    //Get axis to the right
     cross_product_vec3(&right, &forward, up);
     normalize_vec3(&right, &right);
 
+    //Return the lookat matrix
     memset(dst, 0, sizeof(t_mat4));
-
     //top row
     (*dst)[0] = right[0];
     (*dst)[4] = right[1];
     (*dst)[8] = right[2];
-
     //second row
     (*dst)[1] = (*up)[0];
     (*dst)[5] = (*up)[1];
     (*dst)[9] = (*up)[2];
-
     //third row
     (*dst)[2] = -(forward[0]);
     (*dst)[6] = -(forward[1]);
     (*dst)[10] = -(forward[2]);
-
     //fourth row
     (*dst)[3] = -(
         right[0] * (*cam_pos)[0] +
@@ -216,47 +220,3 @@ void get_lookat_mat4(
                   forward[2] * (*cam_pos)[2]);
     (*dst)[15] = 1.0f;
 }
-
-/*
-void get_lookat_mat4(
-    t_mat4 *dst,
-    t_vec3 *cam_pos,
-    t_vec3 *target,
-    t_vec3 *up)
-{
-    t_vec3 cam_direction;
-    t_vec3 right;
-
-    assert(dst && cam_pos && target && up);
-
-    //Get camera direction
-    subtract_vec3(&cam_direction, cam_pos, target);
-    normalize_vec3(&cam_direction, &cam_direction);
-
-    //Get right
-    cross_product_vec3(&right, up, &cam_direction);
-    normalize_vec3(&right, &right);
-
-    t_mat4 rotation;
-    t_mat4 translation;
-
-    //Set up rotation matrix
-    memcpy(
-        rotation,
-        (t_mat4){right[0], *up[0], cam_direction[0], 0.0f,
-                 right[1], *up[1], cam_direction[1], 0.0f,
-                 right[2], *up[2], cam_direction[2], 0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f},
-        sizeof(t_mat4));
-    //Set up translation matrix
-    memcpy(
-        translation,
-        (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, 1.0f, 0.0f, 0.0f,
-                 0.0f, 0.0f, 1.0f, 0.0f,
-                 -*cam_pos[0], -*cam_pos[1], -*cam_pos[2], 1.0f},
-        sizeof(t_mat4));
-    //Combine the two matrices to form a lookat matrix
-    multiply_mat4(dst, &rotation, &translation);
-}
-*/
