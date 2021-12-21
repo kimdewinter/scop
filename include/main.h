@@ -16,8 +16,14 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include <SDL2/SDL.h>
+#if __linux__
+#include <glad.h>
+#endif
+#if __APPLE__
 #include <OpenGL/gl3.h>
+#endif
 
 typedef struct s_sdl
 {

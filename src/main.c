@@ -40,6 +40,7 @@ int main(int argc, char const **const argv)
 {
 	t_app app;
 
+	gladLoadGLLoader(SDL_GL_GetProcAddress);
 	memset(&app, 0, sizeof(t_app));
 	if (!parse_main_args(&app, argc, argv))
 		return (shutdown(&app, EXIT_FAILURE));

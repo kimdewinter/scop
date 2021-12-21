@@ -6,7 +6,6 @@ SRC_FILES:=	buffer_handler\
 			centralizer\
 			event_handler\
 			file_handler\
-			main\
 			opengl_handler\
 			obj_loader\
 			printers\
@@ -15,8 +14,12 @@ SRC_FILES:=	buffer_handler\
 			utils\
 			texture_handler\
 			transformation_handler\
-			main_args_parser
-INC_FILES:=	main
+			main_args_parser\
+			main\
+			glad# For MAC, remove this file
+INC_FILES:=	main\
+			glad\
+			khrplatform# For MAC, remove "glad" and "khrplatform"
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -34,9 +37,14 @@ LIBFT_NAME:=	libft
 LIBFT_DIR:=		$(LIBS_DIR)/libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
-SDL2_DIR?=		~/.brew
-SDL2_INC?=		$(SDL2_DIR)/include
-SDL2_LIB?=		$(SDL2_DIR)/lib
+# FOR MAC
+#SDL2_INC?=		~/.brew/include
+#SDL2_LIB?=		~/.brew/lib
+# FOR LINUX
+SDL2_INC?=		/usr/include
+SDL2_LIB?=		/usr/lib/x86_64-linux-gnu/libSDL2.a\
+				/usr/lib/x86_64-linux-gnu/libSDL2main.a
+# END FOR
 
 LIBOBJ_NAME=	libobj
 LIBOBJ_DIR:=	$(LIBS_DIR)/libobj
@@ -48,25 +56,26 @@ LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
 
 # COMPILATION
 
-CFLAGS?=	-Wall -Wextra -Werror -pedantic\
+CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
 			-I$(LIBOBJ_DIR)/include\
 			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
+# FOR MAC, add: -framework OpenGL
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
-			-lSDL2 -lSDL2main\
-			-framework OpenGL
+			-L/usr/lib -lSDL2 -lSDL2main\
+			-ldl -lm
 DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH)
 	@echo "Compiling $@ executable"
-	@$(CC) $(LDFLAGS) -o $@ $(OBJS)
+	@$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
 $(LIBFT):
 	@echo "Compiling libft library"
