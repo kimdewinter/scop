@@ -93,6 +93,9 @@ bool get_context_and_window(t_app *app)
 		return (false);
 
 #ifdef DEBUG
+#if __linux__
+	gladLoadGL();
+#endif
 	print_opengl_info();
 #endif
 

@@ -44,12 +44,9 @@ LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
 ifeq ($(shell uname),Darwin)
 SDL2_INC?=		~/.brew/include
-SDL2_LIB?=		~/.brew/lib
 endif
 ifeq ($(shell uname),Linux)
 SDL2_INC?=		/usr/include
-SDL2_LIB?=		/usr/lib/x86_64-linux-gnu/libSDL2.a\
-				/usr/lib/x86_64-linux-gnu/libSDL2main.a
 endif
 
 LIBOBJ_NAME=	libobj
@@ -127,6 +124,6 @@ re: fclean all
 
 debug: $(LIBFT) $(LIBOBJ) $(LIBMATH) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS)
+	@$(CC) $(DEBUGFLAGS) -o $(NAME) $(SRCS) $(CFLAGS) $(LDFLAGS)
 
 .PHONY: all clean fclean re debug
