@@ -4,21 +4,10 @@ static int shutdown(t_app *app, int exit_return)
 {
 	if (app->obj_file_name)
 		free(app->obj_file_name);
-	if (app->texture_file_name)
-	{
-		free(app->texture_file_name);
-		glDeleteTextures(1, &app->texture);
-	}
 	if (app->vertices)
 		free(app->vertices);
 	if (app->indices)
 		free(app->indices);
-	glDeleteBuffers(1, &app->VBO);
-	glDeleteVertexArrays(1, &app->VAO);
-	if (app->indices_length > 0)
-		glDeleteBuffers(1, &app->EBO);
-	if (app->shader_program)
-		glDeleteProgram(app->shader_program);
 	shutdown_sdl(app);
 	return (exit_return);
 }
