@@ -40,7 +40,9 @@ int main(int argc, char const **const argv)
 {
 	t_app app;
 
+#if __linux__
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
+#endif
 	memset(&app, 0, sizeof(t_app));
 	if (!parse_main_args(&app, argc, argv))
 		return (shutdown(&app, EXIT_FAILURE));

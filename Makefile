@@ -15,11 +15,16 @@ SRC_FILES:=	buffer_handler\
 			texture_handler\
 			transformation_handler\
 			main_args_parser\
-			main\
-			glad# For MAC, remove this file
-INC_FILES:=	main\
-			glad\
-			khrplatform# For MAC, remove "glad" and "khrplatform"
+			main
+ifeq ($(shell uname),Linux)
+SRC_FILES+=	glad
+endif
+
+INC_FILES:=	main
+ifeq ($(shell uname),Linux)
+INC_FILES+=	glad\
+			khrplatform
+endif
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -37,14 +42,15 @@ LIBFT_NAME:=	libft
 LIBFT_DIR:=		$(LIBS_DIR)/libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
-# FOR MAC
-#SDL2_INC?=		~/.brew/include
-#SDL2_LIB?=		~/.brew/lib
-# FOR LINUX
+ifeq ($(shell uname),Darwin)
+SDL2_INC?=		~/.brew/include
+SDL2_LIB?=		~/.brew/lib
+endif
+ifeq ($(shell uname),Linux)
 SDL2_INC?=		/usr/include
 SDL2_LIB?=		/usr/lib/x86_64-linux-gnu/libSDL2.a\
 				/usr/lib/x86_64-linux-gnu/libSDL2main.a
-# END FOR
+endif
 
 LIBOBJ_NAME=	libobj
 LIBOBJ_DIR:=	$(LIBS_DIR)/libobj
@@ -63,17 +69,21 @@ CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
 			-D GL_SILENCE_DEPRECATION
-# FOR MAC, add: -framework OpenGL
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
-			-L/usr/lib -lSDL2 -lSDL2main\
-			-ldl -lm
+			-lSDL2 -lSDL2main
+ifeq ($(shell uname),Darwin)
+LDFLAGS+=	-framework OpenGL
+endif
+ifeq ($(shell uname),Linux)
+LDFLAGS+=	-ldl -lm
+endif
 DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH)
+$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH) $(INCS)
 	@echo "Compiling $@ executable"
 	@$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
@@ -89,7 +99,7 @@ $(LIBMATH):
 	@echo "Compiling libmath library"
 	@$(MAKE) -s -C $(LIBMATH_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
