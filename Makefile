@@ -6,7 +6,6 @@ SRC_FILES:=	buffer_handler\
 			centralizer\
 			event_handler\
 			file_handler\
-			main\
 			opengl_handler\
 			obj_loader\
 			printers\
@@ -15,8 +14,17 @@ SRC_FILES:=	buffer_handler\
 			utils\
 			texture_handler\
 			transformation_handler\
-			main_args_parser
+			main_args_parser\
+			main
+ifeq ($(shell uname),Linux)
+SRC_FILES+=	glad
+endif
+
 INC_FILES:=	main
+ifeq ($(shell uname),Linux)
+INC_FILES+=	glad\
+			khrplatform
+endif
 
 SRC_DIR:=	src
 OBJ_DIR:=	.obj
@@ -34,9 +42,12 @@ LIBFT_NAME:=	libft
 LIBFT_DIR:=		$(LIBS_DIR)/libft
 LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
 
-SDL2_DIR?=		~/.brew
-SDL2_INC?=		$(SDL2_DIR)/include
-SDL2_LIB?=		$(SDL2_DIR)/lib
+ifeq ($(shell uname),Darwin)
+SDL2_INC?=		~/.brew/include
+endif
+ifeq ($(shell uname),Linux)
+SDL2_INC?=		/usr/include
+endif
 
 LIBOBJ_NAME=	libobj
 LIBOBJ_DIR:=	$(LIBS_DIR)/libobj
@@ -48,7 +59,7 @@ LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
 
 # COMPILATION
 
-CFLAGS?=	-Wall -Wextra -Werror -pedantic\
+CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)\
 			-I$(LIBFT_DIR)/includes\
 			-I$(LIBOBJ_DIR)/include\
@@ -58,15 +69,20 @@ CFLAGS?=	-Wall -Wextra -Werror -pedantic\
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
-			-lSDL2 -lSDL2main\
-			-framework OpenGL
+			-lSDL2 -lSDL2main
+ifeq ($(shell uname),Darwin)
+LDFLAGS+=	-framework OpenGL
+endif
+ifeq ($(shell uname),Linux)
+LDFLAGS+=	-ldl -lm
+endif
 DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH)
+$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH) $(INCS)
 	@echo "Compiling $@ executable"
-	@$(CC) $(LDFLAGS) -o $@ $(OBJS)
+	@$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
 $(LIBFT):
 	@echo "Compiling libft library"
@@ -80,7 +96,7 @@ $(LIBMATH):
 	@echo "Compiling libmath library"
 	@$(MAKE) -s -C $(LIBMATH_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) -c $(CFLAGS) -o $@ $<
 
@@ -108,6 +124,6 @@ re: fclean all
 
 debug: $(LIBFT) $(LIBOBJ) $(LIBMATH) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(DEBUGFLAGS) -o $(NAME) $(SRCS)
+	@$(CC) $(DEBUGFLAGS) -o $(NAME) $(SRCS) $(CFLAGS) $(LDFLAGS)
 
 .PHONY: all clean fclean re debug

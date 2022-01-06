@@ -4,6 +4,9 @@ bool init_opengl(void)
 {
 	GLenum error = GL_NO_ERROR;
 
+#if __linux__
+	gladLoadGL();
+#endif
 	//Set default background color
 	glClearColor(
 		DEFAULT_CLEARCOLOR_RED,

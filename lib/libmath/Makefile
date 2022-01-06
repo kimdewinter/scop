@@ -18,7 +18,7 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 
 # COMPILATION
 
-CFLAGS?=	-Wall -Wextra -Werror -pedantic\
+CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)
 DEBUGFLAGS?=-g
 
