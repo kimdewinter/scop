@@ -29,18 +29,28 @@ static bool handle_keydown_event(t_app *app)
 		app->orientation.translation_y -= 0.1f;
 	}
 	break;
+	case SDLK_e:
+	{
+		app->orientation.translation_z += 0.1f;
+	}
+	break;
+	case SDLK_q:
+	{
+		app->orientation.translation_z -= 0.1f;
+	}
+	break;
 	case SDLK_r:
 	{
-		app->orientation.scaling_x += 0.1f;
-		app->orientation.scaling_y += 0.1f;
-		app->orientation.scaling_z += 0.1f;
+		app->orientation.scaling_x += 0.01f;
+		app->orientation.scaling_y += 0.01f;
+		app->orientation.scaling_z += 0.01f;
 	}
 	break;
 	case SDLK_f:
 	{
-		app->orientation.scaling_x -= 0.1f;
-		app->orientation.scaling_y -= 0.1f;
-		app->orientation.scaling_z -= 0.1f;
+		app->orientation.scaling_x -= 0.01f;
+		app->orientation.scaling_y -= 0.01f;
+		app->orientation.scaling_z -= 0.01f;
 	}
 	break;
 	case SDLK_c:
