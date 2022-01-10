@@ -20,8 +20,6 @@ static bool create_and_link_shader_program(
 			stdout,
 			"ERROR::SHADER::PROGRAM::LINKING_FAILED\n%s\n",
 			info_log);
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
 		return (false);
 	}
 	return (true);

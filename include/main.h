@@ -13,6 +13,8 @@
 #define DEFAULT_CLEARCOLOR_GREEN 0.3f
 #define DEFAULT_CLEARCOLOR_BLUE 0.3f
 #define DEFAULT_CLEARCOLOR_ALPHA 1.0f
+#define PROJECTION_NEAR 0.1f
+#define PROJECTION_FAR 100.0f
 
 #include <stdlib.h>
 #include <stdbool.h>

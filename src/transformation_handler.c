@@ -52,8 +52,8 @@ void send_projection_matrix(t_app *app)
 		&output,
 		DEFAULT_FOV,
 		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
-		0.1f,
-		100.0f);
+		PROJECTION_NEAR,
+		PROJECTION_FAR);
 
 	//Send matrix to shader program
 	glUseProgram(app->shader_program);

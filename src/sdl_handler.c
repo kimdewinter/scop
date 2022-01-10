@@ -93,6 +93,7 @@ bool get_context_and_window(t_app *app)
 		return (false);
 
 #ifdef DEBUG
+//Print_opengl_info() requires GLAD to have loaded already
 #if __linux__
 	gladLoadGL();
 #endif

@@ -4,6 +4,7 @@ bool init_opengl(void)
 {
 	GLenum error = GL_NO_ERROR;
 
+//Must load GLAD before one call gl functions
 #if __linux__
 	gladLoadGL();
 #endif
