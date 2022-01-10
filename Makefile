@@ -57,6 +57,10 @@ LIBMATH_NAME=	libmath
 LIBMATH_DIR:=	$(LIBS_DIR)/libmath
 LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
 
+LIBCGLM_NAME=	libcglm
+LIBCGLM_DIR:=	$(LIBS_DIR)/libcglm
+LIBCGLM:=		$(LIBCGLM_DIR)/$(LIBCGLM_NAME).a
+
 # COMPILATION
 
 CFLAGS?=	-Wall -Wextra -Werror\
@@ -65,10 +69,12 @@ CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(LIBOBJ_DIR)/include\
 			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
+			-I$(LIBCGLM__DIR)/include\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
+			-L$(LIBCGLM_DIR) -lcglm\
 			-lSDL2 -lSDL2main
 ifeq ($(shell uname),Darwin)
 LDFLAGS+=	-framework OpenGL
