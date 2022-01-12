@@ -1,38 +1,62 @@
 #include "main.h"
 #include "libmath.h"
+#include "cglm.h"
 
 void send_model_matrix(t_app *app)
 {
-	t_mat4 output;
-	t_mat4 scaling;
-	t_mat4 rotation;
-	t_mat4 translation;
+	// t_mat4 output;
+	// t_mat4 scaling;
+	// t_mat4 rotation;
+	// t_mat4 translation;
 
-	get_identity_mat4(&output);
+	// get_identity_mat4(&output);
 
-	//Add scaling to "output"
-	get_scaling_mat4(
-		&scaling,
-		app->orientation.scaling_x,
-		app->orientation.scaling_y,
-		app->orientation.scaling_z);
-	multiply_mat4(&output, &output, &scaling);
+	// //Add scaling to "output"
+	// get_scaling_mat4(
+	// 	&scaling,
+	// 	app->orientation.scaling_x,
+	// 	app->orientation.scaling_y,
+	// 	app->orientation.scaling_z);
+	// multiply_mat4(&output, &output, &scaling);
 
-	//Add rotation to "output"
-	get_rotation_mat4(
-		&rotation,
-		app->orientation.rotation_x,
-		app->orientation.rotation_y,
-		app->orientation.rotation_z);
-	multiply_mat4(&output, &output, &rotation);
+	// //Add rotation to "output"
+	// get_rotation_mat4(
+	// 	&rotation,
+	// 	app->orientation.rotation_x,
+	// 	app->orientation.rotation_y,
+	// 	app->orientation.rotation_z);
+	// multiply_mat4(&output, &output, &rotation);
 
-	//Add translation to "output"
-	get_translation_mat4(
-		&translation,
-		app->orientation.translation_x,
-		app->orientation.translation_y,
-		app->orientation.translation_z);
-	multiply_mat4(&output, &output, &translation);
+	// //Add translation to "output"
+	// get_translation_mat4(
+	// 	&translation,
+	// 	app->orientation.translation_x,
+	// 	app->orientation.translation_y,
+	// 	app->orientation.translation_z);
+	// multiply_mat4(&output, &output, &translation);
+	mat4 output;
+	vec3 translation;
+	vec3 rotation_axis;
+
+	glm_mat4_identity(output);
+	glm_vec3(
+		(vec4){
+			app->orientation.translation_x,
+			app->orientation.translation_y,
+			app->orientation.translation_z},
+		translation);
+	glm_translate(output, translation);
+	glm_vec3(
+		(vec4){
+			1.0f,
+			0.3f,
+			0.5f,
+			0.0f},
+		rotation_axis);
+	glm_rotate(
+		output,
+		0.3490659f,
+		rotation_axis);
 
 	//Send "output" to the shader program
 	glUseProgram(app->shader_program);
@@ -40,20 +64,28 @@ void send_model_matrix(t_app *app)
 		glGetUniformLocation(app->shader_program, "modelmatrix"),
 		1,
 		GL_FALSE,
-		output);
+		(const GLfloat *)output);
 }
 
 void send_projection_matrix(t_app *app)
 {
-	t_mat4 output;
-
+	// t_mat4 output;
+	//
 	//Configure "output" as a projection matrix
-	get_projection_mat4(
-		&output,
-		DEFAULT_FOV,
+	// get_projection_mat4(
+	// 	&output,
+	// 	DEFAULT_FOV,
+	// 	DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
+	// 	PROJECTION_NEAR,
+	//	PROJECTION_FAR);
+	mat4 output;
+
+	glm_perspective(
+		0.7853982f,
 		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
-		PROJECTION_NEAR,
-		PROJECTION_FAR);
+		0.1f,
+		100.0f,
+		output);
 
 	//Send matrix to shader program
 	glUseProgram(app->shader_program);
@@ -61,13 +93,13 @@ void send_projection_matrix(t_app *app)
 		glGetUniformLocation(app->shader_program, "projectionmatrix"),
 		1,
 		GL_FALSE,
-		output);
+		(const GLfloat *)output);
 }
 
 void send_view_matrix(t_app *app)
 {
-	t_mat4 output;
-
+	// t_mat4 output;
+	//
 	// get_identity_mat4(&output); //appears unnecessary
 	// float radius = 100.0f; //test-thing to turn circles
 	// float camX = sin((SDL_GetTicks() / 75) * radius); //test-thing to turn circles
@@ -78,15 +110,28 @@ void send_view_matrix(t_app *app)
 	// memcpy(cam_pos, (t_vec3){1.0f, 0.0f, 1.0f}, sizeof(t_vec3));
 	// memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
 	// memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
-	get_lookat_mat4(
-		&output,
-		&(t_vec3){0.0f, 0.0f, 1.0f},
-		&(t_vec3){0.0f, 0.0f, 0.0f},
-		&(t_vec3){0.0f, 1.0f, 0.0f});
+	// get_lookat_mat4(
+	// 	&output,
+	// 	&(t_vec3){0.0f, 0.0f, 1.0f},
+	// 	&(t_vec3){0.0f, 0.0f, 0.0f},
+	// 	&(t_vec3){0.0f, 1.0f, 0.0f});
+	mat4 output;
+	vec3 eye;
+	vec3 center;
+	vec3 up;
+
+	glm_mat4_identity(output);
+	float radius = 10.0f;
+	float camX = sin((SDL_GetTicks() / 120) * radius);
+	float camZ = cos((SDL_GetTicks() / 120) * radius);
+	glm_vec3((vec4){camX, 0.0f, camZ, 0.0f}, eye);
+	glm_vec3((vec4){0.0f, 0.0f, 0.0f, 0.0f}, center);
+	glm_vec3((vec4){0.0f, 1.0f, 0.0f}, up);
+	glm_lookat(eye, center, up, output);
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "viewmatrix"),
 		1,
 		GL_FALSE,
-		output);
+		(const GLfloat *)output);
 }

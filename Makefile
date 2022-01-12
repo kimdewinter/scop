@@ -69,7 +69,7 @@ CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(LIBOBJ_DIR)/include\
 			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
-			-I$(LIBCGLM__DIR)/include\
+			-I$(LIBCGLM_DIR)/include/cglm\
 			-D GL_SILENCE_DEPRECATION
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
