@@ -34,20 +34,21 @@ void send_model_matrix(t_app *app)
 	// 	app->orientation.translation_y,
 	// 	app->orientation.translation_z);
 	// multiply_mat4(&output, &output, &translation);
-	mat4 output;
-	vec3 translation;
-	vec3 rotation_axis;
+	vec4 output[4];
+	float translation[3];
+	float rotation_axis[3];
 
 	glm_mat4_identity(output);
 	glm_vec3(
-		(vec4){
+		(float[4]){
 			app->orientation.translation_x,
 			app->orientation.translation_y,
-			app->orientation.translation_z},
+			app->orientation.translation_z,
+			0.0f},
 		translation);
 	glm_translate(output, translation);
 	glm_vec3(
-		(vec4){
+		(float[4]){
 			1.0f,
 			0.3f,
 			0.5f,
@@ -55,7 +56,7 @@ void send_model_matrix(t_app *app)
 		rotation_axis);
 	glm_rotate(
 		output,
-		0.3490659f,
+		0.0f, //for testing with slight rotation, use e.g. 0.3490659f
 		rotation_axis);
 
 	//Send "output" to the shader program
@@ -78,11 +79,11 @@ void send_projection_matrix(t_app *app)
 	// 	DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
 	// 	PROJECTION_NEAR,
 	//	PROJECTION_FAR);
-	mat4 output;
+	vec4 output[4];
 
 	glm_perspective(
 		0.7853982f,
-		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
+		(float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT),
 		0.1f,
 		100.0f,
 		output);
@@ -115,18 +116,19 @@ void send_view_matrix(t_app *app)
 	// 	&(t_vec3){0.0f, 0.0f, 1.0f},
 	// 	&(t_vec3){0.0f, 0.0f, 0.0f},
 	// 	&(t_vec3){0.0f, 1.0f, 0.0f});
-	mat4 output;
+	vec4 output[4];
 	vec3 eye;
 	vec3 center;
 	vec3 up;
 
 	glm_mat4_identity(output);
-	float radius = 10.0f;
-	float camX = sin((SDL_GetTicks() / 120) * radius);
-	float camZ = cos((SDL_GetTicks() / 120) * radius);
-	glm_vec3((vec4){camX, 0.0f, camZ, 0.0f}, eye);
-	glm_vec3((vec4){0.0f, 0.0f, 0.0f, 0.0f}, center);
-	glm_vec3((vec4){0.0f, 1.0f, 0.0f}, up);
+	double radius = 10.0f;
+	unsigned long long time = SDL_GetTicks() / 100;
+	double camX = sin((double)time) * radius;
+	double camZ = cos((double)time) * radius;
+	glm_vec3((float[4]){(float)camX, 0.0f, (float)camZ, 0.0f}, eye);
+	glm_vec3((float[4]){0.0f, 0.0f, 0.0f, 0.0f}, center);
+	glm_vec3((float[4]){0.0f, 1.0f, 0.0f, 0.0f}, up);
 	glm_lookat(eye, center, up, output);
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
