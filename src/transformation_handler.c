@@ -70,23 +70,15 @@ void send_model_matrix(t_app *app)
 
 void send_projection_matrix(t_app *app)
 {
-	// t_mat4 output;
-	//
-	//Configure "output" as a projection matrix
-	// get_projection_mat4(
-	// 	&output,
-	// 	DEFAULT_FOV,
-	// 	DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
-	// 	PROJECTION_NEAR,
-	//	PROJECTION_FAR);
-	vec4 output[4];
+	t_mat4 output;
 
-	glm_perspective(
-		0.7853982f,
-		(float)(DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT),
-		0.1f,
-		100.0f,
-		output);
+	// Configure "output" as a projection matrix
+	get_projection_mat4(
+		&output,
+		DEFAULT_FOV,
+		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
+		PROJECTION_NEAR,
+		PROJECTION_FAR);
 
 	//Send matrix to shader program
 	glUseProgram(app->shader_program);
