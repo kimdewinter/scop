@@ -91,37 +91,40 @@ void send_projection_matrix(t_app *app)
 
 void send_view_matrix(t_app *app)
 {
-	// t_mat4 output;
-	//
-	// get_identity_mat4(&output); //appears unnecessary
-	// float radius = 100.0f; //test-thing to turn circles
-	// float camX = sin((SDL_GetTicks() / 75) * radius); //test-thing to turn circles
-	// float camZ = cos((SDL_GetTicks() / 75) * radius); //test-thing to turn circles
-	// t_vec3 cam_pos;
-	// t_vec3 target;
-	// t_vec3 up;
-	// memcpy(cam_pos, (t_vec3){1.0f, 0.0f, 1.0f}, sizeof(t_vec3));
-	// memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
-	// memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
-	// get_lookat_mat4(
-	// 	&output,
-	// 	&(t_vec3){0.0f, 0.0f, 1.0f},
-	// 	&(t_vec3){0.0f, 0.0f, 0.0f},
-	// 	&(t_vec3){0.0f, 1.0f, 0.0f});
-	vec4 output[4];
-	vec3 eye;
-	vec3 center;
-	vec3 up;
+	t_mat4 output;
 
-	glm_mat4_identity(output);
-	double radius = 10.0f;
+	get_identity_mat4(&output); //appears unnecessary
+	double radius = 10.0f;		//test-thing to turn circles
 	unsigned long long time = SDL_GetTicks() / 100;
-	double camX = sin((double)time) * radius;
-	double camZ = cos((double)time) * radius;
-	glm_vec3((float[4]){(float)camX, 0.0f, (float)camZ, 0.0f}, eye);
-	glm_vec3((float[4]){0.0f, 0.0f, 0.0f, 0.0f}, center);
-	glm_vec3((float[4]){0.0f, 1.0f, 0.0f, 0.0f}, up);
-	glm_lookat(eye, center, up, output);
+	double camX = sin((double)time) * radius; //test-thing to turn circles
+	double camZ = cos((double)time) * radius; //test-thing to turn circles
+	t_vec3 cam_pos;
+	t_vec3 target;
+	t_vec3 up;
+	memcpy(cam_pos, (t_vec3){(float)camX, 0.0f, (float)camZ}, sizeof(t_vec3));
+	memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
+	memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
+	get_lookat_mat4(
+		&output,
+		&(t_vec3){(float)camX, 0.0f, (float)camZ},
+		&(t_vec3){0.0f, 0.0f, 0.0f},
+		&(t_vec3){0.0f, 1.0f, 0.0f});
+
+	// vec4 output[4];
+	// vec3 eye;
+	// vec3 center;
+	// vec3 up;
+
+	// glm_mat4_identity(output);
+	// double radius = 10.0f;
+	// unsigned long long time = SDL_GetTicks() / 100;
+	// double camX = sin((double)time) * radius;
+	// double camZ = cos((double)time) * radius;
+	// glm_vec3((float[4]){(float)camX, 0.0f, (float)camZ, 0.0f}, eye);
+	// glm_vec3((float[4]){0.0f, 0.0f, 0.0f, 0.0f}, center);
+	// glm_vec3((float[4]){0.0f, 1.0f, 0.0f, 0.0f}, up);
+	// glm_lookat(eye, center, up, output);
+
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "viewmatrix"),

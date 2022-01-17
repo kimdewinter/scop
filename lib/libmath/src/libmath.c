@@ -134,9 +134,9 @@ void multiply_mat4(
 void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 {
     assert(dst && src);
-    float magnitude = (*src)[0] * (*src)[0] +
-                      (*src)[1] * (*src)[1] +
-                      (*src)[2] * (*src)[2];
+    float magnitude = ((*src)[0] * (*src)[0]) +
+                      ((*src)[1] * (*src)[1]) +
+                      ((*src)[2] * (*src)[2]);
     if (magnitude == 0)
         memcpy(dst, src, sizeof(t_vec3));
     else
