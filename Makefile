@@ -57,7 +57,12 @@ LIBMATH_NAME=	libmath
 LIBMATH_DIR:=	$(LIBS_DIR)/libmath
 LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
 
-LIBCGLM_NAME=	libcglm
+ifeq ($(shell uname),Darwin)
+LIBCGLM_NAME=	libcglm_mac
+endif
+ifeq ($(shell uname),Linux)
+LIBCGLM_NAME=	libcglm_linux
+endif
 LIBCGLM_DIR:=	$(LIBS_DIR)/libcglm
 LIBCGLM:=		$(LIBCGLM_DIR)/$(LIBCGLM_NAME).a
 
@@ -74,7 +79,7 @@ CFLAGS?=	-Wall -Wextra -Werror\
 LDFLAGS?=	-L$(LIBFT_DIR) -lft\
 			-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
-			-L$(LIBCGLM_DIR) -lcglm\
+			-L$(LIBCGLM_DIR) -$(patsubst lib%,l%,$(LIBCGLM_NAME))\
 			-lSDL2 -lSDL2main
 ifeq ($(shell uname),Darwin)
 LDFLAGS+=	-framework OpenGL
