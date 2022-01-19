@@ -4,60 +4,54 @@
 
 void send_model_matrix(t_app *app)
 {
-	// t_mat4 output;
-	// t_mat4 scaling;
-	// t_mat4 rotation;
-	// t_mat4 translation;
+	// vec4 output[4];
+	// float translation[3];
+	// float rotation_axis[3];
 
-	// get_identity_mat4(&output);
+	// glm_mat4_identity(output);
+	// glm_vec3(
+	// 	(float[4]){
+	// 		app->orientation.translation_x,
+	// 		app->orientation.translation_y,
+	// 		app->orientation.translation_z,
+	// 		0.0f},
+	// 	translation);
+	// glm_translate(output, translation);
+	// glm_vec3(
+	// 	(float[4]){
+	// 		1.0f,
+	// 		0.3f,
+	// 		0.5f,
+	// 		0.0f},
+	// 	rotation_axis);
+	// glm_rotate(
+	// 	output,
+	// 	0.0f, //for testing with slight rotation, use e.g. 0.3490659f
+	// 	rotation_axis);
 
-	// //Add scaling to "output"
-	// get_scaling_mat4(
-	// 	&scaling,
-	// 	app->orientation.scaling_x,
-	// 	app->orientation.scaling_y,
-	// 	app->orientation.scaling_z);
-	// multiply_mat4(&output, &output, &scaling);
+	// //Send "output" to the shader program
+	// glUseProgram(app->shader_program);
+	// glUniformMatrix4fv(
+	// 	glGetUniformLocation(app->shader_program, "modelmatrix"),
+	// 	1,
+	// 	GL_FALSE,
+	// 	(const GLfloat *)output);
 
-	// //Add rotation to "output"
-	// get_rotation_mat4(
-	// 	&rotation,
-	// 	app->orientation.rotation_x,
-	// 	app->orientation.rotation_y,
-	// 	app->orientation.rotation_z);
-	// multiply_mat4(&output, &output, &rotation);
+	t_mat4 output;
+	t_mat4 translation;
+	t_mat4 rotation;
 
-	// //Add translation to "output"
-	// get_translation_mat4(
-	// 	&translation,
-	// 	app->orientation.translation_x,
-	// 	app->orientation.translation_y,
-	// 	app->orientation.translation_z);
-	// multiply_mat4(&output, &output, &translation);
-	vec4 output[4];
-	float translation[3];
-	float rotation_axis[3];
-
-	glm_mat4_identity(output);
-	glm_vec3(
-		(float[4]){
-			app->orientation.translation_x,
-			app->orientation.translation_y,
-			app->orientation.translation_z,
-			0.0f},
-		translation);
-	glm_translate(output, translation);
-	glm_vec3(
-		(float[4]){
-			1.0f,
-			0.3f,
-			0.5f,
-			0.0f},
-		rotation_axis);
-	glm_rotate(
-		output,
-		0.0f, //for testing with slight rotation, use e.g. 0.3490659f
-		rotation_axis);
+	get_identity_mat4(&output);
+	get_translation_mat4(
+		&translation,
+		app->orientation.translation_x,
+		app->orientation.translation_y,
+		app->orientation.translation_z);
+	multiply_mat4(&output, &output, &translation);
+	// get_rotation_mat4(&rotation, 1.0f, 0.3f, 0.5f);
+	get_identity_mat4(&rotation);
+	glm_rotate(rotation, 0.0f, &(float[3]){1.0f, 0.3f, 0.5f});
+	multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
 	glUseProgram(app->shader_program);
