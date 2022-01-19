@@ -134,16 +134,17 @@ void multiply_mat4(
 void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 {
     assert(dst && src);
-    float magnitude = ((*src)[0] * (*src)[0]) +
-                      ((*src)[1] * (*src)[1]) +
-                      ((*src)[2] * (*src)[2]);
+    float magnitude = sqrt(
+        ((*src)[0] * (*src)[0]) +
+        ((*src)[1] * (*src)[1]) +
+        ((*src)[2] * (*src)[2]));
     if (magnitude == 0)
         memcpy(dst, src, sizeof(t_vec3));
     else
     {
-        (*dst)[0] = (*src)[0] / magnitude;
-        (*dst)[1] = (*src)[1] / magnitude;
-        (*dst)[2] = (*src)[2] / magnitude;
+        (*dst)[0] /= magnitude;
+        (*dst)[1] /= magnitude;
+        (*dst)[2] /= magnitude;
     }
 }
 
