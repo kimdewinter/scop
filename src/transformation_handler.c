@@ -110,21 +110,6 @@ void send_view_matrix(t_app *app)
 		&(t_vec3){0.0f, 0.0f, 0.0f},
 		&(t_vec3){0.0f, 1.0f, 0.0f});
 
-	// vec4 output[4];
-	// vec3 eye;
-	// vec3 center;
-	// vec3 up;
-
-	// glm_mat4_identity(output);
-	// double radius = 10.0f;
-	// unsigned long long time = SDL_GetTicks() / 100;
-	// double camX = sin((double)time) * radius;
-	// double camZ = cos((double)time) * radius;
-	// glm_vec3((float[4]){(float)camX, 0.0f, (float)camZ, 0.0f}, eye);
-	// glm_vec3((float[4]){0.0f, 0.0f, 0.0f, 0.0f}, center);
-	// glm_vec3((float[4]){0.0f, 1.0f, 0.0f, 0.0f}, up);
-	// glm_lookat(eye, center, up, output);
-
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "viewmatrix"),

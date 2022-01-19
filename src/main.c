@@ -40,57 +40,6 @@ static inline void render(t_app *app)
 
 int main(int argc, char const **const argv)
 {
-	t_vec3 result1;
-	subtract_vec3(&result1, &(t_vec3){0.0f, 0.0f, 0.0f}, &(t_vec3){0.5f, 0.0f, 0.5f});
-	printf("libmath isolated subtract test output:");
-	printf("%f\t%f\t%f\n", result1[0], result1[1], result1[2]);
-
-	t_vec3 result2;
-	glm_vec3_sub((t_vec3){0.0f, 0.0f, 0.0f}, (t_vec3){0.5f, 0.0f, 0.5f}, (float *)&result2);
-	printf("cglm isolated subtract test output:");
-	printf("%f\t%f\t%f\n", result2[0], result2[1], result2[2]);
-	printf("\n");
-
-	normalize_vec3(&result1, &result1);
-	printf("libmath isolated normalize test output:");
-	printf("%f\t%f\t%f\n", result1[0], result1[1], result1[2]);
-
-	glm_vec3_normalize((float *)&result2);
-	printf("cglm isolated normalize test output:");
-	printf("%f\t%f\t%f\n", result2[0], result2[1], result2[2]);
-	printf("\n");
-
-	t_mat4 lmath_output;
-	get_identity_mat4(&lmath_output);
-	get_lookat_mat4(
-		&lmath_output,
-		&(t_vec3){0.5f, 0.0f, 0.5f},
-		&(t_vec3){0.0f, 0.0f, 0.0f},
-		&(t_vec3){0.0f, 1.0f, 0.0f});
-	printf("lmath output:\n");
-	printf("%f\t%f\t%f\t%f\n", lmath_output[0], lmath_output[4], lmath_output[8], lmath_output[12]);
-	printf("%f\t%f\t%f\t%f\n", lmath_output[1], lmath_output[5], lmath_output[9], lmath_output[13]);
-	printf("%f\t%f\t%f\t%f\n", lmath_output[2], lmath_output[6], lmath_output[10], lmath_output[14]);
-	printf("%f\t%f\t%f\t%f\n", lmath_output[3], lmath_output[7], lmath_output[11], lmath_output[15]);
-	printf("\n");
-
-	vec4 output[4];
-	vec3 eye;
-	vec3 center;
-	vec3 up;
-
-	glm_mat4_identity(output);
-	glm_vec3((float[4]){0.5f, 0.0f, 0.5f, 0.0f}, eye);
-	glm_vec3((float[4]){0.0f, 0.0f, 0.0f, 0.0f}, center);
-	glm_vec3((float[4]){0.0f, 1.0f, 0.0f, 0.0f}, up);
-	glm_lookat(eye, center, up, output);
-	printf("glm output:\n");
-	printf("%f\t%f\t%f\t%f\n", output[0][0], output[1][0], output[2][0], output[3][0]);
-	printf("%f\t%f\t%f\t%f\n", output[0][1], output[1][1], output[2][1], output[3][1]);
-	printf("%f\t%f\t%f\t%f\n", output[0][2], output[1][2], output[2][2], output[3][2]);
-	printf("%f\t%f\t%f\t%f\n", output[0][3], output[1][3], output[2][3], output[3][3]);
-	exit(EXIT_SUCCESS);
-
 	t_app app;
 
 #if __linux__

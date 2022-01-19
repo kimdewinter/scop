@@ -173,51 +173,49 @@ void subtract_vec3(
         (*dst)[i] = (*minuend)[i] - (*subtrahend)[i];
 }
 
+//The caller must allocate the space for arg "dst"
+//this lookat function is righthanded
 void get_lookat_mat4(
     t_mat4 *dst,
     t_vec3 *cam_pos,
     t_vec3 *target,
     t_vec3 *up)
 {
-    t_vec3 forward;
-    t_vec3 right;
+    t_vec3 f;
+    t_vec3 u;
+    t_vec3 s;
 
-    //Get axis from camera to target
-    subtract_vec3(&forward, target, cam_pos);
-    normalize_vec3(&forward, &forward);
+    subtract_vec3(&f, target, cam_pos);
+    normalize_vec3(&f, &f);
 
-    //Normalize up axis
-    normalize_vec3(up, up);
+    cross_product_vec3(&s, &f, up);
+    normalize_vec3(&s, &s);
+    cross_product_vec3(&u, &s, &f);
 
-    //Get axis to the right
-    cross_product_vec3(&right, &forward, up);
-    normalize_vec3(&right, &right);
+    (*dst)[0] = s[0];
+    (*dst)[1] = u[0];
+    (*dst)[2] = -f[0];
 
-    //Return the lookat matrix
-    memset(dst, 0, sizeof(t_mat4));
-    //top row
-    (*dst)[0] = right[0];
-    (*dst)[4] = right[1];
-    (*dst)[8] = right[2];
-    //second row
-    (*dst)[1] = (*up)[0];
-    (*dst)[5] = (*up)[1];
-    (*dst)[9] = (*up)[2];
-    //third row
-    (*dst)[2] = -(forward[0]);
-    (*dst)[6] = -(forward[1]);
-    (*dst)[10] = -(forward[2]);
-    //fourth row
-    (*dst)[3] = -(
-        right[0] * (*cam_pos)[0] +
-        right[1] * (*cam_pos)[1] +
-        right[2] * (*cam_pos)[2]);
-    (*dst)[7] = -(
-        (*up)[0] * (*cam_pos)[0] +
-        (*up)[1] * (*cam_pos)[1] +
-        (*up)[2] * (*cam_pos)[2]);
-    (*dst)[11] = (forward[0] * (*cam_pos)[0] +
-                  forward[1] * (*cam_pos)[1] +
-                  forward[2] * (*cam_pos)[2]);
+    (*dst)[4] = s[1];
+    (*dst)[5] = u[1];
+    (*dst)[6] = -f[1];
+
+    (*dst)[8] = s[2];
+    (*dst)[9] = u[2];
+    (*dst)[10] = -f[2];
+
+    (*dst)[12] = -(s[0] * (*cam_pos)[0] +
+                   s[1] * (*cam_pos)[1] +
+                   s[2] * (*cam_pos)[2]);
+    (*dst)[13] = -(u[0] * (*cam_pos)[0] +
+                   u[1] * (*cam_pos)[1] +
+                   u[2] * (*cam_pos)[2]);
+    (*dst)[14] = (f[0] * (*cam_pos)[0] +
+                  f[1] * (*cam_pos)[1] +
+                  f[2] * (*cam_pos)[2]);
+
+    (*dst)[3] = 0.0f;
+    (*dst)[7] = 0.0f;
+    (*dst)[11] = 0.0f;
     (*dst)[15] = 1.0f;
 }

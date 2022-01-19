@@ -17,20 +17,4 @@ int main(void)
     printf("%f\t%f\t%f\t%f\n", output[2], output[6], output[10], output[14]);
     printf("%f\t%f\t%f\t%f\n", output[3], output[7], output[11], output[15]);
     exit(EXIT_SUCCESS);
-    /*
-    t_mat4 output;
-    get_identity_mat4(&output);
-    // float radius = 10.0f;
-    // float camX = sin(420 * radius);
-    // float camZ = cos(420 * radius);
-    t_vec3 a = {0.1f, 0.0f, 0.1f};
-    t_vec3 b = {0.0f, 0.0f, 0.0f};
-    t_vec3 c = {0.0f, 1.0f, 0.0f};
-    get_lookat_mat4(
-        &output,
-        &a,
-        &b,
-        &c);
-    return (EXIT_SUCCESS);
-*/
 }
