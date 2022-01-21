@@ -50,7 +50,7 @@ void send_model_matrix(t_app *app)
 	multiply_mat4(&output, &output, &translation);
 	// get_rotation_mat4(&rotation, 1.0f, 0.3f, 0.5f);
 	get_identity_mat4(&rotation);
-	glm_rotate(rotation, 0.0f, &(float[3]){1.0f, 0.3f, 0.5f});
+	glm_rotate((vec4 *)rotation, 0.0f, (float[3]){1.0f, 0.3f, 0.5f});
 	multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
