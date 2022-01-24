@@ -48,9 +48,9 @@ void send_model_matrix(t_app *app)
 		app->orientation.translation_y,
 		app->orientation.translation_z);
 	multiply_mat4(&output, &output, &translation);
-	// get_rotation_mat4(&rotation, 1.0f, 0.3f, 0.5f);
-	get_identity_mat4(&rotation);
-	glm_rotate((vec4 *)rotation, 0.0f, (float[3]){1.0f, 0.3f, 0.5f});
+	get_rotation_mat4(&rotation, 0.0f, 0.0f, 90 * (M_PI / 180));
+	// get_identity_mat4(&rotation);
+	// glm_rotate((vec4 *)rotation, 90 * (M_PI / 180), (float[3]){0.0f, 0.0f, 1.0f});
 	multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
@@ -88,19 +88,19 @@ void send_view_matrix(t_app *app)
 	t_mat4 output;
 
 	get_identity_mat4(&output); //appears unnecessary
-	double radius = 10.0f;		//test-thing to turn circles
-	unsigned long long time = SDL_GetTicks() / 100;
-	double camX = sin((double)time) * radius; //test-thing to turn circles
-	double camZ = cos((double)time) * radius; //test-thing to turn circles
-	t_vec3 cam_pos;
-	t_vec3 target;
-	t_vec3 up;
-	memcpy(cam_pos, (t_vec3){(float)camX, 0.0f, (float)camZ}, sizeof(t_vec3));
-	memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
-	memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
+	// double radius = 10.0f;		//test-thing to turn circles
+	// unsigned long long time = SDL_GetTicks() / 100;
+	// double camX = sin((double)time) * radius; //test-thing to turn circles
+	// double camZ = cos((double)time) * radius; //test-thing to turn circles
+	// t_vec3 cam_pos;
+	// t_vec3 target;
+	// t_vec3 up;
+	// memcpy(cam_pos, (t_vec3){(float)camX, 0.0f, (float)camZ}, sizeof(t_vec3));
+	// memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
+	// memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
 	get_lookat_mat4(
 		&output,
-		&(t_vec3){(float)camX, 0.0f, (float)camZ},
+		&(t_vec3){0.0f, 0.0f, 10.0f},
 		&(t_vec3){0.0f, 0.0f, 0.0f},
 		&(t_vec3){0.0f, 1.0f, 0.0f});
 

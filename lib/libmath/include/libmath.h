@@ -21,9 +21,9 @@ void get_lookat_mat4(
 void get_scaling_mat4(t_mat4 *dst, float const x, float const y, float const z);
 void get_rotation_mat4(
     t_mat4 *dst,
-    float const x_deg,
-    float const y_deg,
-    float const z_deg);
+    float const x,
+    float const y,
+    float const z);
 void get_projection_mat4(
     t_mat4 *dst,
     float const fov,

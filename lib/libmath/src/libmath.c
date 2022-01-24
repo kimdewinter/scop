@@ -32,9 +32,9 @@ void get_scaling_mat4(t_mat4 *dst, float const x, float const y, float const z)
 //The caller must allocate the space for arg "dst"
 void get_rotation_mat4(
     t_mat4 *dst,
-    float const x_deg,
-    float const y_deg,
-    float const z_deg)
+    float const x,
+    float const y,
+    float const z)
 {
     t_mat4 x_mat;
     t_mat4 y_mat;
@@ -46,23 +46,23 @@ void get_rotation_mat4(
     memcpy(
         &x_mat,
         (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, cos(x_deg), sin(x_deg), 0.0f,
-                 0.0f, -sin(x_deg), cos(x_deg), 0.0f,
+                 0.0f, cos(x), sin(x), 0.0f,
+                 0.0f, -sin(x), cos(x), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create y rotation matrix
     memcpy(
         &y_mat,
-        (t_mat4){cos(y_deg), 0.0f, -(sin(y_deg)), 0.0f,
+        (t_mat4){cos(y), 0.0f, -(sin(y)), 0.0f,
                  0.0f, 1.0f, 0.0f, 0.0f,
-                 sin(y_deg), 0.0f, cos(y_deg), 0.0f,
+                 sin(y), 0.0f, cos(y), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create z rotation matrix
     memcpy(
         &z_mat,
-        (t_mat4){cos(z_deg), sin(z_deg), 0.0f, 0.0f,
-                 -sin(z_deg), cos(z_deg), 0.0f, 0.0f,
+        (t_mat4){cos(z), sin(z), 0.0f, 0.0f,
+                 -sin(z), cos(z), 0.0f, 0.0f,
                  0.0f, 0.0f, 1.0f, 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
