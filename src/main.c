@@ -6,12 +6,22 @@ static int shutdown(t_app *app, int exit_return)
 {
 	if (app->obj_file_name)
 		free(app->obj_file_name);
+	if (app->texture_file_name)
+		free(app->texture_file_name);
 	if (app->vertices)
 		free(app->vertices);
 	if (app->indices)
 		free(app->indices);
 	shutdown_sdl(app);
 	return (exit_return);
+}
+
+static void construct_app(t_app *app)
+{
+	memset(app, 0, sizeof(t_app));
+	app->cam_props.cam_pos_x = DEFAULT_CAM_POS_X;
+	app->cam_props.cam_pos_y = DEFAULT_CAM_POS_Y;
+	app->cam_props.cam_pos_z = DEFAULT_CAM_POS_Z;
 }
 
 static inline void render(t_app *app)
@@ -45,7 +55,7 @@ int main(int argc, char const **const argv)
 #if __linux__
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
 #endif
-	memset(&app, 0, sizeof(t_app));
+	construct_app(&app);
 	if (!parse_main_args(&app, argc, argv))
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!get_context_and_window(&app))
@@ -65,7 +75,6 @@ int main(int argc, char const **const argv)
 	if (!load_texture(&app))
 		return (shutdown(&app, EXIT_FAILURE));
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
-	app.close_window = false;
 	while (!app.close_window)
 	{
 		if (!handle_events(&app))

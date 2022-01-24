@@ -8,11 +8,14 @@
 #define VERTEX_ATTRIBUTES 3
 #define DEFAULT_SCREEN_WIDTH 1280
 #define DEFAULT_SCREEN_HEIGHT 900
-#define DEFAULT_FOV 0.7853982f
+#define DEFAULT_FOV 45 // In degrees
 #define DEFAULT_CLEARCOLOR_RED 0.0f
 #define DEFAULT_CLEARCOLOR_GREEN 0.3f
 #define DEFAULT_CLEARCOLOR_BLUE 0.3f
 #define DEFAULT_CLEARCOLOR_ALPHA 1.0f
+#define DEFAULT_CAM_POS_X 0.0f
+#define DEFAULT_CAM_POS_Y 0.0f
+#define DEFAULT_CAM_POS_Z -5.0f
 #define PROJECTION_NEAR 0.1f
 #define PROJECTION_FAR 100.0f
 
@@ -33,29 +36,36 @@ typedef struct s_sdl
 	SDL_Event event;
 } t_sdl;
 
-typedef struct s_orientation
+typedef struct s_obj_props
 {
+	float pos_x; // Position in world
+	float pos_y; // Position in world
+	float pos_z; // Position in world
 	float scaling_x;
 	float scaling_y;
 	float scaling_z;
 	float rotation_x;
 	float rotation_y;
 	float rotation_z;
-	float translation_x;
-	float translation_y;
-	float translation_z;
-} t_orientation;
+} t_obj_props;
 
-typedef struct s_camera
+typedef struct s_cam_props
 {
-	float cam_pos[3];
-	float cam_target[3];
-	float cam_right[3];
-	float cam_up[3];
-} t_camera;
+	bool track_obj;
+	float cam_pos_x;
+	float cam_pos_y;
+	float cam_pos_z;
+	float cam_target_x;
+	float cam_target_y;
+	float cam_target_z;
+	float cam_up_x;
+	float cam_up_y;
+	float cam_up_z;
+} t_cam_props;
 
 typedef struct s_app
 {
+	t_sdl sdl;
 	char *obj_file_name;
 	char *texture_file_name;
 	GLuint texture;
@@ -63,22 +73,21 @@ typedef struct s_app
 	unsigned int vertices_length;
 	unsigned int *indices;
 	unsigned int indices_length;
-	struct s_orientation orientation;
-	float obj_pos[3];
-	struct s_camera camera;
-	bool close_window;
 	GLuint VBO; //Vertex Buffer Object
 	GLuint VAO; //Vertex Buffer Array
 	GLuint EBO; //Element Buffer Object
 	GLuint shader_program;
-	struct s_sdl sdl;
+	bool close_window;
+	t_obj_props obj_props;
+	t_cam_props cam_props;
 } t_app;
 
-void centralize(t_app *app);
+void balance_vertices(t_app *app);
 bool compile_shader_program(
 	GLuint *shader_program,
 	const char *vertex_shader_filename,
 	const char *fragment_shader_filename);
+void center_object(t_obj_props *obj);
 bool get_context_and_window(t_app *app);
 bool handle_events(t_app *app);
 bool init_opengl(void);
@@ -90,12 +99,19 @@ bool load_texture(t_app *app);
 bool load_vertices(t_app *app, char const *const file_name);
 bool parse_main_args(t_app *app, const int argc, char const **const argv);
 char *file_to_string(char const *const file_name);
+void reset_camera(t_cam_props *cam);
 char *skip_float(char *const str);
 void send_model_matrix(t_app *app);
 void send_projection_matrix(t_app *app);
 void send_view_matrix(t_app *app);
-void set_uniform_bool(GLuint shader_program, const char *name, const bool value);
-void set_uniform_float(GLuint shader_program, const char *name, const float value);
+void set_uniform_bool(
+	GLuint shader_program,
+	const char *name,
+	const bool value);
+void set_uniform_float(
+	GLuint shader_program,
+	const char *name,
+	const float value);
 void set_uniform_int(GLuint shader_program, const char *name, const int value);
 void shutdown_sdl(t_app *app);
 #ifdef DEBUG

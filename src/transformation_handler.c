@@ -2,41 +2,26 @@
 #include "libmath.h"
 #include "cglm.h"
 
+void send_view_matrix(t_app *app)
+{
+	t_mat4 output;
+
+	get_lookat_mat4(
+		&output,
+		&(t_vec3){camX, camY, camZ},  // Camera position
+		&(t_vec3){0.0f, 0.0f, 0.0f},  // Camera target position
+		&(t_vec3){0.0f, 1.0f, 0.0f}); // Vector to sky/ceiling
+
+	glUseProgram(app->shader_program);
+	glUniformMatrix4fv(
+		glGetUniformLocation(app->shader_program, "viewmatrix"),
+		1,
+		GL_FALSE,
+		(const GLfloat *)output);
+}
+
 void send_model_matrix(t_app *app)
 {
-	// vec4 output[4];
-	// float translation[3];
-	// float rotation_axis[3];
-
-	// glm_mat4_identity(output);
-	// glm_vec3(
-	// 	(float[4]){
-	// 		app->orientation.translation_x,
-	// 		app->orientation.translation_y,
-	// 		app->orientation.translation_z,
-	// 		0.0f},
-	// 	translation);
-	// glm_translate(output, translation);
-	// glm_vec3(
-	// 	(float[4]){
-	// 		1.0f,
-	// 		0.3f,
-	// 		0.5f,
-	// 		0.0f},
-	// 	rotation_axis);
-	// glm_rotate(
-	// 	output,
-	// 	0.0f, //for testing with slight rotation, use e.g. 0.3490659f
-	// 	rotation_axis);
-
-	// //Send "output" to the shader program
-	// glUseProgram(app->shader_program);
-	// glUniformMatrix4fv(
-	// 	glGetUniformLocation(app->shader_program, "modelmatrix"),
-	// 	1,
-	// 	GL_FALSE,
-	// 	(const GLfloat *)output);
-
 	t_mat4 output;
 	t_mat4 translation;
 	t_mat4 rotation;
@@ -48,9 +33,7 @@ void send_model_matrix(t_app *app)
 		app->orientation.translation_y,
 		app->orientation.translation_z);
 	multiply_mat4(&output, &output, &translation);
-	get_rotation_mat4(&rotation, 0.0f, 0.0f, 90 * (M_PI / 180));
-	// get_identity_mat4(&rotation);
-	// glm_rotate((vec4 *)rotation, 90 * (M_PI / 180), (float[3]){0.0f, 0.0f, 1.0f});
+	get_rotation_mat4(&rotation, 0.0f, 0.0f, radians(90));
 	multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
@@ -69,7 +52,7 @@ void send_projection_matrix(t_app *app)
 	// Configure "output" as a projection matrix
 	get_projection_mat4(
 		&output,
-		DEFAULT_FOV,
+		radians(DEFAULT_FOV),
 		DEFAULT_SCREEN_WIDTH / DEFAULT_SCREEN_HEIGHT,
 		PROJECTION_NEAR,
 		PROJECTION_FAR);
@@ -78,35 +61,6 @@ void send_projection_matrix(t_app *app)
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
 		glGetUniformLocation(app->shader_program, "projectionmatrix"),
-		1,
-		GL_FALSE,
-		(const GLfloat *)output);
-}
-
-void send_view_matrix(t_app *app)
-{
-	t_mat4 output;
-
-	get_identity_mat4(&output); //appears unnecessary
-	// double radius = 10.0f;		//test-thing to turn circles
-	// unsigned long long time = SDL_GetTicks() / 100;
-	// double camX = sin((double)time) * radius; //test-thing to turn circles
-	// double camZ = cos((double)time) * radius; //test-thing to turn circles
-	// t_vec3 cam_pos;
-	// t_vec3 target;
-	// t_vec3 up;
-	// memcpy(cam_pos, (t_vec3){(float)camX, 0.0f, (float)camZ}, sizeof(t_vec3));
-	// memcpy(target, (t_vec3){0.0f, 0.0f, 0.0f}, sizeof(t_vec3));
-	// memcpy(up, (t_vec3){0.0f, 1.0f, 0.0f}, sizeof(t_vec3));
-	get_lookat_mat4(
-		&output,
-		&(t_vec3){0.0f, 0.0f, 10.0f},
-		&(t_vec3){0.0f, 0.0f, 0.0f},
-		&(t_vec3){0.0f, 1.0f, 0.0f});
-
-	glUseProgram(app->shader_program);
-	glUniformMatrix4fv(
-		glGetUniformLocation(app->shader_program, "viewmatrix"),
 		1,
 		GL_FALSE,
 		(const GLfloat *)output);

@@ -3,7 +3,6 @@ NAME:=	scop
 # FILES AND FOLDERS
 
 SRC_FILES:=	buffer_handler\
-			centralizer\
 			event_handler\
 			file_handler\
 			opengl_handler\
@@ -15,7 +14,8 @@ SRC_FILES:=	buffer_handler\
 			texture_handler\
 			transformation_handler\
 			main_args_parser\
-			main
+			main\
+			vertex_balancer
 ifeq ($(shell uname),Linux)
 SRC_FILES+=	glad
 endif

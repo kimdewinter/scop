@@ -12,6 +12,7 @@ void cross_product_vec3(
     t_vec3 *dst,
     t_vec3 *src1,
     t_vec3 *src2);
+double degrees(double const radians);
 void get_identity_mat4(t_mat4 *dst);
 void get_lookat_mat4(
     t_mat4 *dst,
@@ -40,6 +41,7 @@ void multiply_mat4(
     t_mat4 const *const src1,
     t_mat4 const *const src2);
 void normalize_vec3(t_vec3 *dst, t_vec3 *src);
+double radians(double const degrees);
 void subtract_vec3(
     t_vec3 *dst,
     t_vec3 const *const minuend,

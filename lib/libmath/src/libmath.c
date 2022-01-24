@@ -89,6 +89,7 @@ void get_translation_mat4(
 }
 
 //The caller must allocate the space for arg "dst"
+//Argument "fov" is in radians
 void get_projection_mat4(
     t_mat4 *dst,
     float const fov,
@@ -218,4 +219,14 @@ void get_lookat_mat4(
     (*dst)[7] = 0.0f;
     (*dst)[11] = 0.0f;
     (*dst)[15] = 1.0f;
+}
+
+double radians(double const degrees)
+{
+    return (degrees * (M_PI / 180));
+}
+
+double degrees(double const radians)
+{
+    return (radians * (180 / M_PI));
 }
