@@ -65,7 +65,7 @@ static void shift_attribute(
     }
 }
 
-void centralize(t_app *app)
+void balance_vertices(t_app *app)
 {
     for (int i = 0; i < VERTEX_ATTRIBUTES; i++)
     {

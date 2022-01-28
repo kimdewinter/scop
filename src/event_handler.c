@@ -9,85 +9,101 @@ static bool handle_keydown_event(t_app *app)
 		app->close_window = true;
 	}
 	break;
-	case SDLK_d:
+	case SDLK_b:
 	{
-		app->orientation.translation_x += 0.1f;
-	}
-	break;
-	case SDLK_a:
-	{
-		app->orientation.translation_x -= 0.1f;
-	}
-	break;
-	case SDLK_w:
-	{
-		app->orientation.translation_y += 0.1f;
-	}
-	break;
-	case SDLK_s:
-	{
-		app->orientation.translation_y -= 0.1f;
-	}
-	break;
-	case SDLK_e:
-	{
-		app->orientation.translation_z += 0.1f;
-	}
-	break;
-	case SDLK_q:
-	{
-		app->orientation.translation_z -= 0.1f;
-	}
-	break;
-	case SDLK_r:
-	{
-		app->orientation.scaling_x += 0.01f;
-		app->orientation.scaling_y += 0.01f;
-		app->orientation.scaling_z += 0.01f;
-	}
-	break;
-	case SDLK_f:
-	{
-		app->orientation.scaling_x -= 0.01f;
-		app->orientation.scaling_y -= 0.01f;
-		app->orientation.scaling_z -= 0.01f;
+		balance_vertices(app);
 	}
 	break;
 	case SDLK_c:
 	{
-		centralize(app);
+		center_object(&(app->obj_props));
 	}
 	break;
-	case SDLK_RIGHT:
+	case SDLK_w:
 	{
-		app->orientation.rotation_y -= 0.1f;
+		app->obj_props.pos_z += 0.1f;
 	}
 	break;
-	case SDLK_LEFT:
+	case SDLK_s:
 	{
-		app->orientation.rotation_y += 0.1f;
+		app->obj_props.pos_z -= 0.1f;
 	}
 	break;
-	case SDLK_UP:
+	case SDLK_a:
 	{
-		app->orientation.rotation_x += 0.1f;
+		app->obj_props.pos_x += 0.1f;
 	}
 	break;
-	case SDLK_DOWN:
+	case SDLK_d:
 	{
-		app->orientation.rotation_x -= 0.1f;
+		app->obj_props.pos_x -= 0.1f;
 	}
 	break;
-	case SDLK_PAGEDOWN:
+	case SDLK_e:
 	{
-		app->orientation.rotation_z -= 0.1f;
+		app->obj_props.pos_y += 0.1f;
 	}
 	break;
-	case SDLK_PAGEUP:
+	case SDLK_q:
 	{
-		app->orientation.rotation_z += 0.1f;
+		app->obj_props.pos_y -= 0.1f;
 	}
 	break;
+	case SDLK_x:
+	{
+		app->obj_props.scaling_x += 0.01f;
+		app->obj_props.scaling_y += 0.01f;
+		app->obj_props.scaling_z += 0.01f;
+	}
+	break;
+	case SDLK_z:
+	{
+		app->obj_props.scaling_x -= 0.01f;
+		app->obj_props.scaling_y -= 0.01f;
+		app->obj_props.scaling_z -= 0.01f;
+	}
+	break;
+	case SDLK_v:
+	{
+		reset_camera(&app->cam_props);
+	}
+	break;
+	case SDLK_n:
+	{
+		app->cam_props.track_obj = (app->cam_props.track_obj) ? false : true;
+	}
+	break;
+	case SDLK_i:
+	{
+		app->cam_props.cam_pos_z += 0.1f;
+	}
+	break;
+	case SDLK_k:
+	{
+		app->cam_props.cam_pos_z -= 0.1f;
+	}
+	break;
+	case SDLK_j:
+	{
+		app->cam_props.cam_pos_x += 0.1f;
+	}
+	break;
+	case SDLK_l:
+	{
+		app->cam_props.cam_pos_x -= 0.1f;
+	}
+	break;
+	case SDLK_o:
+	{
+		app->cam_props.cam_pos_y += 0.1f;
+	}
+	break;
+	case SDLK_u:
+	{
+		app->cam_props.cam_pos_y -= 0.1f;
+	}
+	break;
+		return (true);
 	}
 	return (true);
 }

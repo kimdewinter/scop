@@ -32,9 +32,9 @@ void get_scaling_mat4(t_mat4 *dst, float const x, float const y, float const z)
 //The caller must allocate the space for arg "dst"
 void get_rotation_mat4(
     t_mat4 *dst,
-    float const x_deg,
-    float const y_deg,
-    float const z_deg)
+    float const x,
+    float const y,
+    float const z)
 {
     t_mat4 x_mat;
     t_mat4 y_mat;
@@ -46,23 +46,23 @@ void get_rotation_mat4(
     memcpy(
         &x_mat,
         (t_mat4){1.0f, 0.0f, 0.0f, 0.0f,
-                 0.0f, cos(x_deg), sin(x_deg), 0.0f,
-                 0.0f, -sin(x_deg), cos(x_deg), 0.0f,
+                 0.0f, cos(x), sin(x), 0.0f,
+                 0.0f, -sin(x), cos(x), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create y rotation matrix
     memcpy(
         &y_mat,
-        (t_mat4){cos(y_deg), 0.0f, -(sin(y_deg)), 0.0f,
+        (t_mat4){cos(y), 0.0f, -(sin(y)), 0.0f,
                  0.0f, 1.0f, 0.0f, 0.0f,
-                 sin(y_deg), 0.0f, cos(y_deg), 0.0f,
+                 sin(y), 0.0f, cos(y), 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
     //Create z rotation matrix
     memcpy(
         &z_mat,
-        (t_mat4){cos(z_deg), sin(z_deg), 0.0f, 0.0f,
-                 -sin(z_deg), cos(z_deg), 0.0f, 0.0f,
+        (t_mat4){cos(z), sin(z), 0.0f, 0.0f,
+                 -sin(z), cos(z), 0.0f, 0.0f,
                  0.0f, 0.0f, 1.0f, 0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f},
         sizeof(t_mat4));
@@ -89,6 +89,7 @@ void get_translation_mat4(
 }
 
 //The caller must allocate the space for arg "dst"
+//Argument "fov" is in radians
 void get_projection_mat4(
     t_mat4 *dst,
     float const fov,
@@ -134,16 +135,17 @@ void multiply_mat4(
 void normalize_vec3(t_vec3 *dst, t_vec3 *src)
 {
     assert(dst && src);
-    float magnitude = (*src)[0] * (*src)[0] +
-                      (*src)[1] * (*src)[1] +
-                      (*src)[2] * (*src)[2];
+    float magnitude = sqrt(
+        ((*src)[0] * (*src)[0]) +
+        ((*src)[1] * (*src)[1]) +
+        ((*src)[2] * (*src)[2]));
     if (magnitude == 0)
         memcpy(dst, src, sizeof(t_vec3));
     else
     {
-        (*dst)[0] = (*src)[0] / magnitude;
-        (*dst)[1] = (*src)[1] / magnitude;
-        (*dst)[2] = (*src)[2] / magnitude;
+        (*dst)[0] /= magnitude;
+        (*dst)[1] /= magnitude;
+        (*dst)[2] /= magnitude;
     }
 }
 
@@ -172,51 +174,59 @@ void subtract_vec3(
         (*dst)[i] = (*minuend)[i] - (*subtrahend)[i];
 }
 
+//The caller must allocate the space for arg "dst"
+//this lookat function is righthanded
 void get_lookat_mat4(
     t_mat4 *dst,
     t_vec3 *cam_pos,
     t_vec3 *target,
     t_vec3 *up)
 {
-    t_vec3 forward;
-    t_vec3 right;
+    t_vec3 f;
+    t_vec3 u;
+    t_vec3 s;
 
-    //Get axis from camera to target
-    subtract_vec3(&forward, target, cam_pos);
-    normalize_vec3(&forward, &forward);
+    subtract_vec3(&f, target, cam_pos);
+    normalize_vec3(&f, &f);
 
-    //Normalize up axis
-    normalize_vec3(up, up);
+    cross_product_vec3(&s, &f, up);
+    normalize_vec3(&s, &s);
+    cross_product_vec3(&u, &s, &f);
 
-    //Get axis to the right
-    cross_product_vec3(&right, &forward, up);
-    normalize_vec3(&right, &right);
+    (*dst)[0] = s[0];
+    (*dst)[1] = u[0];
+    (*dst)[2] = -f[0];
 
-    //Return the lookat matrix
-    memset(dst, 0, sizeof(t_mat4));
-    //top row
-    (*dst)[0] = right[0];
-    (*dst)[4] = right[1];
-    (*dst)[8] = right[2];
-    //second row
-    (*dst)[1] = (*up)[0];
-    (*dst)[5] = (*up)[1];
-    (*dst)[9] = (*up)[2];
-    //third row
-    (*dst)[2] = -(forward[0]);
-    (*dst)[6] = -(forward[1]);
-    (*dst)[10] = -(forward[2]);
-    //fourth row
-    (*dst)[3] = -(
-        right[0] * (*cam_pos)[0] +
-        right[1] * (*cam_pos)[1] +
-        right[2] * (*cam_pos)[2]);
-    (*dst)[7] = -(
-        (*up)[0] * (*cam_pos)[0] +
-        (*up)[1] * (*cam_pos)[1] +
-        (*up)[2] * (*cam_pos)[2]);
-    (*dst)[11] = (forward[0] * (*cam_pos)[0] +
-                  forward[1] * (*cam_pos)[1] +
-                  forward[2] * (*cam_pos)[2]);
+    (*dst)[4] = s[1];
+    (*dst)[5] = u[1];
+    (*dst)[6] = -f[1];
+
+    (*dst)[8] = s[2];
+    (*dst)[9] = u[2];
+    (*dst)[10] = -f[2];
+
+    (*dst)[12] = -(s[0] * (*cam_pos)[0] +
+                   s[1] * (*cam_pos)[1] +
+                   s[2] * (*cam_pos)[2]);
+    (*dst)[13] = -(u[0] * (*cam_pos)[0] +
+                   u[1] * (*cam_pos)[1] +
+                   u[2] * (*cam_pos)[2]);
+    (*dst)[14] = (f[0] * (*cam_pos)[0] +
+                  f[1] * (*cam_pos)[1] +
+                  f[2] * (*cam_pos)[2]);
+
+    (*dst)[3] = 0.0f;
+    (*dst)[7] = 0.0f;
+    (*dst)[11] = 0.0f;
     (*dst)[15] = 1.0f;
+}
+
+double radians(double const degrees)
+{
+    return (degrees * (M_PI / 180));
+}
+
+double degrees(double const radians)
+{
+    return (radians * (180 / M_PI));
 }

@@ -25,6 +25,8 @@ scop
 # Libraries
 *.lib
 *.a
+!libcglm_linux.a
+!libcglm_mac.a
 *.la
 *.lo
 
