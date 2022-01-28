@@ -88,6 +88,7 @@ bool compile_shader_program(
 	const char *vertex_shader_filename,
 	const char *fragment_shader_filename);
 void center_object(t_obj_props *obj);
+char *file_to_string(char const *const file_name);
 bool get_context_and_window(t_app *app);
 bool handle_events(t_app *app);
 bool init_opengl(void);
@@ -98,7 +99,7 @@ bool load_obj(t_app *app, char const *const file_name);
 bool load_texture(t_app *app);
 bool load_vertices(t_app *app, char const *const file_name);
 bool parse_main_args(t_app *app, const int argc, char const **const argv);
-char *file_to_string(char const *const file_name);
+void print_instructions(void);
 void reset_camera(t_cam_props *cam);
 char *skip_float(char *const str);
 void send_model_matrix(t_app *app);

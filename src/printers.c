@@ -1,6 +1,23 @@
 #include "main.h"
 #include <stdio.h>
 
+void print_instructions(void)
+{
+	char *controls[] = {
+		"Esc: close program",
+		"B: balance object vertices",
+		"C: re-center object",
+		"Arrows/Rshift/Rctrl: translate(move) object",
+		"Pageup/down: scale object",
+		"R: reset camera",
+		"T: toggle track object/world center",
+		"WASD/Lshift/Lctrl: translate(move) camera"};
+
+	printf("Controls:\n");
+	for (size_t i = 0; i < sizeof(controls) / sizeof(char *); i++)
+		printf("%s\n", controls[i]);
+}
+
 #ifdef DEBUG
 
 static void print_opengl_version()

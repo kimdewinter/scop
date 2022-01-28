@@ -75,6 +75,7 @@ int main(int argc, char const **const argv)
 	if (!load_texture(&app))
 		return (shutdown(&app, EXIT_FAILURE));
 	glViewport(0, 0, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+	print_instructions();
 	while (!app.close_window)
 	{
 		if (!handle_events(&app))

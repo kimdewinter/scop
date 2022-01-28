@@ -16,7 +16,7 @@ static bool handle_keydown_event(t_app *app)
 	break;
 	case SDLK_c:
 	{
-		balance_vertices(&app->obj_props);
+		center_object(&(app->obj_props));
 	}
 	break;
 	case SDLK_UP:
@@ -105,6 +105,7 @@ static bool handle_keydown_event(t_app *app)
 	break;
 		return (true);
 	}
+	return (true);
 }
 
 static bool handle_window_event(t_app *app)

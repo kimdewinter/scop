@@ -8,9 +8,15 @@ void send_view_matrix(t_app *app)
 
 	get_lookat_mat4(
 		&output,
-		&(t_vec3){camX, camY, camZ},  // Camera position
-		&(t_vec3){0.0f, 0.0f, 0.0f},  // Camera target position
-		&(t_vec3){0.0f, 1.0f, 0.0f}); // Vector to sky/ceiling
+		&(t_vec3){
+			app->cam_props.cam_pos_x,
+			app->cam_props.cam_pos_y,
+			app->cam_props.cam_pos_z}, // Camera position
+		&(t_vec3){
+			app->cam_props.track_obj ? app->obj_props.pos_x : 0.0f,
+			app->cam_props.track_obj ? app->obj_props.pos_y : 0.0f,
+			app->cam_props.track_obj ? app->obj_props.pos_z : 0.0f}, // Cam target
+		&(t_vec3){0.0f, 1.0f, 0.0f});								 // Vector to sky/ceiling
 
 	glUseProgram(app->shader_program);
 	glUniformMatrix4fv(
@@ -24,17 +30,17 @@ void send_model_matrix(t_app *app)
 {
 	t_mat4 output;
 	t_mat4 translation;
-	t_mat4 rotation;
+	// t_mat4 rotation;
 
 	get_identity_mat4(&output);
 	get_translation_mat4(
 		&translation,
-		app->orientation.translation_x,
-		app->orientation.translation_y,
-		app->orientation.translation_z);
+		app->obj_props.pos_x,
+		app->obj_props.pos_y,
+		app->obj_props.pos_z);
 	multiply_mat4(&output, &output, &translation);
-	get_rotation_mat4(&rotation, 0.0f, 0.0f, radians(90));
-	multiply_mat4(&output, &output, &rotation);
+	// get_rotation_mat4(&rotation, 0.0f, 0.0f, 0.0f);
+	// multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
 	glUseProgram(app->shader_program);
