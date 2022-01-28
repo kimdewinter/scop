@@ -9,8 +9,9 @@ void print_instructions(void)
 		"V: re-center camera",
 		"B: balance object vertices",
 		"N: toggle track object/world center",
-		"Z/X: scale object",
+		"ZX: scale object",
 		"WASDQE: translate(move) object",
+		"TGFHRY: rotate object",
 		"IKJLUO: translate(move) camera"};
 
 	printf("----- Controls -----\n");

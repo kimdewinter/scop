@@ -29,18 +29,29 @@ void send_view_matrix(t_app *app)
 void send_model_matrix(t_app *app)
 {
 	t_mat4 output;
+	t_mat4 scaling;
 	t_mat4 translation;
-	// t_mat4 rotation;
+	t_mat4 rotation;
 
 	get_identity_mat4(&output);
+	get_scaling_mat4(
+		&scaling,
+		app->obj_props.scaling_x,
+		app->obj_props.scaling_y,
+		app->obj_props.scaling_z);
+	multiply_mat4(&output, &output, &scaling);
 	get_translation_mat4(
 		&translation,
 		app->obj_props.pos_x,
 		app->obj_props.pos_y,
 		app->obj_props.pos_z);
 	multiply_mat4(&output, &output, &translation);
-	// get_rotation_mat4(&rotation, 0.0f, 0.0f, 0.0f);
-	// multiply_mat4(&output, &output, &rotation);
+	get_rotation_mat4(
+		&rotation,
+		app->obj_props.rotation_x,
+		app->obj_props.rotation_y,
+		app->obj_props.rotation_z);
+	multiply_mat4(&output, &output, &rotation);
 
 	//Send "output" to the shader program
 	glUseProgram(app->shader_program);

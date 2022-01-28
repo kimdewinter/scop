@@ -19,22 +19,22 @@ static bool handle_keydown_event(t_app *app)
 		center_object(&(app->obj_props));
 	}
 	break;
-	case SDLK_w:
+	case SDLK_s:
 	{
 		app->obj_props.pos_z += 0.1f;
 	}
 	break;
-	case SDLK_s:
+	case SDLK_w:
 	{
 		app->obj_props.pos_z -= 0.1f;
 	}
 	break;
-	case SDLK_a:
+	case SDLK_d:
 	{
 		app->obj_props.pos_x += 0.1f;
 	}
 	break;
-	case SDLK_d:
+	case SDLK_a:
 	{
 		app->obj_props.pos_x -= 0.1f;
 	}
@@ -47,6 +47,36 @@ static bool handle_keydown_event(t_app *app)
 	case SDLK_q:
 	{
 		app->obj_props.pos_y -= 0.1f;
+	}
+	break;
+	case SDLK_r:
+	{
+		app->obj_props.rotation_z += 0.1f;
+	}
+	break;
+	case SDLK_y:
+	{
+		app->obj_props.rotation_z -= 0.1f;
+	}
+	break;
+	case SDLK_t:
+	{
+		app->obj_props.rotation_x -= 0.1f;
+	}
+	break;
+	case SDLK_g:
+	{
+		app->obj_props.rotation_x += 0.1f;
+	}
+	break;
+	case SDLK_h:
+	{
+		app->obj_props.rotation_y += 0.1f;
+	}
+	break;
+	case SDLK_f:
+	{
+		app->obj_props.rotation_y -= 0.1f;
 	}
 	break;
 	case SDLK_x:
@@ -73,22 +103,22 @@ static bool handle_keydown_event(t_app *app)
 		app->cam_props.track_obj = (app->cam_props.track_obj) ? false : true;
 	}
 	break;
-	case SDLK_i:
+	case SDLK_k:
 	{
 		app->cam_props.cam_pos_z += 0.1f;
 	}
 	break;
-	case SDLK_k:
+	case SDLK_i:
 	{
 		app->cam_props.cam_pos_z -= 0.1f;
 	}
 	break;
-	case SDLK_j:
+	case SDLK_l:
 	{
 		app->cam_props.cam_pos_x += 0.1f;
 	}
 	break;
-	case SDLK_l:
+	case SDLK_j:
 	{
 		app->cam_props.cam_pos_x -= 0.1f;
 	}
