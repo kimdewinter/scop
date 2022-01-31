@@ -9,6 +9,7 @@ void print_instructions(void)
 		"V: re-center camera",
 		"B: balance object vertices",
 		"N: toggle track object/world center",
+		"M: toggle texture on/off",
 		"ZX: scale object",
 		"WASDQE: translate(move) object",
 		"TGFHRY: rotate object",

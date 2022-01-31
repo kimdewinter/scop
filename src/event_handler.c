@@ -103,6 +103,20 @@ static bool handle_keydown_event(t_app *app)
 		app->cam_props.track_obj = (app->cam_props.track_obj) ? false : true;
 	}
 	break;
+	case SDLK_m:
+	{
+		if (app->texture_file_name && !app->obj_props.display_texture)
+		{
+			set_uniform_int(app->shader_program, "texture_provided", 1);
+			app->obj_props.display_texture = true;
+		}
+		else
+		{
+			set_uniform_int(app->shader_program, "texture_provided", 0);
+			app->obj_props.display_texture = false;
+		}
+	}
+	break;
 	case SDLK_k:
 	{
 		app->cam_props.cam_pos_z += 0.1f;

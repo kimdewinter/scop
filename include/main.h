@@ -38,6 +38,7 @@ typedef struct s_sdl
 
 typedef struct s_obj_props
 {
+	bool display_texture;
 	float pos_x; // Position in world
 	float pos_y; // Position in world
 	float pos_z; // Position in world
