@@ -72,7 +72,7 @@ bool load_buffer(t_app *app)
 	//Configure how to read data, and finish up
 	set_vao();
 	unbind_all();
-#if WIREFRAME_MODE > 0
+#if WIREFRAME_MODE == 1
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 #endif
 	return true;

@@ -155,7 +155,7 @@ bool convert_element_array_to_extra_vertices(t_reader *reader)
 	if (!new)
 		return (false);
 	for (int i = 0; i < indices_len; i++)
-		if (!vector_append(&new, &old[indices[i] - 1], 3 * sizeof(float))) //Vector auto-frees in case of error
+		if (!vector_append(&new, &old[indices[i]], 3 * sizeof(float))) //Vector auto-frees in case of error
 			return (false);
 	vector_delete(&reader->indices);
 	vector_delete(&reader->vertices);
