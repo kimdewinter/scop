@@ -5,7 +5,7 @@
 #include <string.h>
 #include <assert.h>
 
-static t_obj *construct_obj(t_reader const * const reader)
+static t_obj *construct_obj(t_reader const *const reader)
 {
 	t_obj *obj;
 
@@ -90,7 +90,7 @@ static void cleanup(t_reader *reader, t_obj **obj)
 }
 
 //in case of error, returns false
-static bool construct_reader(t_reader *reader, char const * const file_name)
+static bool construct_reader(t_reader *reader, char const *const file_name)
 {
 	memset(reader, 0, sizeof(t_reader));
 	reader->fp = fopen(file_name, "r");
@@ -102,7 +102,7 @@ static bool construct_reader(t_reader *reader, char const * const file_name)
 }
 
 //in case of error, returns NULL
-t_obj *obj_import(char const*const file_name)
+t_obj *obj_import(char const *const file_name, bool const use_element_array)
 {
 	t_reader reader;
 	t_obj *obj = NULL;
@@ -137,9 +137,20 @@ t_obj *obj_import(char const*const file_name)
 		reader.line_len = getline(&reader.line, &reader.buf_len, reader.fp);
 	}
 
+	//if necessary, convert multiple-used indices into extra vertices
+	if (reader.vertices->used &&
+		reader.indices->used &&
+		!use_element_array)
+	{
+		if (!convert_element_array_to_extra_vertices(&reader))
+		{
+			cleanup(&reader, &obj);
+			return (NULL);
+		}
+	}
+
 	//move data from t_reader into t_obj and return the latter
-	obj = (reader.vertices && reader.vertices->used) ?
-		construct_obj(&reader) : NULL;
+	obj = (reader.vertices->used) ? construct_obj(&reader) : NULL;
 	cleanup(&reader, NULL);
 	return (obj);
 }
