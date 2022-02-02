@@ -81,8 +81,8 @@ bool extract_face(t_reader *reader)
 	if (!walker)
 		return false;
 
-	//ensure uint is followed by a ' '
-	if (*walker != ' ')
+	//ensure uint is followed by a ' ' or '/'
+	if (*walker != ' ' && *walker != '/')
 		return (true);
 	walker++;
 
@@ -94,8 +94,8 @@ bool extract_face(t_reader *reader)
 	if (!walker)
 		return false;
 
-	//ensure uint is followed by a ' '
-	if (*walker != ' ')
+	//ensure uint is followed by a ' ' or '/'
+	if (*walker != ' ' && *walker != '/')
 		return (true);
 	walker++;
 
@@ -123,10 +123,10 @@ bool extract_face(t_reader *reader)
 	}
 
 	//continue assuming four face-elements are given
-	//which means we are dealing with a cube made up out of two triangles
+	//which means we are dealing with a square made up out of two triangles
 
-	//ensure uint is followed by a ' '
-	if (*walker != ' ')
+	//ensure uint is followed by a ' ' or '/'
+	if (*walker != ' ' && *walker != '/')
 		return (true);
 	walker++;
 
