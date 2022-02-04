@@ -6,8 +6,8 @@ int main(void)
 {
 	t_obj *obj;
 
-	// obj = obj_import("tests/42.obj", false);//comment out this line if running from through VSC debugger
-	// obj = obj_import("lib/libobj/tests/42.obj", false);//comment out this line if running locally from shell
+	obj = obj_import("tests/42.obj", false); //comment out this line if running from through VSC debugger
+	// obj = obj_import("lib/libobj/tests/42.obj", false); //comment out this line if running locally from shell
 	if (!obj)
 	{
 		printf("Epic fail on obj_import.\n");

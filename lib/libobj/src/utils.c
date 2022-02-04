@@ -148,15 +148,24 @@ char *skip_uint(char *const str)
 bool convert_element_array_to_extra_vertices(t_reader *reader)
 {
 	unsigned int const *const indices = reader->indices->vec;
-	int indices_len = reader->indices->used / sizeof(unsigned int);
+	unsigned int const indices_len =
+		reader->indices->used / sizeof(unsigned int);
 	float const *const old = reader->vertices->vec;
-	t_vector *new = vector_init(indices_len * (3 * sizeof(float)));
+	t_vector *new = vector_init(sizeof(float) * 3 * indices_len);
 
 	if (!new)
 		return (false);
-	for (int i = 0; i < indices_len; i++)
-		if (!vector_append(&new, &old[indices[i]], 3 * sizeof(float))) //Vector auto-frees in case of error
+	for (unsigned int i = 0; i < indices_len; i++)
+	{
+		if (!vector_append(
+				&new,
+				&old[indices[i] * 3],
+				sizeof(float) * 3))
+		{
 			return (false);
+		}
+	}
+
 	vector_delete(&reader->indices);
 	vector_delete(&reader->vertices);
 	reader->vertices = new;

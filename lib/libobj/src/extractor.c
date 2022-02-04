@@ -14,10 +14,10 @@ bool extract_vertex(t_reader *reader)
 	//first float
 	if (!is_float(walker))
 		return (true);
-	vertex[0] = atof(walker);
+	vertex[0] = (float)atof(walker);
 	walker = skip_float(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
@@ -27,10 +27,10 @@ bool extract_vertex(t_reader *reader)
 	//second float
 	if (!is_float(walker))
 		return (true);
-	vertex[1] = atof(walker);
+	vertex[1] = (float)atof(walker);
 	walker = skip_float(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure float is followed by a ' '
 	if (*walker != ' ')
@@ -40,10 +40,10 @@ bool extract_vertex(t_reader *reader)
 	//third float
 	if (!is_float(walker))
 		return (true);
-	vertex[2] = atof(walker);
+	vertex[2] = (float)atof(walker);
 	walker = skip_float(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
@@ -51,7 +51,7 @@ bool extract_vertex(t_reader *reader)
 
 	//add vertex to vector
 	if (!vector_append(&reader->vertices, &vertex, 3 * sizeof(float)))
-		return false;
+		return (false);
 	return (true);
 }
 
@@ -75,11 +75,11 @@ bool extract_face(t_reader *reader)
 	//first uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[0] = atoi(walker) - 1;
-	triangle_two[0] = atoi(walker) - 1;
+	triangle_one[0] = (unsigned int)atoi(walker) - 1;
+	triangle_two[0] = (unsigned int)atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure uint is followed by a ' ' or '/'
 	if (*walker != ' ' && *walker != '/')
@@ -89,10 +89,10 @@ bool extract_face(t_reader *reader)
 	//second uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[1] = atoi(walker) - 1;
+	triangle_one[1] = (unsigned int)atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure uint is followed by a ' ' or '/'
 	if (*walker != ' ' && *walker != '/')
@@ -102,11 +102,11 @@ bool extract_face(t_reader *reader)
 	//third uint
 	if (!is_uint(walker))
 		return (true);
-	triangle_one[2] = atoi(walker) - 1;
-	triangle_two[1] = atoi(walker) - 1;
+	triangle_one[2] = (unsigned int)atoi(walker) - 1;
+	triangle_two[1] = (unsigned int)atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//check if end of line, which means only three face-elements are given
 	//and we can submit only triangle_one
@@ -133,10 +133,10 @@ bool extract_face(t_reader *reader)
 	//fourth uint (note: triangle_one[2] is overwritten)
 	if (!is_uint(walker))
 		return (true);
-	triangle_two[2] = atoi(walker) - 1;
+	triangle_two[2] = (unsigned int)atoi(walker) - 1;
 	walker = skip_uint(walker);
 	if (!walker)
-		return false;
+		return (false);
 
 	//ensure end of line
 	if (!(*walker == '\n' || *walker == '\0'))
