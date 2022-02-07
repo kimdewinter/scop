@@ -171,3 +171,14 @@ bool convert_element_array_to_extra_vertices(t_reader *reader)
 	reader->vertices = new;
 	return (true);
 }
+
+void convert_hex_to_float_color(
+	float dst[3],
+	float const r,
+	float const g,
+	float const b)
+{
+	dst[0] = (1.0f / 255) * r;
+	dst[1] = (1.0f / 255) * g;
+	dst[2] = (1.0f / 255) * b;
+}

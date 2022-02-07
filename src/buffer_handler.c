@@ -26,9 +26,19 @@ static void set_vao(void)
 		VERTEX_ATTRIBUTES,
 		GL_FLOAT,
 		GL_FALSE,
-		VERTEX_ATTRIBUTES * sizeof(float),
+		2 * VERTEX_ATTRIBUTES * sizeof(float),
 		(void *)0);
 	glEnableVertexAttribArray(0);
+
+	//Vertex attrib pointer for rgb
+	glVertexAttribPointer(
+		1,
+		VERTEX_ATTRIBUTES,
+		GL_FLOAT,
+		GL_FALSE,
+		2 * VERTEX_ATTRIBUTES * sizeof(float),
+		(void *)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 }
 
 static void buffer_data(t_app *app)
@@ -59,7 +69,7 @@ static void gen_buffer(t_app *app)
 {
 	glGenVertexArrays(1, &(app->VAO));
 	glGenBuffers(1, &(app->VBO));
-	if (app->indices_length > 0)
+	if (app->indices_length > 0 && USE_EBO > 0)
 		glGenBuffers(1, &(app->EBO));
 }
 

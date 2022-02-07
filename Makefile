@@ -15,7 +15,8 @@ SRC_FILES:=	buffer_handler\
 			transformation_handler\
 			main_args_parser\
 			main\
-			vertex_balancer
+			vertex_balancer\
+			vertex_preparer
 ifeq ($(shell uname),Linux)
 SRC_FILES+=	glad
 endif

@@ -69,6 +69,8 @@ int main(int argc, char const **const argv)
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_obj(&app, app.obj_file_name))
 		return (shutdown(&app, EXIT_FAILURE));
+	if (!prepare_vertices(&app))
+		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_buffer(&app))
 		return (shutdown(&app, EXIT_FAILURE));
 	send_projection_matrix(&app);
