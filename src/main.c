@@ -69,6 +69,9 @@ int main(int argc, char const **const argv)
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_obj(&app, app.obj_file_name))
 		return (shutdown(&app, EXIT_FAILURE));
+#if BALANCE_VERTICES > 0
+	balance_vertices(&app);
+#endif
 	if (!prepare_vertices(&app))
 		return (shutdown(&app, EXIT_FAILURE));
 	if (!load_buffer(&app))

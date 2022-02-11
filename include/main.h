@@ -18,7 +18,7 @@
 #define DEFAULT_CAM_POS_Z 7.0f
 #define PROJECTION_NEAR 0.1f
 #define PROJECTION_FAR 100.0f
-#define USE_EBO 0
+#define BALANCE_VERTICES 0
 
 #include <stdlib.h>
 #include <stdbool.h>

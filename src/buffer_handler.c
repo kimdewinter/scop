@@ -69,7 +69,7 @@ static void gen_buffer(t_app *app)
 {
 	glGenVertexArrays(1, &(app->VAO));
 	glGenBuffers(1, &(app->VBO));
-	if (app->indices_length > 0 && USE_EBO > 0)
+	if (app->indices_length > 0)
 		glGenBuffers(1, &(app->EBO));
 }
 

@@ -9,11 +9,6 @@ static bool handle_keydown_event(t_app *app)
 		app->close_window = true;
 	}
 	break;
-	case SDLK_b:
-	{
-		balance_vertices(app);
-	}
-	break;
 	case SDLK_c:
 	{
 		center_object(&(app->obj_props));
