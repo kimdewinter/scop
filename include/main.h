@@ -2,8 +2,8 @@
 
 #define MAIN_H
 #define PROGRAM_NAME "scop"
-#define VERTEX_SHADER_FILE_NAME "vertex_shader.vert"
-#define FRAGMENT_SHADER_FILE_NAME "fragment_shader.frag"
+#define VERTEX_SHADER_FILE_NAME "resources/shaders/vertex_shader.vert"
+#define FRAGMENT_SHADER_FILE_NAME "resources/shaders/fragment_shader.frag"
 #define WIREFRAME_MODE 0
 #define VERTEX_ATTRIBUTES 3
 #define DEFAULT_SCREEN_WIDTH 1280
@@ -75,9 +75,9 @@ typedef struct s_app
 	unsigned int vertices_length;
 	unsigned int *indices;
 	unsigned int indices_length;
-	GLuint VBO; //Vertex Buffer Object
-	GLuint VAO; //Vertex Buffer Array
-	GLuint EBO; //Element Buffer Object
+	GLuint VBO; // Vertex Buffer Object
+	GLuint VAO; // Vertex Buffer Array
+	GLuint EBO; // Element Buffer Object
 	GLuint shader_program;
 	bool close_window;
 	t_obj_props obj_props;
