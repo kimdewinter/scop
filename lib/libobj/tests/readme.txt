@@ -1,1 +1,0 @@
-This folder is not necessary for the functioning of this library.

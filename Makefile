@@ -39,10 +39,6 @@ INCS:=	$(patsubst %,$(INC_DIR)/%.h,$(INC_FILES))
 
 LIBS_DIR:=		lib
 
-LIBFT_NAME:=	libft
-LIBFT_DIR:=		$(LIBS_DIR)/libft
-LIBFT:=			$(LIBFT_DIR)/$(LIBFT_NAME).a
-
 ifeq ($(shell uname),Darwin)
 SDL2_INC?=		~/.brew/include
 endif
@@ -58,29 +54,16 @@ LIBMATH_NAME=	libmath
 LIBMATH_DIR:=	$(LIBS_DIR)/libmath
 LIBMATH:=		$(LIBMATH_DIR)/$(LIBMATH_NAME).a
 
-ifeq ($(shell uname),Darwin)
-LIBCGLM_NAME=	libcglm_mac
-endif
-ifeq ($(shell uname),Linux)
-LIBCGLM_NAME=	libcglm_linux
-endif
-LIBCGLM_DIR:=	$(LIBS_DIR)/libcglm
-LIBCGLM:=		$(LIBCGLM_DIR)/$(LIBCGLM_NAME).a
-
 # COMPILATION
 
 CFLAGS?=	-Wall -Wextra -Werror\
 			-I$(INC_DIR)\
-			-I$(LIBFT_DIR)/includes\
 			-I$(LIBOBJ_DIR)/include\
 			-I$(LIBMATH_DIR)/include\
 			-I$(SDL2_INC)\
-			-I$(LIBCGLM_DIR)/include/cglm\
 			-D GL_SILENCE_DEPRECATION
-LDFLAGS?=	-L$(LIBFT_DIR) -lft\
-			-L$(LIBOBJ_DIR) -lobj\
+LDFLAGS?=	-L$(LIBOBJ_DIR) -lobj\
 			-L$(LIBMATH_DIR) -lmath\
-			-L$(LIBCGLM_DIR) -$(patsubst lib%,l%,$(LIBCGLM_NAME))\
 			-lSDL2 -lSDL2main
 ifeq ($(shell uname),Darwin)
 LDFLAGS+=	-framework OpenGL
@@ -92,13 +75,9 @@ DEBUGFLAGS?=-g -DDEBUG
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBOBJ) $(LIBMATH) $(INCS)
+$(NAME): $(OBJS) $(LIBOBJ) $(LIBMATH) $(INCS)
 	@echo "Compiling $@ executable"
 	@$(CC) -o $@ $(OBJS) $(LDFLAGS)
-
-$(LIBFT):
-	@echo "Compiling libft library"
-	@$(MAKE) -s -C $(LIBFT_DIR)
 
 $(LIBOBJ):
 	@echo "Compiling libobj library"
@@ -115,8 +94,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	@echo "Cleaning $(NAME) object files"
 	@rm -rf $(OBJ_DIR)
-	@echo "Cleaning $(LIBFT_NAME) object files"
-	@make clean -s -C $(LIBFT_DIR)
 	@echo "Cleaning $(LIBOBJ_NAME) object files"
 	@make clean -s -C $(LIBOBJ_DIR)
 	@echo "Cleaning $(LIBMATH_NAME) object files"
@@ -125,8 +102,6 @@ clean:
 fclean: clean
 	@echo "Removing $(NAME)"
 	@rm -rf $(NAME) $(NAME).dSYM
-	@echo "Removing $(LIBFT_NAME)"
-	@make fclean -s -C $(LIBFT_DIR)
 	@echo "Removing $(LIBOBJ_NAME)"
 	@make fclean -s -C $(LIBOBJ_DIR)
 	@echo "Removing $(LIBMATH_NAME)"
@@ -134,7 +109,7 @@ fclean: clean
 
 re: fclean all
 
-debug: $(LIBFT) $(LIBOBJ) $(LIBMATH) $(SRCS) $(INCS)
+debug: $(LIBOBJ) $(LIBMATH) $(SRCS) $(INCS)
 	@echo "Compiling debuggable $(NAME) executable"
 	@$(CC) $(DEBUGFLAGS) -o $(NAME) $(SRCS) $(CFLAGS) $(LDFLAGS)
 

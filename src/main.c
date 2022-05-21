@@ -1,6 +1,5 @@
 #include "main.h"
 #include "libmath.h"
-#include "cglm.h"
 
 static int shutdown(t_app *app, int exit_return)
 {

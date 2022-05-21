@@ -1,6 +1,5 @@
 #include "main.h"
 #include "libmath.h"
-#include "cglm.h"
 
 void send_view_matrix(t_app *app)
 {
