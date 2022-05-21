@@ -10,7 +10,7 @@ Written in C, tested and compatible with macOS 10.14.6 and Ubuntu 21.04<br/>
 - navigate to it in your command shell
 - if necessary, set permissions on the executables, eg:
 >chmod 777 scop
-- run the program, suppling it with a .obj file as an argument(and optionally a texture .bmp file):
+- run the program, supplying it with a .obj file as an argument(and optionally a texture .bmp file):
 >./scop resources/models/teapot.obj<br/>
 >./scop resources/models/42.obj resources/textures/unicorn.bmp
 
@@ -20,7 +20,7 @@ Written in C, tested and compatible with macOS 10.14.6 and Ubuntu 21.04<br/>
 - navigate to it in your command shell
 - compile the program with:
 >make 
-- run the program, suppling it with a .obj file as an argument(and optionally a texture .bmp file):
+- run the program, supplying it with a .obj file as an argument(and optionally a texture .bmp file):
 >./scop resources/models/teapot.obj<br/>
 >./scop resources/models/42.obj resources/textures/unicorn.bmp
 
@@ -31,9 +31,9 @@ Written in C, tested and compatible with macOS 10.14.6 and Ubuntu 21.04<br/>
 >make fclean<br/>
 
 ## Extended Explanation
-This project has you creating an OpenGL C-program from scratch. The only libraries you're allowed to use, are those necessary for window/context creation and for setting up OpenGL function bindings. Everything else is up to you.
+This project had me creating an OpenGL C-program from scratch. The only libraries I was allowed to use, are those necessary for window/context creation and for setting up OpenGL function bindings. Everything else was up to me.
 
-In the end what you have is a program that can parse .obj files, and display the .obj's vertex data as an on-screen model. It can also take a texture file in .bmp format, and plaster it onto the model. By using the keys displayed below, one can move the model around, grow and shrink it, and move the camera around the model. Parts of the model that are further away, will be smaller than those that are closer.
+In the end what we have is a program that can parse .obj files, and display the .obj's vertex data as an on-screen model. It can also take a texture file in .bmp format, and plaster it onto the model. By using the keys displayed below, one can move the model around, grow and shrink it, and move the camera around the model. Parts of the model that are further away, will be smaller than those that are closer.
 
 >----- Controls -----<br/>
 >Esc: close program<br/>
@@ -47,7 +47,7 @@ In the end what you have is a program that can parse .obj files, and display the
 >TGFHRY: rotate object<br/>
 >IKJLUO: translate(move) camera<br/>
 
-And that's how you get this fabulous teapot!<br/>
+And that's how we end up with this fabulous teapot!<br/>
 ![](https://i.imgur.com/WN5WuW3.png)
 
 For more information you can read through the assignment PDF, included in the root of the repository.
