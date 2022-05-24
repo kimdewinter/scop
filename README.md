@@ -47,7 +47,7 @@ In the end what we have is a program that can parse .obj files, and display the 
 >TGFHRY: rotate object<br/>
 >IKJLUO: translate(move) camera<br/>
 
-And that's how we end up with this fabulous teapot!<br/>
-![](https://i.imgur.com/WN5WuW3.png)
+And that's how we end up with this fabulous model that we can manipulate and can walk/fly around!<br/>
+![](https://imgur.com/58LNOZa.gif)
 
 For more information you can read through the assignment PDF, included in the root of the repository.
