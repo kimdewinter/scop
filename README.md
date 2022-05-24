@@ -3,18 +3,7 @@ This was a school project which explores how to render things in OpenGL, includi
 
 Written in C, tested and compatible with macOS 10.14.6 and Ubuntu 21.04<br/>
 
-## Quick Start (download & run)
-- go to the latest release
-- download and unzip the source code
-- download and unzip the executable ("scop") into the root folder of the unzipped source code
-- navigate to it in your command shell
-- if necessary, set permissions on the executables, eg:
->chmod 777 scop
-- run the program, supplying it with a .obj file as an argument(and optionally a texture .bmp file):
->./scop resources/models/teapot.obj<br/>
->./scop resources/models/42.obj resources/textures/unicorn.bmp
-
-## Quick Start (compile & run)
+## Quick Start
 - install Make, GCC, and SDL; you will also need your system to be able to run OpenGL 4.1 or beyond
 - clone the repository
 - navigate to it in your command shell
